@@ -1,0 +1,87 @@
+
+{% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {% endblock %} {% block head %}
+<link href="{% static 'css/medications.css' %}" rel="stylesheet">
+<script src="{% static 'js/medications.js' %}"></script>
+{% endblock head %} {% block main %}
+<main>
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ medication.medicationName }} ({{ medication.medicationQuantity }})</h1>
+            <!-- <h3><strong> (Count:{{ medication.medicationQuantity }}) </strong></h3> -->
+            <h3><small><a href="{% url 'editMedication' medication.pk %}">Edit Medication</a></small></h3>
+        </div>
+        <div class="profile">
+            <div class="row">
+                <div class="col-md-3 user-profile">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" class="user-profile picture">
+                    <h2><small><a href="/residents/{{medication.medicationResident_id}}">{{ medication.medicationResident }}</a></small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+
+                <div class="container">
+                    <h2>Medication History</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Accepted</th>
+                                <th>Date</th>
+                                <th>Time Delivered</th>
+                                <th>Time Due</th>
+                                <th>Missed</th>
+                                <th>Note</th>
+                                <th>Time ID</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for m in meds %}
+                            <tr>
+                                <td>{{ medication.medicationName }}</td>
+                                <td>{{ m.completionStatus }}</td>
+                                <td>{{ m.completionDate }}</td>
+                                <td>{{ m.completionTime }}</td>
+                                {% if m.completionDue == None %}
+                                <td>PRN</td>
+                                {% else %}
+                                <td>{{ m.completionDue }}</td>
+                                {% endif %}
+                                <td>{{ m.completionMissed }}</td>
+                                <td>{{ m.completionNote }}</td>
+                                <td>{{ m.completionMedication_id }}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+ 
+                    </table>
+                </div>
+            </div>
+        </div>
+       
+</main>
+ <div class="row">
+    <div class="col-md-12">
+        <ul class="pagination">
+            {% if meds.has_previous %}
+            <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+            {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} {% endfor %} {% if meds.has_next %}
+            <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock main %}

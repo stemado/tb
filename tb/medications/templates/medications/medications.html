@@ -1,0 +1,41 @@
+
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {% trans 'MARS' %} {% endblock %} {% block head %}
+<link href="{% static 'css/medications.css' %}" rel="stylesheet">
+<link href="{% static 'js/medications.js' %}" rel="stylesheet"> {% endblock head %} {% block main %}
+<div class="container">
+    <div class="page-header">
+        <a href="{% url 'overdueMedications' %}" class="btn btn-danger pull-right">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> {% trans 'Overdue' %}
+        </a>
+        <a href="{% url 'activeMedications' %}" class="btn btn-success pull-right">
+            <span class="glyphicon glyphicon-check"></span> {% trans 'Active' %}
+        </a>
+        <h1>{% trans 'MAR' %}</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for medication in medications %}
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                    <a href="/residents/{{ medication.medicationResident_id }}">{{ medication.medicationResident }}</a>
+                </div>
+                <div class="panel-body">
+                    <a href="{{medication.id}}" class="center-text"><strong>History</strong></a>
+                    <a href="/medications/{{ medication.id }}"><strong>Medication:</strong> {{ medication.medicationName }}</a>
+                    <p><strong>Schedule:</strong> {{ medication.medicationTimeSchedule }}</p>
+                    <p><strong>Added by:</strong> {{ medication.created_by_user }}</p>
+                    <p><strong>Count:</strong> {{ medication.medicationQuantity }}</p>
+                    <p><strong>Given Today:</strong> {{ medication.medicationStatus }}</p>
+                    <!-- Start partial history mar if needed -->
+                    <!-- End partial mar -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock main %}

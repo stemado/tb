@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %} 
+{% load staticfiles %} 
+{% load i18n %} 
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %} 
+{% trans 'MAR' %} 
+{% endblock %} 
+{% block head %}
+<script src="{% static 'js/medications.js' %}"></script>
+<script src="{% static 'js/custom_medications.js' %}"></script>
+<link href="{% static 'css/medications.css' %}" rel="stylesheet"> 
+{% endblock head %} 
+{% block main %}
+<div class="post-comment clearfix">
+    <form action="{% url 'acceptRefuse' medication rx %}" method="POST" class="form">
+        {% csrf_token %} 
+        {% bootstrap_form form %}
+ 
+        <div class="form-group">
+            <button type="submit" id="medicationAccepted" class="btn btn-primary publish">{% trans 'Record' %}</button>
+            <!-- <button type="button" class="btn btn-default draft">{% trans 'Save Draft' %}</button> -->
+            <!-- <button type="button" class="btn btn-default preview" data-toggle="modal" data-target="#preview">{% trans 'Preview' %}</button> -->
+            <a href="/residents/{{resident.pk}}" class="btn btn-default">{% trans 'Cancel' %}</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

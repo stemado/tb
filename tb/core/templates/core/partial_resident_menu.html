@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<!--COMMENT-->
+<!-- This loads in to the profile page of each resident. It is reusable, thus saving time from having to update the links
+On every single page that uses it should any of these change or be added to. -->
+<div class="list-group">
+  <a href="{% url 'resident' resident.pk %}" class="list-group-item{% if active == 'profile' %} active{% endif %}">{% trans 'Profile' %}</a>
+  <!-- <a href="{% url 'rx_all' resident.pk %}" class="list-group-item{% if active == 'mar' %} active{% endif %}">{% trans 'MAR' %}</a> -->
+  <a href="#" class="list-group-item{% if active == 'emergency' %} active{% endif %}">{% trans 'Emergeny Contact' %}</a>
+  <a href="{% url 'medicationList' resident.pk %}" class="list-group-item{% if active == 'list' %} active{% endif %}">{% trans 'Rx List' %}</a>
+
+</div>

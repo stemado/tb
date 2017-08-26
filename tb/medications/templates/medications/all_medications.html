@@ -1,0 +1,94 @@
+
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% load humanize %} {% block title %} {% trans 'MARS' %} {% endblock %} {% block head %}
+<link href="{% static 'css/medications.css' %}" rel="stylesheet">
+<link href="{% static 'js/medications.js' %}"> {% endblock head %} {% block main %}
+<!-- Start Here -->
+<div class="container">
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
+            <a href="{% url 'overdueMedications' %}" class="btn btn-danger" role="button">
+                <strong>Overdue</strong>
+                <br>
+                <span>{{ overdue_medications.count }}</span>
+            </a>
+            <a href="{% url 'activeMedications' %}" class="btn btn-success" role="button">
+                <strong>Active</strong>
+                <br>
+                <span>{{ active_medications.count }}</span>
+            </a>
+            <a href="{% url 'medications' %}" class="btn btn-primary" role="button">
+                <strong>All</strong>
+                <br>
+                <span><p>{{ medications.count }}</p></span>
+            </a>
+        </div>
+    </div>
+</div>
+<hr />
+<!-- End Here -->
+<div class="container">
+    <div class="row">
+        {% for medication in medications %}
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                    <p>{{ medication.medicationResident }}</p>
+                </div>
+                <div class="panel-body">
+                    <a href="/residents/{{medication.medicationResident_id }}" class="center-text"><strong>History</strong></a>
+                    <a href="/medications/{{ medication.id }}"><strong>Medication:</strong> {{ medication.medicationName }}</a>
+                    <p><strong>ID:</strong> {{ medication.id }}</p>
+                    <p><strong>Count:</strong> {{ medication.medicationQuantity }}</p>
+                    <p><strong>Time(s):</strong></p>
+                    <p><small>
+                    {{ medication.medicationTimeSchedule }}
+                    {% if medication.medicationTimeSchedule2 != None %}
+                    | {{ medication.medicationTimeSchedule2 }}
+                    {% endif %}
+                    {% if medication.medicationTimeSchedule3 != None %}
+                    | {{ medication.medicationTimeSchedule3 }}
+                    {% endif %}
+                    {% if medication.medicationTimeSchedule4 != None %}
+                    | {{ medication.medicationTimeSchedule4 }}
+                    {% endif %}
+                    {% if medication.medicationTimeSchedule5 != None %}
+                    | {{ medication.medicationTimeSchedule5 }}
+                    {% endif %}
+                   </small></p> 
+
+
+
+                    <!-- Start partial history mar if needed -->
+                    <!-- End partial mar -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</div>
+  <div class="row">
+    <div class="col-md-12">
+<ul class="pagination">
+  {% if meds.has_previous %}
+    <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+  {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+  {% endif %}
+  {% for i in meds.paginator.page_range %}
+    {% if meds.number == i %}
+      <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+      <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+  {% endfor %}
+  {% if meds.has_next %}
+    <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+  {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+  {% endif %}
+</ul>
+</div>
+</div>
+{% endblock main %}

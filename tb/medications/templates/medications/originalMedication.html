@@ -1,0 +1,56 @@
+
+{% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {% endblock %} {% block head %}
+<link href="{% static 'css/medications.css' %}" rel="stylesheet">
+<script src="{% static 'js/medications.js' %}"></script>
+{% endblock head %} {% block main %}
+<main>
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ medication.medicationName }}</h1>
+            <h3><small><a href="{% url 'editMedication' medication.pk %}">Edit Medication</a></small></h3>
+        </div>
+        <div class="profile">
+            <div class="row">
+                <div class="col-md-3 user-profile">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" class="user-profile picture">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <img src="https://cdn0.iconfinder.com/data/icons/healthcare/512/pills.png" style="width:20px">
+                        <a><strong>MAR History</strong></a>
+                    </div>
+                </div>
+                {% for medication in medication.get_status %}
+                <section class="medications">
+                    <div class="medications">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <img src="https://cdn0.iconfinder.com/data/icons/healthcare/512/pills.png" style="width:20px">
+                                        <a href="/residents/{{ medication.medicationResident_id }}">{{ medication.completionDate }}</a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong>Accepted:</strong> {{ medication.completionStatus }}</p>
+                                    <p><strong>Date:</strong> {{ medication.completionDate }}</p>
+                                    <p><strong>Time:</strong> {{ medication.completionTime }}</p>
+                                    <p><strong>Note:</strong> {{ medication.completionNote }}</p>
+                                    <div class="btn-group">
+                                    </div>
+                                    <!-- Start Accept/Refuse Form -->
+                                    <!-- End Accept/Refuse Form -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </section>
+            </div>
+        </div>
+</main>
+{% endblock main %}

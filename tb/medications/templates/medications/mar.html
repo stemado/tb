@@ -1,0 +1,306 @@
+{% load staticfiles %} {% load i18n %} {% load bootstrap3 %} {% bootstrap_css %} {% bootstrap_javascript %} {% bootstrap_messages %} {% block head %} 
+
+<!--This is the HTMl file taht generates the report for the MAR. I found it was easier to use
+custom CSS and JS on the page to make the creation of the page faster since it has to have a certain look and feel.
+Not 100% ready to my expectations, but it does generate the report, so it passes.-->
+
+<!-- This Script section is for the Month/Year selector for choosing the month of the report you want to generate.
+I will likely move this back to the employee page. Have the "MAR" button drop this date picker down and then that passes
+the values for the month and year to the View and returns the requested form on the MAR page.-->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
+  {% endblock head %} {% block main %}
+<style>
+
+.ui-datepicker-calendar {
+    display: none;
+    }
+
+.wrap {
+    display: table;
+    width: 100%;
+    height: 100%;
+
+}
+
+.cell-wrap {
+    display: table-cell;
+    vertical-align: top;
+    height: 100%;
+}
+
+.cell-wrap.left {
+    width: 70%;
+    padding-right: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    height: 100%;
+    width: 100%;
+}
+
+table td,
+table th {
+    border: 1px solid darkgrey;
+    text-align: left;
+    padding: 0.4em;
+}
+
+.step {
+
+    border: 1px;
+}
+
+
+
+/*        .table {
+            table-layout: fixed;,
+            float: left;,
+        }
+*/
+</style>
+<!-- JS for Datepicker-->
+<script type="text/javascript">
+$(function() {
+    $('.date-picker').datepicker( {
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'MM yy',
+        onClose: function(dateText, inst) { 
+            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+        }
+    });
+});
+
+function printpage() {
+    //Get the print button and put it into a variable
+    var printButton = document.getElementById("printIt");
+    //Set the print button visibility to 'hidden' 
+    printButton.style.visibility = 'hidden';
+    //Print the page content
+    window.print()
+    //Set the print button to 'visible' again 
+    //[Delete this line if you want it to stay hidden after printing]
+    printButton.style.visibility = 'visible';
+}
+
+
+
+</script>
+<form>
+            <input id="printIt" type="button" class="btn btn-danger" value="Print" onClick="printpage()">
+        </form>
+<body>
+   
+<h4 class="text-center">Medication Administration Record (MAR)</h4>
+<div style="padding:5px; width:100%; display:inline-table;">
+        <table>
+            <tr>
+                 <th><label for="startDate">MAR Month:</label>
+    <input name="startDate" id="startDate" class="date-picker" /></th>
+                <th><small>Start/Stop Date:</small></th>
+               <th><small>Facility Name</small></th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- for m in meds is used to create each Medication section.
+    So, for each medication, create a new table section with all of the below that falls with in this div.
+    Also, note: the "meds" is used in the below for loop for pagination which pulls from this same variable and 
+    generates the pagination to show limited records (currently set at 5 in medications/views.py)-->
+
+    {% for m in meds %}
+    <div id="left" class="step" style=" border: padding: 5px; width:20%; height: 5%; display:inline-table;">
+        <table style="border-bottom: 1px;" class="medicationClass">
+            <tr>
+                <td style="border: none;" width="20%"><strong>{{m.medicationName}}</strong></td>
+
+            </tr>
+            <tr>
+                <td style="border: none;" width="20%">{{m.medicationDistribution}} Daily, {{m.medicationDosage}}</td>
+            </tr>
+            <tr>
+                <td style="border: none;" width="20%">Physician Order:<small> {{m.medicationComment}}<small></td>
+            </tr>
+            <tr>
+                <td style="border: none;" width="20%">Doses Left: {{m.medicationQuantity}}</td>
+            </tr>
+
+        </table>
+    </div>
+    <div id="right" style="padding: 5px; width: 10%; height: 5%; display:inline-table;">
+        <table>
+            <tr>
+                <td><small><div style="width: 100px">Time Due</div></small></td>
+                <td><small><div id="one">01</div></small></td>
+                <td><small><div id="two">02</div></small></td>
+                <td><small><div id="three">03</div></small></td>
+                <td><small><div id="four">04</div></small></td>
+                <td><small><div id="five">05</div></small></td>
+                <td><small><div id="six">06</div></small></td>
+                <td><small><div id="seven">07</div></small></td>
+                <td><small><div id="eight">08</div></small></td>
+                <td><small><div id="nine">09</div></small></td>
+                <td><small><div id="ten">10</div></small></td>
+                <td><small><div id="eleven">11</div></small></td>
+                <td><small><div id="twelve">12</div></small></td>
+                <td><small><div id="thirteen">13</small></td>
+                <td><small><div id="fourteen">14</div></small></td>
+                <td><small><div id="fifteen">15</div></small></td>
+                <td><small><div id="sixteen">16</div></small></td>
+                <td><small><div id="seventeen">17</div></small></td>
+                <td><small><div id="eighteen">18</div></small></td>
+                <td><small><div id="nineteen">19</div></small></td>
+                <td><small><div id="twenty">20</div></small></td>
+                <td><small><div id="twentyone">21</div></small></td>
+                <td><small><div id="twentytwo">22</div></small></td>
+                <td><small><div id="twentythree">23</div></small></td>
+                <td><small><div id="twentyfour">24</div></small></td>
+                <td><small><div id="twentyfive">25</div></small></td>
+                <td><small><div id="twentysix">26</div></small></td>
+                <td><small><div id="twentyseven">27</div></small></td>
+                <td><small><div id="twentyeight">28</div></small></td>
+                <td><small><div id="twentynine">29</div></small></td>
+                <td><small><div id="thirty">30</div></small></td>
+                <td><small><div id="thirtyone">31</div></small></td>
+            </tr>
+            <tr>
+            <!-- This is a very cumbersome nested loop. The outerloop ("m for meds") but it does call the child object sets ("medicationtime_set") for
+            the Medication (m in meds). This should generate a single query for the MedicationTime objects and (hopefully, but not likely) the MedicationCompletion model as well. 
+            Note: |slice":5" can probably be removed. This was prior to pagination fully working (|slice:":X" is a Django template filter that limits how many records are returned from the queryset, which is not needed for my purpose since pagination takes a similar argument-->
+                {% for s in m.medicationtime_set.all|slice:":5" %}
+                <td><small>{{ s.timeDue }}</small></td>
+
+                {% for d in s.completion.all %}
+  
+                {% if d.completionStatus == None %}
+                <td></td>
+                {% elif d.completionStatus == True %}
+                <td><small><div id="{{m.medicationStartDate}}" style="font-size:70%">AK</small></div></td>
+                {% else %}
+                <td><i class="glyphicon glyphicon-unchecked"></i></td>
+                {%endif%}
+
+                 {% endfor %}
+            </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    {% endfor %}
+    <div style="padding:5px; width:100%; display:inline-table;">
+        <table>
+            <tr>
+                <th><small>Diagnosis</small></th>
+                <th><small>DIET</small></th>
+                <th><small>Comments
+                    <br>
+               </small> </th>
+            </tr>
+            <tr>
+                <th>Allergies</th>
+                <th>PhysicianName: <small>{{resident.residentPrimaryPhysician}}<small>
+                    <br>
+                    <br>Phone Number</th>
+                <th>A. Put initials in apppropriate box when medication is given
+                    <br>B. Circle when not given
+                    <br>C. State reason for refusal /omission on back of form.
+                    <br>D. PRN Medications: Reason given and results must be noted on back of form.
+                    <br>E. Legend: S=School; H=Home visit; W=Work; P=Program</th>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>NAME: <small>{{ resident }}<small></th>
+                <th id="residentID">Record #: <small>{{ resident.id }}</small></th>
+                <th>Date of Birth: <small>{{ resident.residentDOB }}</small></th>
+                <td>Sex: <small>{{resident.residentGender}}</small></td>
+            </tr>
+        </table>
+    </div>
+    <!-- Start Second Page of Report for PRN and Meds Not Administered -->
+<div style="padding:5px; width:100%; display:inline-table;">
+        <table>
+            <tr>
+                 <th><div class="text-center">PRN AND MEDICATIONS NOT ADMINISTERED</th>
+                <th><div style="width:15px">Initials</div></th>
+               <th><div class="text-center"><small>Staff Signature</small></div></th>
+            </tr>
+        </table>
+    </div>
+    <div style="padding:5px; width:100%; display:inline-table;">
+        <table>
+            <tr>
+            <th><div style="width:5px">Date</div></th>
+            <th><div style="width:5px">Hour</div></th>
+            <th><div style="width:5px">Initials</div></th>
+            <th><div style="width:23px">Medication</div></th>
+            <th><div style="width:23px">Reason</div></th>
+            <th><div style="width:23px">Result</div></th>
+            <th><div style="width:10px"></div></th>
+            <th><div style="width:10px"></div></th>
+            <th><div style="width:10px"></div></th>
+
+            </tr>
+            {% for m in meds %}
+            {% for s in m.medicationtime_set.all %}
+            {% for d in s.completion.all %}
+            {% if d.completionMedication.timePRN == True and d.completionStatus != None %}
+            <tr>
+            <th>{{d.completionDate}}</th>
+            <th>{{d.completionTime}}</th>
+            <th>AK</th>
+            <th>PRN|{{d.completionRx}}</th>
+            <th>{{d.completionNote}}</th>
+            <th><div style="width:23px">{{d.completionStatus}}</div></th>
+            <th><div style="width:10px">AK</div></th>
+            <th><div style="width:10px">Audrey Kilpatrick</th>
+            {% elif d.completionStatus == False %}
+            <th>{{d.completionDate}}</th>
+            <th>{{d.completionTime}}</th>
+            <th>AK</th>
+            <th>Missed|{{d.completionRx}}</th>
+            <th>{{d.completionNote}}</th>
+            <th><div style="width:23px">{{d.completionStatus}}</div></th>
+            <th><div style="width:10px">AK</div></th>
+            <th><div style="width:10px">Audrey Kilpatrick</th>
+            {% elif d.completionStatus == None %}
+            <!-- What do we do if the completionStatus == False? -->
+            </tr>
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+
+        
+    <div class="row">
+    <div class="col-md-12">
+        <ul class="pagination">
+            {% if meds.has_previous %}
+            <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+            {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} {% endfor %} {% if meds.has_next %}
+            <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+</body>
+{% endblock %}
