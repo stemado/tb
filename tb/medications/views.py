@@ -122,7 +122,7 @@ def medication(request, id):
 @login_required
 def createMedication(request):
     get_user = request.user
-    user_id = user.id
+    user_id = get_user.id
     user = User.objects.get(id=user_id)
     if request.method == 'POST':
         form = MedicationForm(request.POST)
