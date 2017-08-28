@@ -1,1 +1,1 @@
-web: gunicorn careplus.wsgi --log-file -
+web: gunicorn tb.wsgi --log-file -
