@@ -142,9 +142,9 @@ def createMedication(request):
             return redirect('medications')
     else:
         if request.user.profile.user_type == 0:
-            form = MedicationForm(initial={'user': user_id})
+            form = MedicationForm(initial={'user': user})
         else:
-            form = MedicationForm(initial={'user': user_id, 'patient': user_id})
+            form = MedicationForm(initial={'user': user, 'patient': user_id})
     return render(request, 'medications/create.html', {'form': form})
 
 
