@@ -121,8 +121,9 @@ def medication(request, id):
 #If it is the patient creating the medication, we want the do not want the patient field populated since the patient_user is the user and the patient.
 @login_required
 def createMedication(request):
-    user = request.user
-    patient_id = user.id
+    get_user = request.user
+    user_id = user.id
+    user = User.objects.get(id=user_id)
     if request.method == 'POST':
         form = MedicationForm(request.POST)
         if form.is_valid():
@@ -141,9 +142,9 @@ def createMedication(request):
             return redirect('medications')
     else:
         if request.user.profile.user_type == 0:
-            form = MedicationForm(initial={'user': user})
+            form = MedicationForm(initial={'user': user_id})
         else:
-            form = MedicationForm(initial={'user': user, 'patient': patient_id})
+            form = MedicationForm(initial={'user': user_id, 'patient': user_id})
     return render(request, 'medications/create.html', {'form': form})
 
 
