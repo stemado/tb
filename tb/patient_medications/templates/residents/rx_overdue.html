@@ -1,0 +1,84 @@
+  {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {{ resident.residentFirstName }} {{ resident.residentLastName }} {% endblock %} {% block head %}
+<link href="{% static 'css/residents.css' %}" rel="stylesheet">
+<script src="{% static 'js/residents.js' %}"></script>
+{% endblock head %} {% block main %}
+<a href="{% url 'createMedication' resident.id %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> {% trans 'Add Medication' %}
+        </a>
+<a href="/medications/mar/{{resident.id}}" class="btn btn-danger pull-right">
+        <span class="glyphicon glyphicon-calendar"></span> {% trans 'Generate MAR' %} </a>
+<div class="container">
+    <div class="page-header">
+        <h1>{{ resident.residentFirstName }} {{ resident.residentLastName }} <small>({{ resident.dnr_status }})</small></h1>
+    </div>
+    <div class="profile">
+        <div class="row">
+            <div class="col-md-3 user-profile">
+                <img src="http://trybootcamp.vitorfs.com/static/img/user.png" class="user-profile picture">
+            </div>
+        </div>
+                <div class="col-md-3">
+            <div class="list-group">
+            {% include 'core/partial_resident_menu.html' with medication=medication %}
+            </div>
+        </div>
+        <!-- Start Here -->
+        <div class="container">
+        </div>
+    </div>
+
+<div class="container">
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
+            <a href="{% url 'rx_overdue' resident.id %}" class="btn btn-danger" role="button">
+                <strong>Overdue</strong>
+                <br>
+                <span class="badge">{{ overdue.count }}</span>
+            </a>
+            <a href="{% url 'rx_active' resident.id %}" class="btn btn-success" role="button">
+                <strong>Active</strong>
+                <br>
+                <span class="badge">{{ active_medications.count }}</span>
+            </a>
+                <a href="{% url 'rx_prn' resident.id %}" class="btn btn-primary" role="button">
+                <strong>PRN</strong>
+                <br>
+                <span class="badge">{{ prn.count }}</span>
+            </a>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        {% for overdue in overdue %}
+        <div class="col-md-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                    <a style="color:white" href="/residents/{{ overdue.medication.medicationResident_id }}">{{ overdue.timeMedication.medicationResident }}</a>
+                </div>
+                <div class="panel-body">
+                    <a href="/medications/{{ overdue.timeMedication_id }}"><strong>Medication:</strong> {{ overdue.timeMedication.medicationName }}</a>
+                    <p><a href="/medications/{{ overdue.timeMedication_id }}" class="center-text"><strong>History</strong></a></p>
+                    
+                    <p><strong>Due:</strong> {{ overdue.timeDue }}</p>
+                    <p><strong>PO:</strong> {{ overdue.timeMedication.medicationComment }}
+                    <p><strong>Count:</strong> {{ overdue.timeMedication.medicationQuantity }}</p>
+<!--                     <p><strong>Given Today:</strong> {{ overdue.timeGivenStatus }}</p>
+                    <p>TimeRecord ID: {{ overdue.id }} </p>
+                    <p>Medication ID: {{ overdue.timeMedication_id }} </p> -->
+                    <p>
+                    <form action="{% url 'acceptRefuse' overdue.id overdue.timeMedication_id %}" type=POST>
+                        <button type="submit" class="btn btn-success">Give</button>
+                    </form>
+                    <!-- Start partial history mar if needed -->
+                    <!-- End partial mar -->
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h4 class="no-data">{% trans 'There are no medications due at this time' %}. <a href="{% url 'medications' %}">{% trans 'View All Medications' %}</a></h4> 
+        {% endfor %}
+    </div>
+    {% endblock main %}

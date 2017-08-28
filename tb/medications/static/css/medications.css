@@ -1,4 +1,8 @@
 
+#id_patient {
+  visibility: hidden;
+}
+
 .medications medication {
   padding-bottom: 1.4em;
   border-bottom: 1px solid #eeeeee;

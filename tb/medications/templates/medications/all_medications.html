@@ -26,14 +26,16 @@
 </div>
 <hr />
 <!-- End Here -->
+                <p>NOTE: May want to make this page an actual table since an Admin could in theory be viewing hundrdes of patients which would make this overloaded </p>
 <div class="container">
     <div class="row">
         {% for medication in medications %}
         <div class="col-md-4">
             <div class="panel panel-success">
                 <div class="panel-heading">
+
                     <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
-                    <p>{{ medication.medicationResident }}</p>
+                    <p>{{ medication.user.first_name }} {{ medication.user.last_name }}</p>
                 </div>
                 <div class="panel-body">
                     <a href="/residents/{{medication.medicationResident_id }}" class="center-text"><strong>History</strong></a>
@@ -41,6 +43,7 @@
                     <p><strong>ID:</strong> {{ medication.id }}</p>
                     <p><strong>Count:</strong> {{ medication.medicationQuantity }}</p>
                     <p><strong>Time(s):</strong></p>
+                    <p>User ID: {{ medication.user.id }}</p>
                     <p><small>
                     {{ medication.medicationTimeSchedule }}
                     {% if medication.medicationTimeSchedule2 != None %}

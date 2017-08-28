@@ -1,4 +1,19 @@
 
+#id_patient {
+  display: none;
+}
+
+label[for="id_patient"] {
+  display: none;
+}
+
+#id_user {
+  display: none;
+}
+
+label[for="id_user"] {
+  display: none;
+}
 
 .medications medication {
   padding-bottom: 1.4em;
@@ -8,7 +23,7 @@
 
 .medications medication p {
   font-size: 1.2em;
-}
+}python 
 
 .info {
   margin-bottom: .5em;

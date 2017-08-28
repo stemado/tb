@@ -10,6 +10,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from tb.core.forms import ChangePasswordForm, ProfileForm
+from tb.medications.models import Medication, MedicationTime, MedicationCompletion
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
 from tb.authentication.models import Notification
@@ -70,8 +71,6 @@ def settings(request):
             user.profile.zipcode = form.cleaned_data.get('zipcode')
             user.profile.phonenumber = form.cleaned_data.get('phonenumber')
             user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
-
-
             user.save()
             messages.add_message(request,
                                  messages.SUCCESS,
@@ -86,6 +85,7 @@ def settings(request):
             'zipcode': user.profile.zipcode,
             'phonenumber': user.profile.phonenumber,
             'mobilenumber': user.profile.mobilenumber,
+            'user_type': user.profile.user_type,
 
             })
     return render(request, 'core/settings.html', {'form': form})
@@ -174,5 +174,27 @@ def save_uploaded_picture(request):
 
     return redirect('/settings/picture/')
 
+@login_required
+def createMedication(request, resident_id):
+    user = request.user.id
+    if request.method == 'POST':
+        form = MedicationForm(request.POST)
+        if form.is_valid():
+            medication = form.save()
+            medication.medicationName = form.cleaned_data.get('medicationName')
+            medication.medicationDosage = form.cleaned_data.get('medicationDosage')
+            medication.medicationFrequency = form.cleaned_data.get('medicationFrequency')
+            medication.medicationDistribution = form.cleaned_data.get('medicationDistribution')
+            medication.medicationQuantity = form.cleaned_data.get('medicationQuantity')
+            medication.medicationType = form.cleaned_data.get('medicationType')
+            medication.medicationStatus = form.cleaned_data.get('medicationStatus')
+            medication.medicationComment = form.cleaned_data.get('medicationComment')
+            medication.medicationSlug = form.cleaned_data.get('medicationSlug')
+            medication.medicationTimeSchedule = form.cleaned_data.get('medicationTimeSchedule')
+            medication.save()
+            return redirect('activeMedications')
+    else:
+        form = MedicationForm(initial={'medicationUser': resident_id})
+    return render(request, 'medications/create.html', {'form': form})
 
 

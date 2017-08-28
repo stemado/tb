@@ -1,0 +1,26 @@
+
+{% load i18n %} 
+{% for resident in resident.get_contact %}
+<section class="residents">
+    <div class="residents">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default panel-feed">
+                    <div class="panel-heading">
+                        <h3 class="text-center panel-title">Emergency Contact</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p> <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                            <a href="/stemado/">{{ resident.emergencyContactFirstName }} {{ resident.emergencyContactLastName }}</a>
+                        </p>
+                        <p><strong>Phone Number:</strong> {{ resident.emergencyContactPhoneNumber }} </p>
+                        <p><strong>Email:</strong> (Coming Soon) </p>
+                        <p><strong>Relationship:</strong> {{ resident.emergnecyContactRelationship }} </p>
+                        <p><strong>Resident:</strong> {{ resident.resident.residentFirstName }} {{ resident.resident.residentLastName }} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}

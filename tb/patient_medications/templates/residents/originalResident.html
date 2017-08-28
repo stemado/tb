@@ -1,0 +1,71 @@
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {{ resident.residentFirstName }} {{ resident.residentLastName }} {% endblock %} {% block head %}
+<link href="{% static 'css/residents.css' %}" rel="stylesheet">
+<script src="{% static 'js/residents.js' %}"></script>
+{% endblock head %} {% block main %}
+<div class="container">
+    <div class="page-header">
+        <h1>{{ resident.residentFirstName }} {{ resident.residentLastName }} <small>({{ resident.dnr_status }})</small></h1>
+        <a href="{% url 'createMedication' resident_id=resident.id %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> {% trans 'Add Medication' %}
+        </a>
+    </div>
+    <div class="profile">
+<!--         <div class="row">
+            <div class="col-md-3 user-profile">
+                <img src="http://trybootcamp.vitorfs.com/static/img/user.png" class="user-profile picture">
+            </div>
+        </div> -->
+        <div class="col-md-3">
+            <div class="list-group">
+            <a href="/residents/profile/" class="list-group-item">Profile</a>
+            <a href="/residents/emergency/" class="list-group-item">Contacts</a>
+            <a href="/residents/emar/" class="list-group-item">Medication</a>
+            </div>
+        </div>
+        <!-- Start Here -->
+        <div class="container">
+            <!-- <h2 class="text-center"><strong>Medications</strong></h2> -->
+        </div>
+        <div class="container">
+            <div class="container">
+                <h2>Medications</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Medication</th>
+                            <th>Frequency</th>
+                            <th>Time 1</th>
+                            <th>Time 2</th>
+                            <th>Time 3</th>
+                            <th>Time 4</th>
+                            <th>Time 5</th>
+                            <th>Time 6</th>
+                            <th>Type</th>
+                            <th>Start</th>
+                            <th>Status</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in resident.medication_set.all %}
+                        <tr>
+                            <td><a href="/medications/{{m.id}}/">{{ m.medicationName }}</a></td>
+                            <td>{{ m.medicationFrequency }}</td>
+                            <td><small>{{ m.medicationTimeSchedule }}</small></td>
+                            <td><small>{{ m.medicationTimeSchedule2 }}</small></td>
+                            <td><small>{{ m.medicationTimeSchedule3 }}</small></td>
+                            <td><small>{{ m.medicationTimeSchedule4 }}</small></td>
+                            <td><small>{{ m.medicationTimeSchedule5 }}</small></td>
+                            <td><small>{{ m.medicationTimeSchedule6 }}</small></td>
+                            <td>{{ m.medicationType }}</td>
+                            <td>{{ m.medicationStartDate }}</td>
+                            <td>{{ m.medicationDiscontinuedStatus }}</td>
+                            <td>{{ m.medicationQuantity }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tbody>
+            </div>
+            <!-- End Here -->
+        </div>
+    </div>
+    {% endblock main %}

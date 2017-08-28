@@ -48,12 +48,29 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
+    user_type = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
 
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber' ]
+        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type']
+
+class IndividualUserForm(forms.ModelForm):
+
+    individualTest = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=30,
+        required=False)
+
+
+
+    class Meta:
+        model = User
+        fields = ['individualTest' ]
 
 
 class ChangePasswordForm(forms.ModelForm):

@@ -29,6 +29,7 @@ from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER 
 from reportlab.lib import colors
+from django.contrib.auth.models import User
 
 #DELETE THIS AFTER TWILIO TESTING#
 # from django.views.decorators.csrf import csrf_exempt
@@ -57,11 +58,20 @@ def _active_medications(request, medications):
 
 @login_required
 def medications(request):
-    medications = Medication.get_medications()
-    active_medications = MedicationTime.get_active_medications()
-    overdue_medications = MedicationTime.get_overdue_medications()
-    paginator = Paginator(medications, 2)
-    page = request.GET.get('page')
+    user = request.user
+    user_type = int(user.profile.user_type)
+    if user_type == 0:
+        medications = Medication.get_medications()
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(medications, 2)
+        page = request.GET.get('page')
+    else:
+        medications = Medication.get_medications().filter(patient=user.id)
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(medications, 2)
+        page = request.GET.get('page')
     try:
         meds = paginator.page(page)
     except PageNotAnInteger:
@@ -106,10 +116,13 @@ def medication(request, id):
         meds = paginator.page(paginator.num_pages)
     return render(request, 'medications/medication.html', {'medication': medication, 'time': time, 'meds': meds})
 
-
+#Need to add conditional logic to separate who the user is.
+#If it is the Admin creating the medication, then we want him to choose who the patient is in the patient field
+#If it is the patient creating the medication, we want the do not want the patient field populated since the patient_user is the user and the patient.
 @login_required
-def createMedication(request, resident_id):
-    user = request.user.id
+def createMedication(request):
+    user = request.user
+    patient_id = user.id
     if request.method == 'POST':
         form = MedicationForm(request.POST)
         if form.is_valid():
@@ -125,9 +138,12 @@ def createMedication(request, resident_id):
             medication.medicationSlug = form.cleaned_data.get('medicationSlug')
             medication.medicationTimeSchedule = form.cleaned_data.get('medicationTimeSchedule')
             medication.save()
-            return redirect('activeMedications')
+            return redirect('medications')
     else:
-        form = MedicationForm(initial={'medicationUser': resident_id})
+        if request.user.profile.user_type == 0:
+            form = MedicationForm(initial={'user': request.user.id})
+        else:
+            form = MedicationForm(initial={'user': request.user.id, 'patient': patient_id})
     return render(request, 'medications/create.html', {'form': form})
 
 

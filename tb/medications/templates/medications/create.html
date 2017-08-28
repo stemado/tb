@@ -10,6 +10,8 @@
 {% block head %}
   <script src="{% static 'js/medications.js' %}"></script>
   <script src="{% static 'js/custom_medications.js' %}"></script>
+  <link href="/static/css/medications.css" rel="stylesheet">
+
 {% endblock head %}
 
 {% block main %}
@@ -17,7 +19,7 @@
     <li><a href="{% url 'medications' %}">{% trans 'Medications' %}</a></li>
     <li class="active">{% trans 'Create Medication' %}</li>
   </ol>
-  <form action="{% url 'createMedication' resident_id=0 %}" method="post" class="form">
+  <form action="{% url 'createMedication' %}" method="post" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
    

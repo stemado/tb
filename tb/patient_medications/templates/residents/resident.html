@@ -1,0 +1,56 @@
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {{ resident.residentFirstName }} {{ resident.residentLastName }} {% endblock %} {% block head %}
+<link href="{% static 'css/residents.css' %}" rel="stylesheet">
+<script src="{% static 'js/residents.js' %}"></script>
+{% endblock head %} {% block main %}
+        <a href="{% url 'createMedication' resident.id %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> {% trans 'Add Medication' %}
+        </a>
+        <a href="/medications/mar/{{resident.id}}/" class="btn btn-danger pull-right">
+        <span class="glyphicon glyphicon-calendar"></span> {% trans 'Generate MAR' %} </a>
+        
+<div class="container">
+    <div class="page-header">
+        <h1>{{ resident.residentFirstName }} {{ resident.residentLastName }} <small>({{ resident.dnr_status }})</small></h1>
+    </div>
+    <div class="container">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
+                <a href="{% url 'rx_overdue' resident.id %}" class="btn btn-danger" role="button">
+                <strong>Overdue</strong>
+                <br>
+                <span>{{ overdue.count }}</span>
+            </a>
+                <a href="{% url 'rx_active' resident.id %}" class="btn btn-success" role="button">
+                <strong>Active</strong>
+                <br>
+                <span>{{ active.count }}</span>
+            </a>
+                <a href="{% url 'rx_prn' resident.id %}" class="btn btn-primary" role="button">
+                <strong>PRN</strong>
+                <br>
+                <span><p>{{ prn.count }}</p></span>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div class="profile">
+        <div class="row">
+            <div class="col-md-3 user-profile">
+                <img src="http://trybootcamp.vitorfs.com/static/img/user.png" class="user-profile picture">
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+            {% include 'core/partial_resident_menu.html' with medication=medication %}
+            </div>
+        </div>
+        <!-- Start Here -->
+        <div class="container">
+        </div>
+
+
+
+    </div>
+
+    {% endblock main %}

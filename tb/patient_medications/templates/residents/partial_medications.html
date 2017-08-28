@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="container">
+        <h2>Medications</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Time 1</th>
+                    <th>Time 2</th>
+                    <th>Time 3</th>
+                    <th>Time 4</th>
+                    <th>Time 5</th>
+                    <th>Time 6</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>Status</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in meds %}
+                <tr>
+                    <td><a href="/medications/{{m.pk}}/">{{ m.medicationName }}</a></td>
+                    <td>{{ m.medicationFrequency }}</td>
+                    <td>{{ m.medicationDosage }}</td>
+                    <td><small>{{ m.medicationTimeSchedule }}</small></td>
+                    <td><small>{{ m.medicationTimeSchedule2 }}</small></td>
+                    <td><small>{{ m.medicationTimeSchedule3 }}</small></td>
+                    <td><small>{{ m.medicationTimeSchedule4 }}</small></td>
+                    <td><small>{{ m.medicationTimeSchedule5 }}</small></td>
+                    <td><small>{{ m.medicationTimeSchedule6 }}</small></td>
+                    <td>{{ m.medicationType }}</td>
+                    <td>{{ m.medicationStartDate }}</td>
+                    <td>{{ m.medicationDiscontinuedStatus }}</td>
+                    <td>{{ m.medicationQuantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- End Here -->
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="pagination">
+            {% if meds.has_previous %}
+            <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+            {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %} {% endfor %} {% if meds.has_next %}
+            <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

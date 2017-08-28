@@ -5,6 +5,7 @@ from tb.medications.models import Medication, MedicationCompletion, MedicationTi
 from extra_views import InlineFormSet
 from django.forms import ModelForm
 from datetime import datetime
+from django.contrib.auth.models import User
 
 
 class MedicationForm(forms.ModelForm):
@@ -18,10 +19,22 @@ class MedicationForm(forms.ModelForm):
         self.fields['medicationQuantity'].required = True
         self.fields['medicationType'].required = True
         self.fields['medicationDiscontinuedStatus'].required = True
+        self.fields['patient'].required = False
+        self.fields['user'].required = True
+
+    patient = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control patient'}),
+        max_length=30,
+        required=False)
+
+    user = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control resident'}),
+        max_length=30,
+        required=False)
 
     class Meta:
         model = Medication
-        fields = ['medicationName', 'medicationDosage', 'medicationFrequency', 'medicationStartDate',  'medicationTimeSchedule', 'medicationTimeSchedule2', 'medicationTimeSchedule3', 'medicationTimeSchedule4', 'medicationTimeSchedule5', 'medicationTimeSchedule6',  'medicationQuantity', 'medicationType', 'medicationDiscontinuedStatus', 'medicationComment']
+        fields = ['medicationName', 'medicationDosage', 'medicationFrequency', 'medicationStartDate',  'medicationTimeSchedule', 'medicationTimeSchedule2', 'medicationTimeSchedule3', 'medicationTimeSchedule4', 'medicationTimeSchedule5', 'medicationTimeSchedule6',  'medicationQuantity', 'medicationType', 'medicationDiscontinuedStatus', 'medicationComment', 'patient', 'user']
 
 
 # class StatusForm(forms.ModelForm):

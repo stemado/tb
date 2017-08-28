@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {% trans 'Residents' %} {% endblock %} {% block head %}
+<link href="{% static 'css/residents.css' %}" rel="stylesheet"> {% endblock head %} {% block main %}
+<div class="container">
+<div class="page-header">
+    <a href="{% url 'create' %}" class="btn btn-primary pull-right">
+        <span class="glyphicon glyphicon-pencil"></span> {% trans 'Create Resident' %}
+    </a>
+    <h1 class="text-center">{% trans 'Residents' %}</h1>
+</div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for resident in residents %}
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                    <a style="color:white" href="{{ resident.id }}">{{ resident.residentFirstName }} {{ resident.residentLastName }}</a>
+                </div>
+                <div class="panel-body">
+                    <p><strong>DNR:</strong> {{ resident.dnr_status }}</p>
+                    <p><strong>Medicare: </strong> {{ resident.medicareNumber }}</p>
+                    <p><strong>Room #:</strong> {{ resident.location }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h4 class="no-data">{% trans 'No residents added yet' %}. <a href="{% url 'create' %}">{% trans 'Be the first to create one' %}!</a></h4> {% endfor %}
+    </div>
+</div>
+{% endblock main %}

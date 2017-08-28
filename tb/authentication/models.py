@@ -11,9 +11,11 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from tb.activities.models import Notification
 
-
 @python_2_unicode_compatible
 class Profile(models.Model):
+
+    AUTH_CHOICES = ((0, 'Administrator'), (1, 'Patient'))
+
     user = models.OneToOneField(User)
     city = models.CharField(max_length=20, null=True, blank=True)
     providence = models.CharField(max_length=20, null=True, blank=True)
@@ -22,6 +24,8 @@ class Profile(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+    user_type = models.CharField(max_length=20, default=1, choices=AUTH_CHOICES)
+
 
     class Meta:
         db_table = 'auth_profile'
@@ -140,6 +144,7 @@ class Profile(models.Model):
                 to_user=answer.user,
                 new_resident=new_resident).delete()
 
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
@@ -151,3 +156,21 @@ def save_user_profile(sender, instance, **kwargs):
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
 
+
+##Add Signal to Create A New Patient For the Patient Table When New User Created That is Patient
+#This will allow me to continue using the Django built in User Authentication system.
+#Probably a better way, this will work for now.
+@python_2_unicode_compatible
+class Patient(models.Model):
+
+    patient_id = models.IntegerField(unique=True, null=False, blank=False)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    email = models.CharField(max_length=50, null=True, blank=True)
+    city = models.CharField(max_length=20, null=True, blank=True)
+    providence = models.CharField(max_length=20, null=True, blank=True)
+    zipcode = models.CharField(max_length=20, null=True, blank=True)
+    address1 = models.CharField(max_length=20, null=True, blank=True)
+    address2 = models.CharField(max_length=20, null=True, blank=True)
+    phonenumber = models.CharField(max_length=20, null=True, blank=True)
+    mobilenumber = models.CharField(max_length=20, null=True, blank=True)
