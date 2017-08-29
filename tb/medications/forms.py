@@ -19,8 +19,8 @@ class MedicationForm(forms.ModelForm):
         self.fields['medicationQuantity'].required = True
         self.fields['medicationType'].required = True
         self.fields['medicationDiscontinuedStatus'].required = True
-        self.fields['patient'].required = False
-        self.fields['user'].required = True
+        self.fields['patient'].widget.attrs['disabled'] = True
+        self.fields['user'].widget.attrs['disabled'] = True
 
 #Have to figure out how to pass the user field as an instance. 
 #It wont' let me with custom field. Have to remove formatting so it uses default.

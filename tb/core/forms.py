@@ -6,6 +6,11 @@ from django.utils.safestring import mark_safe
 
 
 class ProfileForm(forms.ModelForm):
+    #Do some form of the below to make the form uneditable.
+    #Then have edit button to change the information and save.
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),

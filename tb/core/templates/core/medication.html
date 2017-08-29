@@ -1,0 +1,43 @@
+ {% extends 'base.html' %} {% load i18n %} {% block title %}{% trans 'Account Settings' %}{% endblock %} {% block main %}
+<div class="page-header">
+    <h1>{% trans 'meds' %}</h1>
+</div>
+<div class="row" style="margin-top: 2em">
+    <div class="col-md-3">
+        {% include 'core/partial_settings_menu.html' with active='medication' %}
+    </div>
+    <div class="col-md-9">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %}
+        <h3 style="margin-top: 0">{% trans 'Medication' %}</h3>
+        <div class="container">
+            <div class="row">
+                {% for med in meds %}
+                <div class="col-md-4">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <img src="http://www.clker.com/cliparts/7/6/0/4/12918673831512302000pill-icon.png" style="width:20px">
+                            <a style="color: white;" href="/medications/{{ med.user.id}}">{{ med.medicationName }}</a>
+                        </div>
+                        <div class="panel-body">
+                            <a href="/medications/{{ med.id}}/" class="center-text"><strong>History</strong></a>
+                            <a href="/medications/{{ med.id }}/"><strong>med:</strong> {{ med.medicationName }}</a>
+                            <p><strong>Schedule:</strong> {{ med.medicationTimeSchedule }}</p>
+                            <p><strong>Created by:</strong> {{ med.user.first_name }} {{ med.user.last_name }}</p>
+                            <p><strong>Count:</strong> {{ med.medicationQuantity }}</p>
+                            <p><strong>Given Today:</strong> {{ med.medicationStatus }}</p>
+                            <!-- Start partial history mar if needed -->
+                            <!-- End partial mar -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

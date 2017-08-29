@@ -18,6 +18,7 @@ urlpatterns = [
 	url(r'^signup/$', tb_auth_views.signup, name='signup'),
     url(r'^settings/$', core_views.settings, name='settings'),
     url(r'^settings/picture/$', core_views.picture, name='picture'),
+    url(r'^settings/medication/$', core_views.medication, name='medication'),
     url(r'^settings/upload_picture/$', core_views.upload_picture,
         name='upload_picture'),
     url(r'^settings/save_uploaded_picture/$', core_views.save_uploaded_picture,

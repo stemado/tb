@@ -1,0 +1,47 @@
+
+{% load i18n %}
+{% load humanize %}
+
+<li meds-id="{{ meds.pk }}" csrf="{{ csrf_token }}">
+  <div class="meds-container">
+    <a href="{% url 'profile' meds.user.username %}"><img src="{{ meds.user.profile.get_picture }}" class="user"></a>
+    <div class="post">
+      {% if meds.user == user %}
+        <span class="glyphicon glyphicon-remove remove-meds" title="{% trans 'Click to remove this meds' %}"></span>
+      {% endif %}
+      <h3><a href="{% url 'profile' meds.user.username %}">{{ meds.user.profile.get_screen_name }}</a> <small>{{ meds.medicationStartDate|naturaltime }}</small></h3>
+      <p>{{ meds.linkfy_post|safe }}</p>
+      <div class="interaction">
+        {% if user in meds.get_likers %}
+          <a href="#" class="like unlike">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="text">{% trans 'Unlike' %}</span>
+            (<span class="like-count">{{ meds.count }}</span>)
+          </a>
+        {% else %}
+          <a href="#" class="like">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="text">{% trans 'Like' %}</span>
+            (<span class="like-count">{{ meds.count }}</span>)
+          </a>
+        {% endif %}
+        <a href="#" class="comment">
+          <span class="glyphicon glyphicon-comment"></span> {% trans 'Comment' %}
+          (<span class="comment-count">{{ meds.comments }}</span>)
+        </a>
+      </div>
+      <div class="comments">
+        <form role="form" method="post" action="{{ comment }}" onsubmit="return false">
+          {% csrf_token %}
+          <input type="hidden" name="meds" value="{{ meds.pk }}">
+          <input type="text" class="form-control input-sm" placeholder="{% trans 'Write a comment...' %}" name="post" maxlength="255">
+        </form>
+        <ol class="clearfix">
+          {% comment %} Place holder to load meds comments {% endcomment %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</li>
+
+

@@ -174,6 +174,25 @@ def save_uploaded_picture(request):
 
     return redirect('/settings/picture/')
 
+
+
+@login_required
+def medication(request):
+    user = request.user
+    patients = []
+    medication = Medication.get_medications().filter(patient=user.id)
+    active_medications = MedicationTime.get_active_medications()
+    overdue_medications = MedicationTime.get_overdue_medications()
+    paginator = Paginator(medication, 10)
+    page = request.GET.get('page')
+    try:
+        meds = paginator.page(page)
+    except PageNotAnInteger:
+        meds = paginator.page(1)
+    except EmptyPage:
+        meds = paginator.page(paginator.num_pages)
+    return render(request, 'core/medication.html/', {'meds': meds, 'medication': medication, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
 @login_required
 def createMedication(request, resident_id):
     user = request.user.id
@@ -196,5 +215,6 @@ def createMedication(request, resident_id):
     else:
         form = MedicationForm(initial={'medicationUser': resident_id})
     return render(request, 'medications/create.html', {'form': form})
+
 
 
