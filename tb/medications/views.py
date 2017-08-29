@@ -9,6 +9,7 @@ import hashlib
 import markdown
 from tb.medications.forms import MedicationForm, StatusForm, MedicationStatusForm, StatusFormSet
 from tb.medications.models import Medication, MedicationCompletion, MedicationTime
+from tb.authentication.models import Profile
 from tb.decorators import ajax_required
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetView
 import csv
@@ -117,12 +118,12 @@ def medication(request, id):
     return render(request, 'medications/medication.html', {'medication': medication, 'time': time, 'meds': meds})
 
 #Need to add conditional logic to separate who the user is.
-#If it is the Admin creating the medication, then we want him to choose who the patient is in the patient field
-#If it is the patient creating the medication, we want the do not want the patient field populated since the patient_user is the user and the patient.
+#If it is the Admin (request.user.profile.user_type == 0) creating the medication, then we want them to choose who the patient is in the patient field
+#If it is the Patient creating the medication, we want the do not want the patient field populated since the patient_user is the user and the patient.
 @login_required
 def createMedication(request):
     user = request.user
-    patient_id = user.id
+
     if request.method == 'POST':
         form = MedicationForm(request.POST)
         if form.is_valid():
@@ -143,11 +144,12 @@ def createMedication(request):
         if request.user.profile.user_type == 0:
             form = MedicationForm(initial={'user': user})
         else:
-            form = MedicationForm(initial={'user': user, 'patient': patient_id})
+            form = MedicationForm(instance=user, initial={'user': user, 'patient': user.id})
     return render(request, 'medications/create.html', {'form': form})
 
 
-
+#This model allows us to edit the Medication.
+@login_required
 def editMedication(request, id):
     if id:
         medication = get_object_or_404(Medication, pk=id)
@@ -167,9 +169,6 @@ def editMedication(request, id):
 def acceptRefuse(request, medication, rx):
     r = Medication.objects.filter(id=rx).values('medicationUser_id')
     resident = get_object_or_404(User, pk=r)
-
-
-
     date = datetime.now().today()
     if request.method == 'POST':
         form = StatusForm(request.POST)

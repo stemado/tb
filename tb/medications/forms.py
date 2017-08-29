@@ -22,15 +22,17 @@ class MedicationForm(forms.ModelForm):
         self.fields['patient'].required = False
         self.fields['user'].required = True
 
-    patient = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control patient'}),
-        max_length=30,
-        required=False)
+#Have to figure out how to pass the user field as an instance. 
+#It wont' let me with custom field. Have to remove formatting so it uses default.
+    # patient = forms.CharField(
+    #     widget=forms.TextInput(attrs={'class': 'form-control patient'}),
+    #     max_length=30,
+    #     required=False)
 
-    user = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control resident'}),
-        max_length=30,
-        required=False)
+    # user = forms.CharField(
+    #     widget=forms.TextInput(attrs={'class': 'form-control resident'}),
+    #     max_length=30,
+    #     required=False)
 
     class Meta:
         model = Medication
