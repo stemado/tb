@@ -23,7 +23,7 @@
           </div>
         {% endfor %}
       {% endif %}
-      <h3 style="margin-top: 0">{% trans 'Edit Profile' %}</h3>
+      <h3 style="margin-top: 0">{% trans 'Profile' %}</h3>
       <form role="form" class="form-horizontal" method="post" action="{% url 'settings' %}">
         {% csrf_token %}
         {% for field in form.visible_fields %}
@@ -54,7 +54,7 @@
         {% endcomment %}
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">{% trans 'Edit' %}</a>
           </div>
         </div>
       </form>

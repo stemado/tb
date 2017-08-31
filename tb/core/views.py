@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tb.core.forms import ChangePasswordForm, ProfileForm
+from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -90,6 +90,39 @@ def settings(request):
             })
     return render(request, 'core/settings.html', {'form': form})
 
+def edit_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.profile.address1 = form.cleaned_data.get('address1')
+            user.profile.address2 = form.cleaned_data.get('address2')
+            user.profile.city = form.cleaned_data.get('city')
+            user.profile.providence = form.cleaned_data.get('providence')
+            user.profile.zipcode = form.cleaned_data.get('zipcode')
+            user.profile.phonenumber = form.cleaned_data.get('phonenumber')
+            user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your profile was successfully edited.')
+
+    else:
+        form = EditProfileForm(instance=user, initial={
+            'address1': user.profile.address1,
+            'address2': user.profile.address2,
+            'city': user.profile.city,
+            'providence': user.profile.providence,
+            'zipcode': user.profile.zipcode,
+            'phonenumber': user.profile.phonenumber,
+            'mobilenumber': user.profile.mobilenumber,
+            'user_type': user.profile.user_type,
+
+            })
+    return render(request, 'core/edit_profile.html', {'form': form})
 
 @login_required
 def picture(request):

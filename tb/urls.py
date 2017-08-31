@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, {'next_page': '/'}, name='logout'),
 	url(r'^signup/$', tb_auth_views.signup, name='signup'),
     url(r'^settings/$', core_views.settings, name='settings'),
+    url(r'^settings/edit/$', core_views.edit_profile, name='edit_profile'),
     url(r'^settings/picture/$', core_views.picture, name='picture'),
     url(r'^settings/medication/$', core_views.medication, name='medication'),
     url(r'^settings/upload_picture/$', core_views.upload_picture,
