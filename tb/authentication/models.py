@@ -24,6 +24,7 @@ class Profile(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+    pinnumber = models.CharField(max_length=4, unique=True, null=True)
     user_type = models.CharField(max_length=20, default=1, choices=AUTH_CHOICES)
 
 

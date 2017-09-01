@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'tb.feeds',
     'bootstrap3',
     'explorer',
+    'formtools',
     
 ]
 

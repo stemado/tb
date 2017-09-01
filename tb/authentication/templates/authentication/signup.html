@@ -8,9 +8,9 @@
 {% endblock head %}
 
 {% block body %}
-  <h1 class="logo"><a href="{% url 'home' %}">CarePLUS</a></h1>
+  <h1 class="logo"><a href="{% url 'home' %}">TB</a></h1>
   <div class="signup">
-    <h2>{% trans 'Sign up for CarePLUS' %}</h2>
+    <h2>{% trans 'Sign up for TB' %}</h2>
     <form action="{% url 'signup' %}" method="post" role="form">
       {% csrf_token %}
       {% for field in form.visible_fields %}

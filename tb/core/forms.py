@@ -21,6 +21,7 @@ class ProfileForm(forms.ModelForm):
         self.fields['phonenumber'].widget.attrs['disabled'] = True
         self.fields['mobilenumber'].widget.attrs['disabled'] = True
         self.fields['user_type'].widget.attrs['disabled'] = True
+        self.fields['pinnumber'].widget.attrs['disabled'] = True
 
 
     first_name = forms.CharField(
@@ -68,12 +69,15 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-
+    pinnumber = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=9,
+        required=False)
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type']
+        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
 
 
 class EditProfileForm(forms.ModelForm):
@@ -81,6 +85,73 @@ class EditProfileForm(forms.ModelForm):
     #Then have edit button to change the information and save.
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].widget.attrs['disabled'] = True
+        self.fields['pinnumber'].widget.attrs['disabled'] = True
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=30,
+        required=False)
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=30,
+        required=False)
+    email = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=75,
+        required=False)
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+
+    providence = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    zipcode = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    address1 = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    address2 = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    phonenumber = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    mobilenumber = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=50,
+        required=False)
+    user_type = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
+    pinnumber = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=9,
+        required=False)
+
+
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
+
+
+
+
+class FirstSignUp(forms.ModelForm):
+    #Do some form of the below to make the form uneditable.
+    #Then have edit button to change the information and save.
+    def __init__(self, *args, **kwargs):
+        super(FirstSignUp, self).__init__(*args, **kwargs)
         self.fields['user_type'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
@@ -128,13 +199,16 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
+    pinnumber = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=9,
+        required=False)
 
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type']
-
+        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
 
 class IndividualUserForm(forms.ModelForm):
 
