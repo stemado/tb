@@ -273,5 +273,10 @@ def createMedication(request, resident_id):
         form = MedicationForm(initial={'medicationUser': resident_id})
     return render(request, 'medications/create.html', {'form': form})
 
+def sms(request):
+    twiml = '<Response><Message>Hello from your Django app!</Message></Response>'
+    return HttpResponse(twilml, content_type='text/xml')
+
+
 
 

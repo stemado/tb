@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from careplus.medications.models import Medication, MedicationCompletion, MedicationTime
 from careplus.residents.models import Resident
 from careplus.medications.tasks import send_test_email
+from twilio.rest import Client
 
 
 
@@ -164,7 +165,20 @@ def request_medication_refill(sender, instance, created, **kwargs):
 
 
 #################################################
-############## TWILIO SIGNALS ###################
+################# TWILIO SMS ######################
 #################################################
+@receiver(post_save, sender=Medication)
+def twilio_sms_test(sender, instance, created, **kwargs):
+	account_sid = config('TWILIO_ACCOUNT_SID')
+	# Your Auth Token from twilio.com/console
+	auth_token  = config('TWILIO_AUTH_TOKEN')
 
+	client = Client(account_sid, auth_token)
+
+	message = client.messages.create(
+    	to="+16202247982", 
+    	from_="+14172834893 ",
+    	body="Test using signal to submit!")
+
+	print(message.sid)
 
