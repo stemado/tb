@@ -243,8 +243,8 @@ def medication(request):
     return render(request, 'core/medication.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
 @login_required
-def createMedication(request, resident_id):
-    user = request.user.id
+def create_medication(request):
+    user = request.user
     if request.method == 'POST':
         form = MedicationForm(request.POST)
         if form.is_valid():
@@ -260,10 +260,10 @@ def createMedication(request, resident_id):
             medication.medicationSlug = form.cleaned_data.get('medicationSlug')
             medication.medicationTimeSchedule = form.cleaned_data.get('medicationTimeSchedule')
             medication.save()
-            return redirect('activeMedications')
+            return redirect('medication')
     else:
-        form = MedicationForm(initial={'medicationUser': resident_id})
-    return render(request, 'medications/create.html', {'form': form})
+        form = MedicationForm(initial={'user': user})
+    return render(request, 'settings/create.html', {'form': form})
 
 
 

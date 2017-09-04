@@ -4,10 +4,18 @@
  {% trans 'Account Settings' %}
  {% endblock %} 
  {% block main %}
+         <a href="{% url 'createMedication' %}" class="btn btn-primary pull-right">
+            <span class="glyphicon glyphicon-plus"></span> {% trans 'Add Medication' %}
+        </a>
+        <a href="/medications/mar/{{user.id}}/" class="btn btn-danger pull-right">
+        <span class="glyphicon glyphicon-calendar"></span> {% trans 'Generate MAR' %} </a>
 <div class="page-header">
     <h1>{% trans 'Medication' %}</h1>
+
 </div>
+
 <div class="row" style="margin-top: 2em">
+
     <div class="col-md-3">
         {% include 'core/partial_settings_menu.html' with active='medication' %}
     </div>
@@ -17,7 +25,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {{ message }}
         </div>
-        {% endfor %} {% endif %}        <div class="container">
+        {% endfor %} {% endif %}        
+        <div class="container">
             <div class="row">
                 {% for med in meds %}
                 <div class="col-md-4">

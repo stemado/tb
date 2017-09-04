@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^settings/edit/$', core_views.edit_profile, name='edit_profile'),
     url(r'^settings/picture/$', core_views.picture, name='picture'),
     url(r'^settings/medication/$', core_views.medication, name='medication'),
+    url(r'^settings/create/$', core_views.create_medication, name='create_medication'),
     url(r'^settings/upload_picture/$', core_views.upload_picture,
         name='upload_picture'),
     url(r'^settings/save_uploaded_picture/$', core_views.save_uploaded_picture,
