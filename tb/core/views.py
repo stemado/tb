@@ -17,9 +17,10 @@ from tb.authentication.models import Notification
 from PIL import Image
 
 
+
 def home(request):
     if request.user.is_authenticated():
-        return render(request, 'core/profile.html')
+        return feeds(request)
     else:
         return render(request, 'core/cover.html')
 
@@ -124,29 +125,6 @@ def edit_profile(request):
             })
     return render(request, 'core/edit_profile.html', {'form': form})
 
-def first_sign_up(request):
-    user = request.user
-    if request.method == 'POST':
-        form = FirstSignUp(request.POST)
-        if form.is_valid():
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
-            user.email = form.cleaned_data.get('email')
-            user.profile.address1 = form.cleaned_data.get('address1')
-            user.profile.address2 = form.cleaned_data.get('address2')
-            user.profile.city = form.cleaned_data.get('city')
-            user.profile.providence = form.cleaned_data.get('providence')
-            user.profile.zipcode = form.cleaned_data.get('zipcode')
-            user.profile.phonenumber = form.cleaned_data.get('phonenumber')
-            user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
-            user.save()
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 'Your profile was successfully edited.')
-    else:
-        form = FirstSignUp()
-   
-    return render(request, 'core/first_sign_up.html', {'form': form})
 
 @login_required
 def picture(request):

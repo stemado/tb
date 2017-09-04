@@ -123,7 +123,7 @@ MEDIA_ROOT = PROJECT_DIR.parent.child('media')
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/settings/'
+LOGIN_REDIRECT_URL = '/feeds/'
 
 ALLOWED_SIGNUP_DOMAINS = ['*']
 
