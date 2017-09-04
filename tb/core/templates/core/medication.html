@@ -1,6 +1,11 @@
- {% extends 'base.html' %} {% load i18n %} {% block title %}{% trans 'Account Settings' %}{% endblock %} {% block main %}
+ {% extends 'base.html' %} 
+ {% load i18n %} 
+ {% block title %}
+ {% trans 'Account Settings' %}
+ {% endblock %} 
+ {% block main %}
 <div class="page-header">
-    <h1>{% trans 'meds' %}</h1>
+    <h1>{% trans 'Medication' %}</h1>
 </div>
 <div class="row" style="margin-top: 2em">
     <div class="col-md-3">
@@ -12,9 +17,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             {{ message }}
         </div>
-        {% endfor %} {% endif %}
-        <h3 style="margin-top: 0">{% trans 'Medication' %}</h3>
-        <div class="container">
+        {% endfor %} {% endif %}        <div class="container">
             <div class="row">
                 {% for med in meds %}
                 <div class="col-md-4">

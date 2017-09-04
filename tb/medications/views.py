@@ -65,21 +65,17 @@ def medications(request):
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()
         overdue_medications = MedicationTime.get_overdue_medications()
-        paginator = Paginator(medications, 2)
+        paginator = Paginator(medications, 10)
         page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+        return render(request, 'medications/all_medications.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
     else:
-        medications = Medication.get_medications().filter(patient=user.id)
-        active_medications = MedicationTime.get_active_medications()
-        overdue_medications = MedicationTime.get_overdue_medications()
-        paginator = Paginator(medications, 2)
-        page = request.GET.get('page')
-    try:
-        meds = paginator.page(page)
-    except PageNotAnInteger:
-        meds = paginator.page(1)
-    except EmptyPage:
-        meds = paginator.page(paginator.num_pages)
-    return render(request, 'medications/all_medications.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render('/')
 
 @login_required
 def overdue_medications(request):

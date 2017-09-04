@@ -11,5 +11,4 @@ message = client.messages.create(
     to="+16202247982", 
     from_="+14172834893 ",
     body="Hello from Python!")
-
 print(message.sid)

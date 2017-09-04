@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'tb.feeds',
     'bootstrap3',
     'explorer',
-    'django_twilio',
+    'twilio',
     'formtools',
     
 ]

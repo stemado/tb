@@ -9,7 +9,7 @@
             <a href="{% url 'overdueMedications' %}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
-                <span>{{ overdue.count }}</span>
+                <span>{{ overdue_medications.count }}</span>
             </a>
             <a href="{% url 'activeMedications' %}" class="btn btn-success" role="button">
                 <strong>Active</strong>
@@ -19,7 +19,7 @@
             <a href="{% url 'medications' %}" class="btn btn-default" role="button">
                 <strong>PRN(Temp All)</strong>
                 <br>
-                <span><p>{{ medications.count }}</p></span>
+                <span><p>{{ meds.count }}</p></span>
             </a>
         </div>
     </div>

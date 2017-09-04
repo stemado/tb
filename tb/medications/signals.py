@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from django.db.models import F
 from django.db.models.signals import post_save
@@ -6,11 +7,10 @@ from django.utils import timezone
 # import sendgrid
 # import os
 # from sendgrid.helpers.mail import *
+from decouple import Csv, config
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
-from careplus.medications.models import Medication, MedicationCompletion, MedicationTime
-from careplus.residents.models import Resident
-from careplus.medications.tasks import send_test_email
+from tb.medications.models import Medication, MedicationCompletion, MedicationTime
 from twilio.rest import Client
 
 
@@ -127,9 +127,10 @@ def request_medication_refill(sender, instance, created, **kwargs):
 	print(count)
 	if created:
 		if count == 5:
+			# SEND EMAIL NOTIFICATION #
 			email = 'stemado@outlook.com'
-			subject = 'Rx Refill Request: ' + str(med.medicationResident)
-			content = "Resident: " + str(med.medicationResident) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)
+			subject = 'Rx Refill Request: ' + str(med.user)
+			content = "Patient: " + str(med.user) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)
 			send_mail(
 				subject, 
 				content, 
@@ -138,10 +139,28 @@ def request_medication_refill(sender, instance, created, **kwargs):
 				fail_silently=False
 				)
 			print('EMAIL SENT!')
-		if count == 1:
+			###########################
+			## SEND SMS NOTIFICATION ##
+			###########################
+			account_sid = config('TWILIO_ACCOUNT_SID')
+			auth_token  = config('TWILIO_AUTH_TOKEN')
+
+			client = Client(account_sid, auth_token)
+
+			message = client.messages.create(
+    			to=str(user.profile.mobilenumber), 
+    			from_="+14172834893",
+    			body=str(med.user) + "medication count: " + str(med.medicationQuantity))
+			print(message.sid)
+			###########################
+			## END SMS NOTIFICATION ##
+			###########################
+
+
+		if count < 5:
 			email = 'stemado@outlook.com'
-			subject = 'URGENT: Rx Refill Request: ' + str(med.medicationResident)
-			content = "Resident: " + str(med.medicationResident) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)
+			subject = 'URGENT: Rx Refill Request: ' + str(med.user)
+			content = "Patient: " + str(med.user) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)
 			send_mail(
 				subject, 
 				content, 
@@ -153,32 +172,43 @@ def request_medication_refill(sender, instance, created, **kwargs):
 		else:
 			print('It didn not send, home skillet.')
 
+
+#################################################
+################# TWILIO SMS ####################
+#################################################
+
+################ TEST SIGNAL ####################
 # @receiver(post_save, sender=Medication)
-# def new_test_email(sender, instance, created, **kwargs):
+# def twilio_sms_test(sender, instance, created, **kwargs):
+# 	# Account SID from twilio.com/console
+# 	account_sid = config('TWILIO_ACCOUNT_SID')
+# 	# Auth Token from twilio.com/console
+# 	auth_token  = config('TWILIO_AUTH_TOKEN')
 
-# 	if created:
-# 		send_test_email.delay(each)
-# 		print('Celery email is delayed...now what?')
+# 	client = Client(account_sid, auth_token)
 
-# 	else:
-# 		print('Well, this did not work. Try again tomorrow')
+# 	message = client.messages.create(
+#     	to="+16202247982", 
+#     	from_="+14172834893 ",
+#     	body="Test using signal to submit!")
 
+# 	print(message.sid)
+################ TEST SIGNAL ####################
 
-#################################################
-################# TWILIO SMS ######################
-#################################################
 @receiver(post_save, sender=Medication)
-def twilio_sms_test(sender, instance, created, **kwargs):
-	account_sid = config('TWILIO_ACCOUNT_SID')
-	# Your Auth Token from twilio.com/console
-	auth_token  = config('TWILIO_AUTH_TOKEN')
+def refill_medication_notice(sender, instance, created, **kwargs):
 
-	client = Client(account_sid, auth_token)
+	#If new medication is created#
+	if created:
+		# Account SID from twilio.com/console
+		account_sid = config('TWILIO_ACCOUNT_SID')
+		# Auth Token from twilio.com/console
+		auth_token  = config('TWILIO_AUTH_TOKEN')
+		client = Client(account_sid, auth_token)
 
-	message = client.messages.create(
-    	to="+16202247982", 
-    	from_="+14172834893 ",
-    	body="Test using signal to submit!")
+		message = client.messages.create(
+    		to=str(instance.user.profile.mobilenumber), 
+    		from_="+14172834893 ",
+    		body=instance.medicationName + ' added by ' + instance.user.first_name + ' ' + instance.user.last_name)
 
-	print(message.sid)
-
+		print(message.sid)

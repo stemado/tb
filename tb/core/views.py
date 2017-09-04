@@ -16,9 +16,6 @@ from tb.feeds.views import FEEDS_NUM_PAGES, feeds
 from tb.authentication.models import Notification
 from PIL import Image
 
-from twilio.rest import Client
-from django.conf import settings
-
 
 def home(request):
     if request.user.is_authenticated():
@@ -26,15 +23,6 @@ def home(request):
     else:
         return render(request, 'core/cover.html')
 
-
-def sms(request):
-    message = 'Hi Stephen'
-    from_ = '+14172834893'
-    to = '+6202247982';
-    client = Client(
-        settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    response = client.messages.create(
-        body=message, to=to, from_=from_)
 
 @login_required
 def network(request):
@@ -248,19 +236,33 @@ def save_uploaded_picture(request):
 @login_required
 def medication(request):
     user = request.user
-    patients = []
-    medication = Medication.get_medications().filter(patient=user.id)
-    active_medications = MedicationTime.get_active_medications()
-    overdue_medications = MedicationTime.get_overdue_medications()
-    paginator = Paginator(medication, 10)
-    page = request.GET.get('page')
-    try:
-        meds = paginator.page(page)
-    except PageNotAnInteger:
-        meds = paginator.page(1)
-    except EmptyPage:
-        meds = paginator.page(paginator.num_pages)
-    return render(request, 'core/medication.html/', {'meds': meds, 'medication': medication, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+    user_type = int(user.profile.user_type)
+    if user_type == 0:
+        medications = Medication.get_medications()
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+    else:
+        medications = Medication.get_medications().filter(user=user)
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+
+    return render(request, 'core/medication.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
 @login_required
 def createMedication(request, resident_id):

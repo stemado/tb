@@ -24,7 +24,7 @@ def signup(request):
                                                                 user.username)
             feed = Feed(user=user, post=welcome_post)
             feed.save()
-            return redirect('/')
+            return redirect('profile')
 
     else:
         return render(request, 'authentication/signup.html',
