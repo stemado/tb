@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'tb.feeds',
     'bootstrap3',
     'explorer',
+    'django_twilio',
     'formtools',
     
 ]
@@ -130,6 +131,13 @@ FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 TAGGIT_CASE_INSENSITIVE = True
+
+##########################
+### Twilio Credentials ###
+##########################
+
+TWILIO_ACCOUNT_SID=config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN=config('TWILIO_AUTH_TOKEN')
 
 
 

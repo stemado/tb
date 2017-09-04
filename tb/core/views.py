@@ -16,6 +16,9 @@ from tb.feeds.views import FEEDS_NUM_PAGES, feeds
 from tb.authentication.models import Notification
 from PIL import Image
 
+from twilio.rest import Client
+from django.conf import settings
+
 
 def home(request):
     if request.user.is_authenticated():
@@ -23,6 +26,15 @@ def home(request):
     else:
         return render(request, 'core/cover.html')
 
+
+def sms(request):
+    message = 'Hi Stephen'
+    from_ = '+14172834893'
+    to = '+6202247982';
+    client = Client(
+        settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    response = client.messages.create(
+        body=message, to=to, from_=from_)
 
 @login_required
 def network(request):
@@ -273,9 +285,7 @@ def createMedication(request, resident_id):
         form = MedicationForm(initial={'medicationUser': resident_id})
     return render(request, 'medications/create.html', {'form': form})
 
-def sms(request):
-    twiml = '<Response><Message>Hello from your Django app!</Message></Response>'
-    return HttpResponse(twilml, content_type='text/xml')
+
 
 
 
