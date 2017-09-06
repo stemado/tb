@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^settings/$', core_views.settings, name='settings'),
     url(r'^settings/edit/$', core_views.edit_profile, name='edit_profile'),
     url(r'^settings/picture/$', core_views.picture, name='picture'),
-    url(r'^settings/medication/$', core_views.medication, name='medication'),
+    url(r'^medication/$', core_views.medication, name='medication'),
     url(r'^settings/create/$', core_views.create_medication, name='create_medication'),
     url(r'^settings/upload_picture/$', core_views.upload_picture,
         name='upload_picture'),
@@ -38,9 +38,8 @@ urlpatterns = [
     url(r'^notifications/check/$', activities_views.check_notifications,
         name='check_notifications'),
 	url(r'^search/$', search_views.search, name='search'),
-    url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
-
-    # url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
+    url(r'^profile/$', core_views.profile, name='profile'),
+    # url(r'^profile/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ]
 

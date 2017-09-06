@@ -259,9 +259,9 @@ class ChangePasswordForm(forms.ModelForm):
                 'Passwords don\'t match'])
         return self.cleaned_data
 
-class HorizontalRadioRenderer(forms.RadioSelect.renderer):
-  def render(self):
-    return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
+# class HorizontalRadioRenderer(forms.RadioSelect.renderer):
+#   def render(self):
+#     return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
 
 # class EmailNotificationForm(forms.ModelForm):
 

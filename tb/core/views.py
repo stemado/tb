@@ -20,7 +20,20 @@ from PIL import Image
 
 def home(request):
     if request.user.is_authenticated():
-        return feeds(request)
+        user =request.user
+        page_user = get_object_or_404(User, username=user.username)
+        all_feeds = Feed.get_feeds().filter(user=page_user)
+        paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
+        feeds = paginator.page(1)
+        from_feed = -1
+        if feeds:
+            from_feed = feeds[0].id
+        return render(request, 'core/profile.html', {
+            'page_user': page_user,
+            'feeds': feeds,
+            'from_feed': from_feed,
+            'page': 1
+            })
     else:
         return render(request, 'core/cover.html')
 
@@ -214,7 +227,8 @@ def save_uploaded_picture(request):
 @login_required
 def medication(request):
     user = request.user
-    user_type = int(user.profile.user_type)
+    page_user = get_object_or_404(User, username=user.username)
+    user_type = int(page_user.profile.user_type)
     if user_type == 0:
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()
@@ -227,6 +241,8 @@ def medication(request):
             meds = paginator.page(1)
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
     else:
         medications = Medication.get_medications().filter(user=user)
         active_medications = MedicationTime.get_active_medications()
@@ -240,7 +256,7 @@ def medication(request):
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
 
-    return render(request, 'core/medication.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render(request, 'core/medication.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
 @login_required
 def create_medication(request):
