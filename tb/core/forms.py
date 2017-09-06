@@ -147,11 +147,11 @@ class EditProfileForm(forms.ModelForm):
 
 
 
-class FirstSignUp(forms.ModelForm):
+class SignUpStep1(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
     def __init__(self, *args, **kwargs):
-        super(FirstSignUp, self).__init__(*args, **kwargs)
+        super(SignUpStep1, self).__init__(*args, **kwargs)
         self.fields['user_type'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(

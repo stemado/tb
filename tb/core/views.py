@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, FirstSignUp
+from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -256,7 +256,7 @@ def medication(request):
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
 
-        return render(request, 'core/medication.html', {'meds': meds, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
 @login_required
 def create_medication(request):
@@ -281,8 +281,23 @@ def create_medication(request):
         form = MedicationForm(initial={'user': user})
     return render(request, 'settings/create.html', {'form': form})
 
-
-
-
-
-
+@login_required
+def registration(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SignUpStep1(request.POST)
+        if form.is_valid():
+            step1 = form.save()
+            step1.first_name = form.cleaned_data.get('first_name')
+            step1.last_name = form.cleaned_data.get('last_name')
+            step1.email = form.cleaned_data.get('email')
+            step1.city = form.cleaned_data.get('city')
+            step1.providence = form.cleaned_data.get('providence')
+            step1.zipcode = form.cleaned_data.get('zipcode')
+            step1.address1 = form.cleaned_data.get('address1')
+            step1.address2 = form.cleaned_data.get('address2')
+            step1.save()
+            return redirect('/')
+    else:
+        form = SignUpStep1()
+    return render(request, 'core/first_sign_up.html', {'form': form})
