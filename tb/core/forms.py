@@ -20,8 +20,12 @@ class ProfileForm(forms.ModelForm):
         self.fields['address2'].widget.attrs['disabled'] = True
         self.fields['phonenumber'].widget.attrs['disabled'] = True
         self.fields['mobilenumber'].widget.attrs['disabled'] = True
+        self.fields['pharmacy'].widget.attrs['disabled'] = True
         self.fields['user_type'].widget.attrs['disabled'] = True
         self.fields['pinnumber'].widget.attrs['disabled'] = True
+        self.fields['smsnotify'].widget.attrs['disabled'] = True
+        self.fields['emailnotify'].widget.attrs['disabled'] = True
+
 
 
     first_name = forms.CharField(
@@ -65,6 +69,10 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
+    pharmacy = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
     user_type = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
@@ -73,11 +81,17 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
         required=False)
+    smsnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
+    emailnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
+        fields = ('first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'pharmacy', 'user_type', 'pinnumber', 'smsnotify', 'emailnotify')
 
 
 class EditProfileForm(forms.ModelForm):
@@ -129,6 +143,10 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
+    pharmacy = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
     user_type = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
@@ -137,12 +155,18 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
         required=False)
+    smsnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
+    emailnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
 
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
+        fields = ('first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'pharmacy', 'user_type', 'pinnumber', 'smsnotify', 'emailnotify')
 
 
 
@@ -151,7 +175,7 @@ class SignUpStep1(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
     def __init__(self, *args, **kwargs):
-        super(FirstSignUp, self).__init__(*args, **kwargs)
+        super(SignUpStep1, self).__init__(*args, **kwargs)
         self.fields['user_type'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
@@ -195,6 +219,10 @@ class SignUpStep1(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
+    pharmacy = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
     user_type = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
@@ -203,12 +231,18 @@ class SignUpStep1(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
         required=False)
+    smsnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
+    emailnotify = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
 
 
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber']
+        fields = ('first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'pharmacy', 'user_type', 'pinnumber', 'smsnotify', 'emailnotify')
 
 class IndividualUserForm(forms.ModelForm):
 

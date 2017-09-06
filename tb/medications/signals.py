@@ -150,14 +150,14 @@ def request_medication_refill(sender, instance, created, **kwargs):
 			message = client.messages.create(
     			to=str(user.profile.mobilenumber), 
     			from_="+14172834893",
-    			body=str(med.user) + "medication count: " + str(med.medicationQuantity))
+    			body=str(med.user) + "medication count: " + str(med.medicationQuantity) + " Please pick up from: (Insert UserPharmacyVariableHere) " )
 			print(message.sid)
 			###########################
 			## END SMS NOTIFICATION ##
 			###########################
 
 
-		if count < 5:
+		if count > 5:
 			email = 'stemado@outlook.com'
 			subject = 'URGENT: Rx Refill Request: ' + str(med.user)
 			content = "Patient: " + str(med.user) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)
@@ -170,7 +170,7 @@ def request_medication_refill(sender, instance, created, **kwargs):
 				)
 			print('URGENT EMAIL SENT!')
 		else:
-			print('It didn not send, home skillet.')
+			print('Email did not send, home skillet.')
 
 
 #################################################

@@ -24,6 +24,7 @@ class Profile(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+    pharmacy = models.CharField(max_length=20, null=True, blank=True)
     pinnumber = models.CharField(max_length=4, unique=True, null=True)
     emailnotify = models.NullBooleanField(default=True, blank=True)
     smsnotify = models.NullBooleanField(default=True, blank=True)
@@ -160,6 +161,9 @@ post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
 
 
+
+
+
 ##Add Signal to Create A New Patient For the Patient Table When New User Created That is Patient
 #This will allow me to continue using the Django built in User Authentication system.
 #Probably a better way, this will work for now.
@@ -177,3 +181,5 @@ class Patient(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+
+

@@ -5,7 +5,7 @@
 <script src="{% static 'js/feeds.js' %}"></script>
 {% endblock head %} {% block main %}
 <div class="page-header">
-    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}({{ page_user.username }}){% endif %}</h1>
+    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ page_user.username }})</small>{% endif %}</h1>
 </div>
 <div class="profile">
     <div class="row">
@@ -44,29 +44,27 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <table class="table">
-                        <tr>
-                            <th><strong><div style="width: 100px">Patient</div></strong></th>
-                            <th><strong><div id="two">Medication</div></strong></th>
-                            <th><strong><div id="three">Time Due</div></strong></th>
-                            <th><strong><div id="four">Date Due</div></strong></th>
-                            <th><strong><div id="five">Phone #</div></strong></th>
-                            <th><strong><div id="five">Pill Count</div></strong></th>
-                        </tr>
-                    </table>
-                    <table class="table table-striped">
-                        {% for med in meds %}
-                        <tr>
-                            <td><div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div></td>
-                            <td><div id="one">{{ med.medicationName }}</div></td>
-                            <td><div id="two">(TimeDue)</div></td>
-                            <td><div id="three">(DateDue)</div></td>
-                            <td><div id="four">{{med.medication}}</div></td>
-                            <td><div id="five">{{med.user.mobilenumber }}</div></td>
-                            <td><div id="six">{{ med.medicationQuantity }}</div></td>
-                        </tr>
-                                            {% endfor %}
-                    </table>
+                <p>Need to add partial views for all things Medication related so we can have a reusable template</p>
+                    {% for med in meds %}
+                    <div class="col-md-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <img src="http://www.clker.com/cliparts/7/6/0/4/12918673831512302000pill-icon.png" style="width:20px">
+                                <a style="color: white;" href="/medications/{{ med.id}}">{{ med.medicationName }}</a>
+                            </div>
+                            <div class="panel-body">
+                                <a href="/medications/{{ med.id}}/" class="center-text"><strong>History</strong></a>
+                                <a href="/medications/{{ med.id }}/"><strong>med:</strong> {{ med.medicationName }}</a>
+                                <p><strong>Schedule:</strong> {{ med.medicationTimeSchedule }}</p>
+                                <p><strong>Created by:</strong> {{ med.user.first_name }} {{ med.user.last_name }}</p>
+                                <p><strong>Count:</strong> {{ med.medicationQuantity }}</p>
+                                <p><strong>Given Today:</strong> {{ med.medicationStatus }}</p>
+                                <!-- Start partial history mar if needed -->
+                                <!-- End partial mar -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </ul>
             <div class="load">
