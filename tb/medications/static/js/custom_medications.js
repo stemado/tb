@@ -1,19 +1,17 @@
 $(document).ready(function(){
-
-	$('#id_medicationResident').hide()
-	$('label[for="id_medicationResident"]').hide()
+	
 	$('label[for="id_medicationTimeSchedule"]').hide()
 	$('#id_medicationTimeSchedule').hide()
 	$('label[for="id_medicationTimeSchedule2"]').hide()
 	$('#id_medicationTimeSchedule2').hide()
-	$('label[for="id_medicationTimeSchedule3"]').hide()
-	$('#id_medicationTimeSchedule3').hide()
-	$('label[for="id_medicationTimeSchedule4"]').hide()
-	$('#id_medicationTimeSchedule4').hide()
-	$('label[for="id_medicationTimeSchedule5"]').hide()
-	$('#id_medicationTimeSchedule5').hide()
-	$('label[for="id_medicationTimeSchedule6"]').hide()
-	$('#id_medicationTimeSchedule6').hide()
+	// $('label[for="id_medicationTimeSchedule3"]').hide()
+	// $('#id_medicationTimeSchedule3').hide()
+	// $('label[for="id_medicationTimeSchedule4"]').hide()
+	// $('#id_medicationTimeSchedule4').hide()
+	// $('label[for="id_medicationTimeSchedule5"]').hide()
+	// $('#id_medicationTimeSchedule5').hide()
+	// $('label[for="id_medicationTimeSchedule6"]').hide()
+	// $('#id_medicationTimeSchedule6').hide()
 
 
 

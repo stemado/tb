@@ -24,13 +24,13 @@ class MedicationForm(forms.ModelForm):
 
 #Have to figure out how to pass the user field as an instance. 
 #It wont' let me with custom field. Have to remove formatting so it uses default.
-    # patient = forms.CharField(
-    #     widget=forms.TextInput(attrs={'class': 'form-control patient'}),
+    # medicationTimeSchedule = forms.CharField(
+    #     widget=forms.TextInput(attrs={'class': 'form-control medicationTime'}),
     #     max_length=30,
     #     required=False)
 
-    # user = forms.CharField(
-    #     widget=forms.TextInput(attrs={'class': 'form-control resident'}),
+    # medicationTimeSchedule2 = forms.CharField(
+    #     widget=forms.TextInput(attrs={'class': 'form-control medicationTime'}),
     #     max_length=30,
     #     required=False)
 

@@ -1,13 +1,5 @@
 $(document).ready(function(){
 
-	$('label[for="id_completionDate"]').hide()
-	$('#id_completionDate').hide()
-	$('label[for="id_completionRx"]').hide()
-	$('#id_completionRx').hide()
-	$('label[for="id_completionMedication"]').hide()
-	$('#id_completionMedication').hide()
-	$('#id_medicationResident').hide()
-	$('label[for="id_medicationResident"]').hide()
 	$('label[for="id_medicationTimeSchedule"]').hide()
 	$('#id_medicationTimeSchedule').hide()
 	$('label[for="id_medicationTimeSchedule2"]').hide()
@@ -23,10 +15,20 @@ $(document).ready(function(){
 
 
 
-	$('#id_medicationDistribution').change(function(){
+	$('#id_medicationFrequency').change(function(){
 		var selectedValue = $(this).val();
 
-		if(selectedValue === '1'){
+	if(selectedValue === '0'){
+		$('#id_medicationTimeSchedule').hide()
+		$('#id_medicationTimeSchedule2').hide()
+		$('#id_medicationTimeSchedule3').hide()
+		$('#id_medicationTimeSchedule4').hide()
+		$('#id_medicationTimeSchedule5').hide()
+		$('#id_medicationTimeSchedule6').hide()
+
+	}
+
+	if(selectedValue === '1'){
 		$('#id_medicationTimeSchedule').show()
 		$('#id_medicationTimeSchedule2').hide()
 		$('#id_medicationTimeSchedule3').hide()

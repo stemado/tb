@@ -33,12 +33,12 @@
                         <a href="#" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
-                <span class="badge">#</span>
+                <span class="badge">{{ active_medications.count }}</span>
             </a>
                         <a href="#" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
-                <span class="badge">#</span>
+                <span class="badge">{{ overdue_medications.count }}</span>
             </a>
                     </div>
                 </div>
