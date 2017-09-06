@@ -34,18 +34,12 @@ django-polymorphic==1.0.2
 django-scheduler==0.8.3
 django-sql-explorer==1.1.1
 django-tables2==1.10.0
-django-twilio==0.8.0
 djangorestframework==3.6.3
 easy-thumbnails==2.3
-Flask==0.10.1
 gunicorn==19.6.0
 heroku==0.1.4
 html5lib==0.9999999
-icalendar==3.11.4
-itsdangerous==0.24
-Jinja2==2.9.6
 jsonfield==1.0.3
-kombu==3.0.37
 Markdown==2.6.7
 MarkupSafe==1.0
 mock==2.0.0
@@ -53,7 +47,6 @@ oauthlib==2.0.2
 olefile==0.44
 packaging==16.8
 pbr==3.0.0
-phonenumberslite==8.8.0
 Pillow==4.0.0
 psycopg2==2.6.2
 py==1.4.33
@@ -66,7 +59,6 @@ python-firebase==1.2
 python-http-client==3.0.0
 python3-openid==3.1.0
 pytz==2017.2
-redis==2.10.3
 reportlab==3.4.0
 requests==2.14.2
 requests-oauthlib==0.8.0
