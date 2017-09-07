@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'tb.search',
     'tb.feeds',
     'bootstrap3',
-    'explorer',
     'twilio',
     'formtools',
     

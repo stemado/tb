@@ -40,6 +40,11 @@
                 <br>
                 <span class="badge">{{ overdue_medications.count }}</span>
             </a>
+                        <a href="{% url 'createMedication' %}" class="btn btn-success" role="button">
+                <strong>Add</strong>
+                <br>
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
                     </div>
                 </div>
                 <hr>
@@ -57,15 +62,29 @@
                     <table class="table table-striped">
                         {% for med in meds %}
                         <tr>
-                            <td><div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div></td>
-                            <td><div id="one">{{ med.medicationName }}</div></td>
-                            <td><div id="two">(TimeDue)</div></td>
-                            <td><div id="three">(DateDue)</div></td>
-                            <td><div id="four">{{med.medication}}</div></td>
-                            <td><div id="five">{{med.user.mobilenumber }}</div></td>
-                            <td><div id="six">{{ med.medicationQuantity }}</div></td>
+                            <td>
+                                <div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div>
+                            </td>
+                            <td>
+                                <div id="one">{{ med.medicationName }}</div>
+                            </td>
+                            <td>
+                                <div id="two">(TimeDue)</div>
+                            </td>
+                            <td>
+                                <div id="three">(DateDue)</div>
+                            </td>
+                            <td>
+                                <div id="four">{{med.medication}}</div>
+                            </td>
+                            <td>
+                                <div id="five">{{med.user.mobilenumber }}</div>
+                            </td>
+                            <td>
+                                <div id="six">{{ med.medicationQuantity }}</div>
+                            </td>
                         </tr>
-                                            {% endfor %}
+                        {% endfor %}
                     </table>
                 </div>
             </ul>
