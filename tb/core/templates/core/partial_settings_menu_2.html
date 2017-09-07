@@ -2,7 +2,7 @@
 <div class="list-group">
   <a href="{% url 'home' %}" class="list-group-item{% if active == 'home' %} active{% endif %}">{% trans 'Home' %}</a>
   <a href="{% url 'medication' %}" class="list-group-item{% if active == 'medication' %} active{% endif %}">{% trans 'Medication' %}</a>
-  {% if request.user.profile.user_type = 0 %}
+  {% if request.user.profile.user_type == 0 %}
   <a href="#" class="list-group-item{% if active == 'clinic' %} active{% endif %}">{% trans 'Clinic Report' %}</a>
   <a href="#" class="list-group-item{% if active == 'pd' %} active{% endif %}">{% trans 'PD Report' %}</a>
   {% endif %}
