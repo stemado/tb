@@ -10,7 +10,7 @@
 <div class="profile">
     <div class="row">
         <div class="col-md-3 user-profile">
-            <img src="{{ page_user.profile.get_picture }}" class="picture">
+            <!-- <img src="{{ page_user.profile.get_picture }}" class="picture"> -->
             <ul>
                 {% if page_user.profile.job_title %}
                 <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
@@ -20,8 +20,7 @@
                 <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
                 {% endif %}
             </ul>
-            {% include 'core/partial_settings_menu_2.html' with active='medication' %}
-
+            {% include 'core/partial_settings_menu_2.html' with active='clinic' %}
         </div>
         <div class="col-md-9">
             <h4>{% trans 'Medication for' %} {{ page_user.profile.get_screen_name }}</h4>
@@ -29,28 +28,9 @@
                 <a href="#"><span class="new-posts"></span> Current Medication</a>
             </div>
             <ul class="stream">
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
-                        <a href="#" class="btn btn-danger" role="button">
-                <strong>Overdue</strong>
-                <br>
-                <span class="badge">{{ active_medications.count }}</span>
-            </a>
-                        <a href="#" class="btn btn-success" role="button">
-                <strong>Active</strong>
-                <br>
-                <span class="badge">{{ overdue_medications.count }}</span>
-            </a>
-                        <a href="{% url 'createMedication' %}" class="btn btn-success" role="button">
-                <strong>Add</strong>
-                <br>
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-                    </div>
-                </div>
                 <hr>
                 <div class="row">
-                    <table class="table">
+                    <table class="table table-striped">
                         <tr>
                             <th><strong><div style="width: 100px">Patient</div></strong></th>
                             <th><strong><div id="two">Medication</div></strong></th>
@@ -59,8 +39,6 @@
                             <th><strong><div id="five">Phone #</div></strong></th>
                             <th><strong><div id="five">Pill Count</div></strong></th>
                         </tr>
-                    </table>
-                    <table class="table table-striped">
                         {% for med in meds %}
                         <tr>
                             <td>
@@ -76,9 +54,6 @@
                                 <div id="three">(DateDue)</div>
                             </td>
                             <td>
-                                <div id="four">{{med.medication}}</div>
-                            </td>
-                            <td>
                                 <div id="five">{{med.user.mobilenumber }}</div>
                             </td>
                             <td>
@@ -87,6 +62,26 @@
                         </tr>
                         {% endfor %}
                     </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="pagination">
+                            {% if meds.has_previous %}
+                            <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                            </li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %} {% endfor %} {% if meds.has_next %}
+                            <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </ul>
             <div class="load">

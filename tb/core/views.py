@@ -68,6 +68,25 @@ def profile(request, username):
         'page': 1
         })
 
+@login_required
+def clinicReport(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    medications = Medication.objects.all()
+    paginator = Paginator(medications, 10)
+    page = request.GET.get('page')
+    try:
+        meds = paginator.page(page)
+    except PageNotAnInteger:
+        meds = paginator.page(1)
+    except EmptyPage:
+        meds = paginator.page(paginator.num_pages)
+    return render(request, 'core/clinic_report.html',
+         {'page_user': page_user, 
+         'meds': meds
+         })
+
+
 
 @login_required
 def settings(request):
