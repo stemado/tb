@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'twilio',
     'formtools',
     'explorer',
+    'django_tables2',
     
 ]
 

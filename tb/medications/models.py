@@ -20,6 +20,7 @@ from django.db.models import signals
 from itertools import chain
 from operator import attrgetter
 from django.core.mail import send_mail
+import django_tables2 as tables
 
 class MedicationQuerySet(models.QuerySet):
 
@@ -79,6 +80,7 @@ class MedicationManager(models.Manager):
 
     def medicationReset(self):
         return self.get_queryset().medicationReset()
+
 
 
 @python_2_unicode_compatible
@@ -155,6 +157,10 @@ class Medication(models.Model):
 
 
 
+@python_2_unicode_compatible
+class MedicationTable(tables.Table):
+    class Meta:
+        model = Medication
 
 @python_2_unicode_compatible
 class MedicationTime(models.Model):

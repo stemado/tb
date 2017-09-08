@@ -1,6 +1,10 @@
- {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %}{{ page_user.profile.get_screen_name }}{% endblock %} {% block head %}
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %}{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %} {% block title %}{{ page_user.profile.get_screen_name }}{% endblock %} {% block head %}
 <link href="{% static 'css/profile.css' %}" rel="stylesheet">
 <link href="{% static 'css/feeds.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
 <script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
 <script src="{% static 'js/feeds.js' %}"></script>
 {% endblock head %} {% block main %}
@@ -29,6 +33,14 @@
             </div>
             <ul class="stream">
                 <hr>
+                <form method="get">
+
+                    {{ filter.form }}
+
+                    <button type="submit">Search</button>
+
+                </form>
+                <hr>
                 <div class="row">
                     <table class="table table-striped">
                         <tr>
@@ -39,7 +51,7 @@
                             <th><strong><div id="five">Phone #</div></strong></th>
                             <th><strong><div id="five">Pill Count</div></strong></th>
                         </tr>
-                        {% for med in meds %}
+                        {% for med in filter.qs %}
                         <tr>
                             <td>
                                 <div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div>
@@ -63,31 +75,32 @@
                         {% endfor %}
                     </table>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul class="pagination">
-                            {% if meds.has_previous %}
-                            <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
-                            {% else %}
-                            <li class="disabled"><span>&laquo;</span></li>
-                            {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
-                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
-                            </li>
-                            {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
-                            {% endif %} {% endfor %} {% if meds.has_next %}
-                            <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
-                            {% else %}
-                            <li class="disabled"><span>&raquo;</span></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </ul>
-            <div class="load">
-                <img src="{% static 'img/loading.gif' %}">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="pagination">
+                    {% if meds.has_previous %}
+                    <li><a href="?page={{ meds.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %} {% for i in meds.paginator.page_range %} {% if meds.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %} {% endfor %} {% if meds.has_next %}
+                    <li><a href="?page={{ meds.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
+        </ul>
+        <div class="load">
+            <img src="{% static 'img/loading.gif' %}">
+        </div>
     </div>
+</div>
 </div>
 {% endblock main %}

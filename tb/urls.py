@@ -40,6 +40,7 @@ urlpatterns = [
 	url(r'^search/$', search_views.search, name='search'),
     url(r'^profile/$', core_views.profile, name='profile'),
     url(r'^medication/$', core_views.medication, name='medication'),
+    # url(r'^clinic/$', core_views.clinicReport, name='clinic'),
     url(r'^clinic/$', core_views.clinicReport, name='clinic'),
     url(r'^registration/$', core_views.registration, name='registration'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),

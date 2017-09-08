@@ -10,11 +10,14 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1
-from tb.medications.models import Medication, MedicationTime, MedicationCompletion
+from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
 from tb.authentication.models import Notification
 from PIL import Image
+from django_filters.views import FilterView
+from tb.medications.filters import MedicationFilter
+from django_tables2.export.views import ExportMixin
 
 
 
@@ -68,25 +71,37 @@ def profile(request, username):
         'page': 1
         })
 
+# @login_required
+# def clinicReport(request):
+#     user = request.user
+#     page_user = get_object_or_404(User, username=user.username)
+#     meds = Medication.objects.all().order_by('medicationName')
+#     table = MedicationTable(meds)
+#     table.paginate(page=request.GET.get('page', 1), per_page=10)
+#     return render(request, 'core/clinic_report.html',
+#          {'page_user': page_user, 
+#          'meds': meds, 'table': table
+#          })
+
 @login_required
 def clinicReport(request):
     user = request.user
     page_user = get_object_or_404(User, username=user.username)
-    medications = Medication.objects.all()
-    paginator = Paginator(medications, 10)
-    page = request.GET.get('page')
-    try:
-        meds = paginator.page(page)
-    except PageNotAnInteger:
-        meds = paginator.page(1)
-    except EmptyPage:
-        meds = paginator.page(paginator.num_pages)
+    medication_list = Medication.objects.all()
+    medication_filter = MedicationFilter(request.GET, queryset=medication_list)
     return render(request, 'core/clinic_report.html',
-         {'page_user': page_user, 
-         'meds': meds
+         {'page_user': page_user, 'filter': medication_filter
          })
-
-
+    
+@login_required
+def exportClinitReport(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    medication_list = Medication.objects.all()
+    medication_filter = MedicationFilter(request.GET, queryset=medication_list)
+    return render(request, 'core/clinic_report.html',
+         {'page_user': page_user, 'filter': medication_filter
+         })
 
 @login_required
 def settings(request):
@@ -325,3 +340,4 @@ def registration(request):
     else:
         form = SignUpStep1(instance=user)
     return render(request, 'core/first_sign_up.html', {'form': form})
+
