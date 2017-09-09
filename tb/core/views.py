@@ -292,6 +292,8 @@ def medicationExport(request):
     response['Content-Disposition'] = 'attachment; filename="medications.csv"'
     return response
 
+#On this view, change the Admin(0) to show all patients. Then make the last first_name
+#of the patient a link that will then allow them to "login" as the Patient and view the patient's information
 @login_required
 def medication(request):
     user = request.user
@@ -316,6 +318,75 @@ def medication(request):
         active_medications = MedicationTime.get_active_medications()
         overdue_medications = MedicationTime.get_overdue_medications()
         paginator = Paginator(medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
+@login_required
+def medication_overdue(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    user_type = int(page_user.profile.user_type)
+    if user_type == 0:
+        medications = Medication.get_medications()
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(overdue_medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
+    else:
+        medications = Medication.get_medications().filter(user=user)
+        active_medications = MedicationTime.get_active_medications().filter(user=user)
+        overdue_medications = MedicationTime.get_overdue_medications().filter(user=user)
+        paginator = Paginator(overdue_medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
+
+@login_required
+def medication_active(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    user_type = int(page_user.profile.user_type)
+    if user_type == 0:
+        medications = Medication.get_medications()
+        active_medications = MedicationTime.get_active_medications()
+        overdue_medications = MedicationTime.get_overdue_medications()
+        paginator = Paginator(active_medications, 10)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+
+    else:
+        medications = Medication.get_medications().filter(user=user)
+        active_medications = MedicationTime.get_active_medications().filter(user=user)
+        overdue_medications = MedicationTime.get_overdue_medications().filter(user=user)
+        paginator = Paginator(active_medications, 10)
         page = request.GET.get('page')
         try:
             meds = paginator.page(page)
