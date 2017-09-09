@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'import_export',
     'tablib',
+    'sendgrid',
     
 ]
 
@@ -139,6 +140,15 @@ TAGGIT_CASE_INSENSITIVE = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+##########################
+##### Sendgrid Email #####
+##########################
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = False
 
 
 ##########################

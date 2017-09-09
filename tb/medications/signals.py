@@ -157,7 +157,7 @@ def request_medication_refill(sender, instance, created, **kwargs):
 			###########################
 
 
-		if count > 5:
+		if count < 5:
 			email = 'stemado@outlook.com'
 			subject = 'URGENT: Rx Refill Request: ' + str(med.user)
 			content = "Patient: " + str(med.user) + "needs Medication " + str(med.medicationName) + " refilled. Remaining Pill Count: " + str(med.medicationQuantity)

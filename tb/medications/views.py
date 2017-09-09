@@ -138,7 +138,7 @@ def createMedication(request):
             medication.medicationSlug = form.cleaned_data.get('medicationSlug')
             medication.medicationTimeSchedule = form.cleaned_data.get('medicationTimeSchedule')
             medication.save()
-            return redirect('medications')
+            return redirect('medication')
     else:
         if request.user.profile.user_type == 0:
             form = MedicationForm(initial={'user': user})
