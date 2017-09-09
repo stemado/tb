@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'formtools',
     'explorer',
     'django_tables2',
+    'crispy_forms',
     
 ]
 
@@ -132,6 +133,8 @@ FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 TAGGIT_CASE_INSENSITIVE = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 ##########################
 ### Twilio Credentials ###
