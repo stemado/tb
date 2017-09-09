@@ -32,6 +32,7 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 from reportlab.lib import colors
 from django.contrib.auth.models import User
 
+
 #DELETE THIS AFTER TWILIO TESTING#
 # from django.views.decorators.csrf import csrf_exempt
 # from django_twilio.decorators import twilio_view
@@ -112,6 +113,8 @@ def medication(request, id):
     except EmptyPage:
         meds = paginator.page(paginator.num_pages)
     return render(request, 'medications/medication.html', {'medication': medication, 'time': time, 'meds': meds})
+
+
 
 #Need to add conditional logic to separate who the user is.
 #If it is the Admin (request.user.profile.user_type == 0) creating the medication, then we want them to choose who the patient is in the patient field

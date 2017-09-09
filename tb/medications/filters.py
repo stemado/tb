@@ -5,4 +5,4 @@ from tb.medications.models import Medication
 class MedicationFilter(django_filters.FilterSet):
     class Meta:
         model = Medication
-        fields = ['medicationName', 'medicationQuantity' ]
+        fields = ['medicationName', 'patient' ]

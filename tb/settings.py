@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'explorer',
     'django_tables2',
     'crispy_forms',
+    'import_export',
+    'tablib',
     
 ]
 
@@ -135,6 +137,9 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 TAGGIT_CASE_INSENSITIVE = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 
 ##########################
 ### Twilio Credentials ###

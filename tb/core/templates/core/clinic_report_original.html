@@ -30,6 +30,30 @@
                 <a href="#"><span class="new-posts"></span> Current Medication</a>
             </div>
             <ul class="stream">
+                            <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
+                        <a href="#" class="btn btn-danger" role="button">
+                <strong>Overdue</strong>
+                <br>
+                <span class="badge">{{ active_medications.count }}</span>
+            </a>
+                        <a href="#" class="btn btn-success" role="button">
+                <strong>Active</strong>
+                <br>
+                <span class="badge">{{ overdue_medications.count }}</span>
+            </a>
+                        <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
+                <strong>Add</strong>
+                <br>
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+                        <a href="{% url 'export' %}" class="btn btn-danger" role="button">
+                <strong>Export</strong>
+                <br>
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+                    </div>
+                </div>
                 <hr>
                 <div class="row">
                     <table class="table table-striped">

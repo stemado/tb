@@ -18,8 +18,10 @@ from PIL import Image
 from django_filters.views import FilterView
 from tb.medications.filters import MedicationFilter
 from django_tables2.export.views import ExportMixin
-
-
+from tb.core.resources import MedicationResource, PatientResource
+from django.http import HttpResponse
+from tablib import Dataset
+from import_export import resources
 
 def home(request):
     if request.user.is_authenticated():
@@ -94,7 +96,7 @@ def clinicReport(request):
          })
     
 @login_required
-def exportClinitReport(request):
+def exportClinicReport(request):
     user = request.user
     page_user = get_object_or_404(User, username=user.username)
     medication_list = Medication.objects.all()
@@ -102,6 +104,30 @@ def exportClinitReport(request):
     return render(request, 'core/clinic_report.html',
          {'page_user': page_user, 'filter': medication_filter
          })
+
+@login_required
+def importPatients(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    if request.method == 'POST':
+        patient_resource = PatientResource()
+        dataset = Dataset()
+        new_patients = request.FILES['myfile']
+
+        imported_data = dataset.load(new_patients.read())
+        result = patient_resource.import_data(dataset, dry_run=True)
+
+        if not result.has_errors():
+            patient_resource.import_data(dataset, dry_run=False)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your data was imported successfully!')
+        else:
+            messages.add_message(request,
+                                 messages.WARNING,
+                                 'Uh-oh! Your data was unable to be imported!')
+
+    return render(request, 'core/import.html', {'page_user': page_user})
 
 @login_required
 def settings(request):
@@ -257,6 +283,14 @@ def save_uploaded_picture(request):
     return redirect('/settings/picture/')
 
 
+#Export Medication Records
+@login_required
+def medicationExport(request):
+    medication_resource = MedicationResource()
+    dataset = medication_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="medications.csv"'
+    return response
 
 @login_required
 def medication(request):
@@ -312,7 +346,7 @@ def create_medication(request):
             medication.save()
             return redirect('medication')
     else:
-        form = MedicationForm(initial={'user': user})
+        form = MedicationForm(initial={'patient': user})
     return render(request, 'settings/create.html', {'form': form})
 
 @login_required
