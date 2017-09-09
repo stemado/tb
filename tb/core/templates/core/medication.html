@@ -35,12 +35,12 @@
                         <a href="{% url 'medication_overdue' %}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
-                <span class="badge">{{ active_medications.count }}</span>
+                <span class="badge">{{ overdue_medications.count }}</span>
             </a>
                         <a href="{% url 'medication_active' %}" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
-                <span class="badge">{{ overdue_medications.count }}</span>
+                <span class="badge">{{ active_medications.count }}</span>
             </a>
                         <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
                 <strong>Add</strong>
