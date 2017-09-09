@@ -16,7 +16,7 @@
 <div class="profile">
     <div class="row">
         <div class="col-md-3 user-profile">
-            <!-- <img src="{{ page_user.profile.get_picture }}" class="picture"> -->
+            <img src="{{ page_user.profile.get_picture }}" class="picture">
             <ul>
                 {% if page_user.profile.job_title %}
                 <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
@@ -58,7 +58,7 @@
                             <th><strong><div style="width: 100px">Patient</div></strong></th>
                             <th><strong><div id="two">Medication</div></strong></th>
                             <th><strong><div id="three">Time Due</div></strong></th>
-                            <th><strong><div id="four">Date Due</div></strong></th>
+                            <th><strong><div id="four">Date Given</div></strong></th>
                             <th><strong><div id="five">Phone #</div></strong></th>
                             <th><strong><div id="five">Pill Count</div></strong></th>
                         </tr>
@@ -70,12 +70,16 @@
                             <td>
                                 <div id="one">{{ med.medicationName }}</div>
                             </td>
+                            {% for time in med.medicationtime_set.all %}
                             <td>
-                                <div id="two">(TimeDue)</div>
-                            </td>
+
+                                <div id="two">{{ time.timeDue }}</div>
+                            
+                            </td> 
                             <td>
-                                <div id="three">(DateDue)</div>
+                                <div id="three">{{ time.timeGiven }}</div>
                             </td>
+                            {% endfor %}
                             <td>
                                 <div id="five">{{med.user.mobilenumber }}</div>
                             </td>

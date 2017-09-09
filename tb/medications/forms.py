@@ -33,6 +33,9 @@ class MedicationForm(forms.ModelForm):
     #     widget=forms.TextInput(attrs={'class': 'form-control medicationTime'}),
     #     max_length=30,
     #     required=False)
+    medicationStartDate = forms.DateField(
+        widget=forms.TextInput(
+            attrs={'type': 'date'}))
 
     class Meta:
         model = Medication
