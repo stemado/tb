@@ -349,7 +349,7 @@ def medication_overdue(request):
 
     else:
         medications = Medication.get_medications().filter(user=user)
-        timeId = medications.id
+        timeId = medications_id
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=timeId)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=timeId)
         paginator = Paginator(overdue_medications, 10)
@@ -385,7 +385,7 @@ def medication_active(request):
 
     else:
         medications = Medication.get_medications().filter(user=user)
-        timeId = medications.id
+        timeId = medications_id
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=timeId)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=timeId)
         paginator = Paginator(active_medications, 10)
