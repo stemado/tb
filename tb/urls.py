@@ -41,6 +41,7 @@ urlpatterns = [
         name='check_notifications'),
 	url(r'^search/$', search_views.search, name='search'),
     url(r'^profile/$', core_views.profile, name='profile'),
+    url(r'^profile/patient/$', core_views.patients, name='patients'),
     url(r'^medication/$', core_views.medication, name='medication'),
     url(r'^medication/overdue/$', core_views.medication_overdue, name='medication_overdue'),
     url(r'^medication/active/$', core_views.medication_active, name='medication_active'),

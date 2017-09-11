@@ -17,8 +17,10 @@ from tb.authentication.models import Notification
 from PIL import Image
 from django_filters.views import FilterView
 from tb.medications.filters import MedicationFilter
+from tb.core.filters import PatientFilter
 from django_tables2.export.views import ExportMixin
 from tb.core.resources import MedicationResource, PatientResource
+
 from django.http import HttpResponse
 from tablib import Dataset
 from import_export import resources
@@ -41,6 +43,16 @@ def home(request):
             })
     else:
         return render(request, 'core/cover.html')
+
+@login_required
+def patients(request):
+    user = request.user
+    page_user = get_object_or_404(User, username=user.username)
+    patient_list = User.profile_set.filter(user_type='1')
+    patient_filter = PatientFilter(request.GET, queryset=patient_list)
+    return render(request, 'core/clinic_report.html',
+         {'page_user': page_user, 'filter': patient_filter
+         })
 
 
 @login_required
@@ -145,6 +157,7 @@ def settings(request):
             user.profile.zipcode = form.cleaned_data.get('zipcode')
             user.profile.phonenumber = form.cleaned_data.get('phonenumber')
             user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
+            user.profile.user_type = form.cleaned_data.get('user_type')
             user.save()
             messages.add_message(request,
                                  messages.SUCCESS,
@@ -179,6 +192,7 @@ def edit_profile(request):
             user.profile.zipcode = form.cleaned_data.get('zipcode')
             user.profile.phonenumber = form.cleaned_data.get('phonenumber')
             user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
+            user.profile.user_type = form.cleaned_data.get('user_type')
             user.save()
             messages.add_message(request,
                                  messages.SUCCESS,

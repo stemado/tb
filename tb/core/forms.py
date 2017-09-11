@@ -9,6 +9,7 @@ class ProfileForm(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
     def __init__(self, *args, **kwargs):
+
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs['disabled'] = True
         self.fields['last_name'].widget.attrs['disabled'] = True
@@ -26,7 +27,7 @@ class ProfileForm(forms.ModelForm):
         self.fields['smsnotify'].widget.attrs['disabled'] = True
         self.fields['emailnotify'].widget.attrs['disabled'] = True
 
-
+    USER_CHOICES=(('0', 'Administrator'),('1', 'Patient'))
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -73,10 +74,7 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-    user_type = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
-        required=False)
+    user_type = forms.ChoiceField(choices=USER_CHOICES)
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
@@ -97,9 +95,12 @@ class ProfileForm(forms.ModelForm):
 class EditProfileForm(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
+
+    USER_CHOICES=(('0', 'Administrator'),('1', 'Patient'))
+
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].widget.attrs['disabled'] = True
+        # self.fields['user_type'].widget.attrs['disabled'] = True
         self.fields['pinnumber'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
@@ -147,10 +148,7 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-    user_type = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
-        required=False)
+    user_type = forms.ChoiceField(choices=USER_CHOICES)
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
@@ -174,6 +172,9 @@ class EditProfileForm(forms.ModelForm):
 class SignUpStep1(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
+
+    USER_CHOICES=(('0', 'Administrator'),('1', 'Patient'))
+
     def __init__(self, *args, **kwargs):
         super(SignUpStep1, self).__init__(*args, **kwargs)
         self.fields['user_type'].widget.attrs['disabled'] = True
@@ -223,10 +224,7 @@ class SignUpStep1(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-    user_type = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
-        required=False)
+    user_type = forms.ChoiceField(choices=USER_CHOICES)
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
