@@ -28,7 +28,7 @@ class Profile(models.Model):
     pinnumber = models.CharField(max_length=4, unique=True, null=True)
     emailnotify = models.NullBooleanField(default=True, blank=True)
     smsnotify = models.NullBooleanField(default=True, blank=True)
-    user_type = models.CharField(max_length=20, default=1, choices=AUTH_CHOICES)
+    user_type = models.CharField(max_length=20, default='Patient', choices=AUTH_CHOICES)
 
 
     class Meta:
