@@ -14,7 +14,7 @@ from tb.activities.models import Notification
 @python_2_unicode_compatible
 class Profile(models.Model):
 
-    AUTH_CHOICES = ((0, 'Administrator'), (1, 'Patient'))
+    AUTH_CHOICES = ((0, 0), (1, 1))
 
     user = models.OneToOneField(User)
     city = models.CharField(max_length=20, null=True, blank=True)
