@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 import django_filters
+from tb.authentication.models import Profile
 
 class PatientFilter(django_filters.FilterSet):
     class Meta:
-        model = User
+        model = Profile
         fields = {
-            'first_name': ['contains'], 
-        	'last_name': ['contains'],
-        	'email': ['contains'], 
+            'id': ['contains'], 
         	}

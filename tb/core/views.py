@@ -13,7 +13,7 @@ from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, Sign
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
-from tb.authentication.models import Notification
+from tb.authentication.models import Notification, Profile
 from PIL import Image
 from django_filters.views import FilterView
 from tb.medications.filters import MedicationFilter
@@ -48,9 +48,9 @@ def home(request):
 def patients(request):
     user = request.user
     page_user = get_object_or_404(User, username=user.username)
-    patient_list = User.profile_set.filter(user_type='1')
+    patient_list = Profile.objects.filter()
     patient_filter = PatientFilter(request.GET, queryset=patient_list)
-    return render(request, 'core/clinic_report.html',
+    return render(request, 'core/patients.html',
          {'page_user': page_user, 'filter': patient_filter
          })
 
