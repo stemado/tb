@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'explorer',
     'django_tables2',
     'crispy_forms',
+    'django_filters',
     'import_export',
     'tablib',
     'sendgrid',
