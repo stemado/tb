@@ -166,7 +166,8 @@ def editMedication(request, id):
 
 @login_required
 def acceptRefuse(request, medication, rx):
-    r = Medication.objects.filter(id=rx).values('medicationUser_id')
+    user = request.user
+    r = Medication.objects.filter(id=rx).values('user_id')
     resident = get_object_or_404(User, pk=r)
     date = datetime.now().today()
     if request.method == 'POST':
@@ -175,7 +176,7 @@ def acceptRefuse(request, medication, rx):
             status = form.save()
             status.save()
 
-            return redirect('/residents/' + str(user.pk) + '/')
+            return redirect('medication')
     else:
         form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDate': date })
     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})

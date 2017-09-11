@@ -362,9 +362,9 @@ def medication_overdue(request):
         return render(request, 'core/medication_overdue.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
     else:
-        medications = Medication.get_medications().filter(user=user)
-        timeId = medications_id
-        active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=timeId)
+        medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
+        timeID = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
+        active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications.id)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=timeId)
         paginator = Paginator(overdue_medications, 10)
         page = request.GET.get('page')

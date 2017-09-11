@@ -72,10 +72,10 @@
                         {% for med in meds %}
                         <tr>
                             <td>
-                                <div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div>
+                                <div style="width: 100px"><a href="#">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
                             </td>
                             <td>
-                                <div id="one">{{ med.medicationName }}</div>
+                                <div id="one"><a href="/medications/{{med.id}}/">{{ med.medicationName }}</a></div>
                             </td>
                             <td>
                                 <div id="two">(TimeDue)</div>
