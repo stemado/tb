@@ -7,4 +7,5 @@ class PatientFilter(django_filters.FilterSet):
         model = Profile
         fields = {
             'id': ['contains'], 
+        	'user': ['exact'], 
         	}

@@ -42,17 +42,22 @@
 
                             <th><strong><div id="five">Phone #</div></strong></th>
                             <th><strong><div id="five">Email</div></strong></th>
+                            <th><strong><div id="six">Login</div></strong></th>
                         </tr>
                         {% for patient in filter.qs %}
                         <tr>
                             <td>
-                                <div style="width: 100px"><a href="#">{{ patient.user.first_name }} {{ patient.user.last_name }}</a></div>
+                                <div style="width: 100px"><strong>{{ patient.first_name }} {{ patient.user.last_name }}</strong></div>
                             </td>
                             <td>
                                 <div id="five">{{ patient.mobilenumber }}</div>
                             </td>
                             <td>
                                 <div id="six">{{ patient.email }}</div>
+                            </td>
+                            <td>
+                                <a href="{% url 'patient_medication' patient.id %}" class="btn btn-info" role="button">
+                                <span>Login As</span>
                             </td>
                         </tr>
                         {% endfor %}

@@ -1,0 +1,103 @@
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %}{{ page_user.profile.get_screen_name }}{% endblock %} {% block head %}
+ {% load django_tables2 %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+<link href="{% static 'css/feeds.css' %}" rel="stylesheet">
+<script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
+<script src="{% static 'js/feeds.js' %}"></script>
+{% endblock head %} {% block main %}
+<div class="page-header">
+    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}({{ page_user.username }}){% endif %}</h1>
+</div>
+<div class="profile">
+    <div class="row">
+        <div class="col-md-3 user-profile">
+            <img src="{{ page_user.profile.get_picture }}" class="picture">
+            <ul>
+                {% if page_user.profile.job_title %}
+                <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
+                {% endif %} {% if page_user.profile.location %}
+                <li><span class="glyphicon glyphicon-map-marker"></span> {{ page_user.profile.location }}</li>
+                {% endif %} {% if page_user.profile.url %}
+                <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
+                {% endif %}
+            </ul>
+            {% include 'core/partial_settings_menu_2.html' with active='medication' %}
+
+        </div>
+        <div class="col-md-9">
+            <h4>{% trans 'Medication for' %} {{ page_user.profile.get_screen_name }}</h4>
+            <div class="stream-update">
+                <a href="#"><span class="new-posts"></span> Current Medication</a>
+            </div>
+            <ul class="stream">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
+                        <a href="{% url 'medication_overdue' %}" class="btn btn-danger" role="button">
+                <strong>Overdue</strong>
+                <br>
+                <span class="badge">{{ overdue_medications.count }}</span>
+            </a>
+                        <a href="{% url 'medication_active' %}" class="btn btn-success" role="button">
+                <strong>Active</strong>
+                <br>
+                <span class="badge">{{ active_medications.count }}</span>
+            </a>
+                        <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
+                <strong>Add</strong>
+                <br>
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+            {% if page_user.profile.user_type == '0' %}
+                        <a href="{% url 'export' %}" class="btn btn-danger" role="button">
+                <strong>Export</strong>
+                <br>
+                <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+            {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <table class="table">
+                        <tr>
+                            <th><strong><div style="width: 100px">Patient</div></strong></th>
+                            <th><strong><div id="two">Medication</div></strong></th>
+                            <th><strong><div id="three">Time Due</div></strong></th>
+                            <th><strong><div id="four">Date Due</div></strong></th>
+                            <th><strong><div id="five">Phone #</div></strong></th>
+                            <th><strong><div id="five">Pill Count</div></strong></th>
+                        </tr>
+                    </table>
+                    <table class="table table-striped">
+                        {% for med in meds %}
+                        <tr>
+                            <td>
+                                <div style="width: 100px"><a href="#">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
+                            </td>
+                            <td>
+                                <div id="one"><a href="/medications/{{med.id}}/">{{ med.medicationName }}</a></div>
+                            </td>
+                            <td>
+                                <div id="two">(TimeDue)</div>
+                            </td>
+                            <td>
+                                <div id="three">(DateDue)</div>
+                            </td>
+                            <td>
+                                <div id="five">{{med.user.profile.mobilenumber }}</div>
+                            </td>
+                            <td>
+                                <div id="six">{{ med.medicationQuantity }}</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </ul>
+            <div class="load">
+                <img src="{% static 'img/loading.gif' %}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
