@@ -328,8 +328,8 @@ def medication(request):
         return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
     else:
-        medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
-        medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+        medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
+        medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
         active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
         overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)     
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
@@ -355,7 +355,7 @@ def patient_medication(request, id):
     page_user = get_object_or_404(User, id=id)
     user_type = int(page_user.profile.user_type)
     medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
-    medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+    medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
     active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
     overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
     paginator = Paginator(medcount, 10)
@@ -390,8 +390,8 @@ def medication_overdue(request):
         return render(request, 'core/medication_overdue.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
     else:
-        medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
-        medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+        medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
+        medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
         active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
         overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
