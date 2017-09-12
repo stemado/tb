@@ -346,7 +346,10 @@ def medication(request):
         return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
     else:
-        medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')     
+        medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
+        medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+        active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
+        overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)     
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
         paginator = Paginator(medications, 10)
@@ -358,7 +361,7 @@ def medication(request):
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
 
-        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render(request, 'core/medication.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications, 'active_count': active_count, 'overdue_count': overdue_count})
 
 @login_required
 def medication_overdue(request):
@@ -381,6 +384,9 @@ def medication_overdue(request):
 
     else:
         medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
+        medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+        active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
+        overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
         paginator = Paginator(overdue_medications, 10)
@@ -392,7 +398,7 @@ def medication_overdue(request):
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
 
-        return render(request, 'core/medication_overdue.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render(request, 'core/medication_overdue.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications, 'active_count': active_count, 'overdue_count': overdue_count})
 
 
 @login_required
@@ -416,7 +422,9 @@ def medication_active(request):
 
     else:
         medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
-        timeId = medications_id
+        medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
+        active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
+        overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)
         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
         paginator = Paginator(active_medications, 10)
@@ -428,8 +436,7 @@ def medication_active(request):
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
 
-        return render(request, 'core/medication_active.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
-
+        return render(request, 'core/medication_active.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications, 'active_count': active_count, 'overdue_count': overdue_count})
 @login_required
 def create_medication(request):
     user = request.user
