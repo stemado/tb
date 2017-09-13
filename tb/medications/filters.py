@@ -6,7 +6,9 @@ class MedicationFilter(django_filters.FilterSet):
     class Meta:
         model = Medication
         fields = {
+            'medicationName': ['contains'],
             'medicationStartDate': ['exact'],
+            'medicationQuantity': ['exact'],
             'patient': ['contains'], 
-        	'medicationName': ['contains'], 
+ 
         	}

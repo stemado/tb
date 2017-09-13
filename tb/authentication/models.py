@@ -23,7 +23,7 @@ class Profile(models.Model):
     address1 = models.CharField(max_length=20, null=True, blank=True)
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
-    mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+    mobilenumber = models.CharField(max_length=20, null=True, blank=True, unique=True)
     pharmacy = models.CharField(max_length=20, null=True, blank=True)
     pinnumber = models.CharField(max_length=4, unique=True, null=True)
     emailnotify = models.NullBooleanField(default=True, blank=True)

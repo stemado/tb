@@ -101,7 +101,7 @@ def profile(request, username):
 def clinicReport(request):
     user = request.user
     page_user = get_object_or_404(User, username=user.username)
-    medication_list = Medication.objects.all()
+    medication_list = Medication.objects.select_related().all()
     medication_filter = MedicationFilter(request.GET, queryset=medication_list)
     return render(request, 'core/clinic_report.html',
          {'page_user': page_user, 'filter': medication_filter

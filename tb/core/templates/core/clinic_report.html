@@ -57,9 +57,8 @@
                         <tr>
                             <th><strong><div style="width: 100px">Patient</div></strong></th>
                             <th><strong><div id="two">Medication</div></strong></th>
-                            <th><strong><div id="three">Time Due</div></strong></th>
-                            <th><strong><div id="four">Date Given</div></strong></th>
-                            <th><strong><div id="five">Phone #</div></strong></th>
+                            <th><strong><div id="two">Phone #</div></strong></th>
+                            <th><strong><div id="two">Mobile #</div></strong></th>
                             <th><strong><div id="five">Pill Count</div></strong></th>
                         </tr>
                         {% for med in filter.qs %}
@@ -70,16 +69,10 @@
                             <td>
                                 <div id="one">{{ med.medicationName }}</div>
                             </td>
-                            {% for time in med.medicationtime_set.all %}
-                            <td>
 
-                                <div id="two">{{ time.timeDue }}</div>
-                            
-                            </td> 
                             <td>
-                                <div id="three">{{ time.timeGiven }}</div>
+                                <div id="five">{{med.user.phonenumber }}</div>
                             </td>
-                            {% endfor %}
                             <td>
                                 <div id="five">{{med.user.mobilenumber }}</div>
                             </td>
