@@ -11,6 +11,7 @@ from tb.feeds.models import Feed
 def search(request):
     if 'q' in request.GET:
         querystring = request.GET.get('q').strip()
+        print(querystring)
         if len(querystring) == 0:
             return redirect('/search/')
 

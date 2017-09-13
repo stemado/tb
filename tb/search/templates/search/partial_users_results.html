@@ -8,7 +8,7 @@
       <li username="{{ user.username }}">
         <h5>
           <img src="{{ user_result.profile.get_picture }}" class="result-user">
-          <a href="{% url 'profile' user_result.username %}">
+          <a href="{% url 'patient_medication' user_result.id %}">
             {{ user_result.profile.get_screen_name }}
             <small>({{ user_result.username }})</small>
           </a>

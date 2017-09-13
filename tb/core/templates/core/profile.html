@@ -40,6 +40,7 @@
           <a href="#"><span class="new-posts"></span> new posts</a>
         </div>
         <ul class="stream">
+        
           {% for feed in feeds %}
             {% include 'feeds/partial_feed.html' with feed=feed %}
           {% endfor %}
