@@ -101,8 +101,7 @@ function printpage() {
 <div style="padding:5px; width:100%; display:inline-table;">
         <table>
             <tr>
-                 <th><label for="startDate">MAR Month:</label>
-    <input name="startDate" id="startDate" class="date-picker" /></th>
+                 <th><label for="startDate">MAR Date: {{querystringTo}} - {{querystringFrom}}</label></th>
                 <th><small>Start/Stop Date:</small></th>
                <th><small>Facility Name</small></th>
             </tr>
@@ -118,17 +117,17 @@ function printpage() {
     <div id="left" class="step" style=" border: padding: 5px; width:20%; height: 5%; display:inline-table;">
         <table style="border-bottom: 1px;" class="medicationClass">
             <tr>
-                <td style="border: none;" width="20%"><strong>{{m.id}}</strong></td>
+                <td style="border: none;" width="20%"><strong>{{m.completionRx.medicationName}}</strong></td>
 
             </tr>
             <tr>
-                <td style="border: none;" width="20%">{{m.medicationDistribution}} Daily, {{m.medicationDosage}}</td>
+                <td style="border: none;" width="20%">{{m.completionRx.medicationDistribution}} Daily, {{m.completionRx.medicationDosage}}</td>
             </tr>
             <tr>
-                <td style="border: none;" width="20%">Physician Order:<small> {{m.medicationComment}}<small></td>
+                <td style="border: none;" width="20%">Physician Order:<small> {{m.completionRx.medicationComment}}<small></td>
             </tr>
             <tr>
-                <td style="border: none;" width="20%">Doses Left: {{m.medicationQuantity}}</td>
+                <td style="border: none;" width="20%">Doses Left: {{m.completionRx.medicationQuantity}}</td>
             </tr>
 
         </table>
@@ -173,23 +172,20 @@ function printpage() {
             <!-- This is a very cumbersome nested loop. The outerloop ("m for meds") but it does call the child object sets ("medicationtime_set") for
             the Medication (m in meds). This should generate a single query for the MedicationTime objects and (hopefully, but not likely) the MedicationCompletion model as well. 
             Note: |slice":5" can probably be removed. This was prior to pagination fully working (|slice:":X" is a Django template filter that limits how many records are returned from the queryset, which is not needed for my purpose since pagination takes a similar argument-->
-                {% for s in m.medicationtime_set.all|slice:":5" %}
-                <td><small>{{ s.timeDue }}</small></td>
 
-                {% for d in s.completion.all %}
+                <td><small>{{ m.completionMedication.timeDue }}</small></td>
+
   
-                {% if d.completionStatus == None %}
+                {% if m.completionStatus == None %}
                 <td></td>
-                {% elif d.completionStatus == True %}
+                {% elif m.completionStatus == True %}
                 <td><small><div id="{{m.medicationStartDate}}" style="font-size:70%">AK</small></div></td>
                 {% else %}
                 <td><i class="glyphicon glyphicon-unchecked"></i></td>
                 {%endif%}
 
-                 {% endfor %}
-            </tr>
 
-            {% endfor %}
+            </tr>
         </table>
     </div>
     <br>

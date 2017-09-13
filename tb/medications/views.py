@@ -198,9 +198,9 @@ def mar(request, mar_id):
         stringFrom = request.GET.get('from')
         stringDateTo = str.replace(stringTo, '/', '-')
         stringDateFrom = str.replace(stringFrom, '/', '-')
-        querystringTo = datetime.strptime(stringDateFrom, "%Y-%m-%d").date()
-        querystringFrom = datetime.strptime(stringDateTo, "%Y-%m-%d").date()
-        medication = MedicationCompletion.objects.select_related('completionMedication').filter(completionMedication_id=mar_id, completionDate__range=[querystringTo, querystringFrom])
+        querystringTo = datetime.strptime(stringDateTo, "%Y-%m-%d").date()
+        querystringFrom = datetime.strptime(stringDateFrom, "%Y-%m-%d").date()
+        medication = MedicationCompletion.objects.select_related('completionRx').filter(completionMedication_id=mar_id, completionDate__range=[querystringTo, querystringFrom])
         resident = request.user
         paginator = Paginator(medication, 5)
         page = request.GET.get('page')
@@ -210,7 +210,7 @@ def mar(request, mar_id):
             meds = paginator.page(1)
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
-        return render(request, 'medications/mar.html', {'medication': medication, 'resident': resident, 'meds': meds})
+        return render(request, 'medications/mar.html', {'medication': medication, 'resident': resident, 'meds': meds, 'querystringTo': querystringTo, 'querystringFrom': querystringFrom})
     else: 
         return redirect('/medications/')
 
