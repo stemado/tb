@@ -31,6 +31,8 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER 
 from reportlab.lib import colors
 from django.contrib.auth.models import User
+import string
+from django.utils.dateparse import parse_date
 
 
 #DELETE THIS AFTER TWILIO TESTING#
@@ -191,19 +193,28 @@ def deleteMedication(request, id):
 
 @login_required
 def mar(request, mar_id):
-    medication = Medication.objects.filter(medicationUser_id=mar_id).order_by("medicationName", "id")
-    resident = Resident.objects.filter(id=mar_id)[0]
-    paginator = Paginator(medication, 5)
-    page = request.GET.get('page')
-    try:
-        meds = paginator.page(page)
-    except PageNotAnInteger:
-        meds = paginator.page(1)
-    except EmptyPage:
-        meds = paginator.page(paginator.num_pages)
+    if 'to' and 'from' in request.GET:
+        stringTo = request.GET.get('to')
+        stringFrom = request.GET.get('from')
+        stringDateTo = str.replace(stringTo, '/', '-')
+        stringDateFrom = str.replace(stringFrom, '/', '-')
+        querystringTo = datetime.strptime(stringDateFrom, "%Y-%m-%d").date()
+        querystringFrom = datetime.strptime(stringDateTo, "%Y-%m-%d").date()
+        medication = MedicationCompletion.objects.select_related('completionMedication').filter(completionMedication_id=mar_id, completionDate__range=[querystringTo, querystringFrom])
+        resident = request.user
+        paginator = Paginator(medication, 5)
+        page = request.GET.get('page')
+        try:
+            meds = paginator.page(page)
+        except PageNotAnInteger:
+            meds = paginator.page(1)
+        except EmptyPage:
+            meds = paginator.page(paginator.num_pages)
+        return render(request, 'medications/mar.html', {'medication': medication, 'resident': resident, 'meds': meds})
+    else: 
+        return redirect('/medications/')
 
 
-    return render(request, 'medications/mar.html', {'medication': medication, 'resident': resident, 'meds': meds})
 
 class EditMedicationUpdate(UpdateWithInlinesView):
     model = Medication
