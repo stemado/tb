@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 import hashlib
@@ -33,12 +35,15 @@ from reportlab.lib import colors
 from django.contrib.auth.models import User
 import string
 from django.utils.dateparse import parse_date
+from tb.medications.serializer import MedicationSerializer
+from rest_framework import viewsets
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 
 
-#DELETE THIS AFTER TWILIO TESTING#
-# from django.views.decorators.csrf import csrf_exempt
-# from django_twilio.decorators import twilio_view
-# from twilio.twilml.messaging_response import MessaginResponse
 
 
 
@@ -57,8 +62,6 @@ def _active_medications(request, medications):
     return render(request, 'medications/active_medications.html', {
         'medications': medications
         })
-
-
 
 @login_required
 def medications(request):
@@ -251,5 +254,10 @@ def pdf_view(request):
 
     return response
 
-
-
+@api_view(['GET', 'POST'],)
+def medicationList(request, format=None):
+    if "id" in request.GET:
+        id = request.GET["id"]
+        medications = User.objects.filter(id=id)
+        serializer = MedicationSerializer(medications, many=True)
+        return Response(serializer.data, template_name='api_medications.html')

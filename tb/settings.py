@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'import_export',
     'tablib',
     'sendgrid',
+    'rest_framework',
+
     
 ]
 
