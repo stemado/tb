@@ -145,6 +145,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 ##########################
+####API REST Framework####
+##########################
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+
+##########################
 ##### Sendgrid Email #####
 ##########################
 EMAIL_HOST = 'smtp.sendgrid.net'

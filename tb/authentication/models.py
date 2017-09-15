@@ -180,6 +180,6 @@ class Patient(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
-    profile = models.ForeignKey(Profile)
+    profile = models.ForeignKey(Profile, null=True)
 
 
