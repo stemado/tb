@@ -170,7 +170,6 @@ post_save.connect(save_user_profile, sender=User)
 @python_2_unicode_compatible
 class Patient(models.Model):
 
-    patient_id = models.IntegerField(unique=True, null=False, blank=False)
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     email = models.CharField(max_length=50, null=True, blank=True)
@@ -181,5 +180,6 @@ class Patient(models.Model):
     address2 = models.CharField(max_length=20, null=True, blank=True)
     phonenumber = models.CharField(max_length=20, null=True, blank=True)
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
+    profile = models.ForeignKey(Profile)
 
 

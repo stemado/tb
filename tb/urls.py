@@ -3,11 +3,13 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
+from importlib import reload
 
 from tb.activities import views as activities_views
 from tb.authentication import views as tb_auth_views
 from tb.core import views as core_views
 from tb.search import views as search_views
+
 
 urlpatterns = [
 	url(r'^$', core_views.home, name='home'),
