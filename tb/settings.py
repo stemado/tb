@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'tb.activities',
+    'tb.api',
     'tb.authentication',
     'tb.core',
     'tb.medications',

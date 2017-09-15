@@ -25,6 +25,7 @@ from django.http import HttpResponse
 from tablib import Dataset
 from import_export import resources
 
+
 def home(request):
     if request.user.is_authenticated():
         user =request.user
