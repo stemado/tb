@@ -258,6 +258,6 @@ def pdf_view(request):
 def medicationList(request, format=None):
     if "id" in request.GET:
         id = request.GET["id"]
-        medications = User.objects.filter(id=id)
+        medications = Medication.objects.filter(user=id)
         serializer = MedicationSerializer(medications, many=True)
         return Response(serializer.data, template_name='api_medications.html')

@@ -4,5 +4,5 @@ from tb.medications.models import Medication
 
 class MedicationSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = User
-		fields = ('id', 'first_name', 'last_name', 'email')
+		model = Medication
+		fields = ('id', 'user', 'medicationName', 'medicationQuantity', 'medicationFrequency', 'medicationTimeSchedule', 'medicationTimeSchedule2', 'medicationTimeSchedule3', 'medicationTimeSchedule4', 'medicationTimeSchedule5')
