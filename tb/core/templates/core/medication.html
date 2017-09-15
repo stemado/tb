@@ -42,12 +42,14 @@
                 <br>
                 <span class="badge">{{ active_medications.count }}</span>
             </a>
-                        <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
+            {% if page_user.profile.user_type == '1' %}
+                        <a href="{% url 'createMedication' page_user.id %}" class="btn btn-info" role="button">
                 <strong>Add</strong>
                 <br>
                 <span class="glyphicon glyphicon-plus"></span>
             </a>
-            
+            {% endif %}
+
             {% if page_user.profile.user_type == '0' %}
                         <a href="{% url 'export' %}" class="btn btn-danger" role="button">
                 <strong>Export</strong>
@@ -57,6 +59,7 @@
             {% endif %}
                     </div>
                 </div>
+
                 <hr>
                 <div class="row">
                     <table class="table">
@@ -73,7 +76,7 @@
                         {% for med in meds %}
                         <tr>
                             <td>
-                                <div style="width: 100px"><a href="#">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
+                                <div style="width: 100px"><a href="{% url 'patient_medication' med.user.id %}">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
                             </td>
                             <td>
                                 <div id="one"><a href="/medications/{{med.id}}/">{{ med.medicationName }}</a></div>

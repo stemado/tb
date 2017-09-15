@@ -352,8 +352,9 @@ def medication(request):
 
 @login_required
 def patient_medication(request, id):
-    page_user = get_object_or_404(User, id=id)
-    user_type = int(page_user.profile.user_type)
+    user = request.user
+    page_user = get_object_or_404(User, pk=id)
+    user_type = page_user.profile.user_type
     medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
     medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
     active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
@@ -371,10 +372,10 @@ def patient_medication(request, id):
 
 
 @login_required
-def medication_overdue(request):
+def medication_overdue(request, id):
     user = request.user
-    page_user = get_object_or_404(User, username=user.username)
-    user_type = int(page_user.profile.user_type)
+    page_user = get_object_or_404(User, pk=id)
+    user_type = page_user.profile.user_type
     if user_type == 0:
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()
@@ -409,10 +410,10 @@ def medication_overdue(request):
 
 
 @login_required
-def medication_active(request):
+def medication_active(request, id):
     user = request.user
-    page_user = get_object_or_404(User, username=user.username)
-    user_type = int(page_user.profile.user_type)
+    page_user = get_object_or_404(User, pk=id)
+    user_type = page_user.profile.user_type
     if user_type == 0:
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()

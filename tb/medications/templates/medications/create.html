@@ -19,7 +19,7 @@
     <li><a href="{% url 'medications' %}">{% trans 'Medications' %}</a></li>
     <li class="active">{% trans 'Create Medication' %}</li>
   </ol>
-  <form action="{% url 'createMedication' %}" method="post" class="form">
+  <form action="{% url 'createMedication' user.id %}" method="post" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
    

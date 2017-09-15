@@ -5,7 +5,7 @@ from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineForm
 # app_name = 'medications'
 urlpatterns = [
     url(r'^$', views.active_medications, name='activeMedications'),
-    url(r'^create_medication/$', views.createMedication, name='createMedication'),
+    url(r'^create_medication/(?P<id>[0-9]+)/$', views.createMedication, name='createMedication'),
     url(r'^all_medications/$', views.medications, name='medications'),
     url(r'^overdue_medications/$', views.overdue_medications, name='overdueMedications'),
     url(r'^test/$', views.EditMedicationUpdate.as_view(), name='testMedication'),

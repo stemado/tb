@@ -122,8 +122,8 @@ def medication(request, id):
 #If it is the Admin (request.user.profile.user_type == 0) creating the medication, then we want them to choose who the patient is in the patient field
 #If it is the Patient creating the medication, we want the do not want the patient field populated since the patient_user is the user and the patient.
 @login_required
-def createMedication(request):
-    user = request.user
+def createMedication(request, id):
+    user = get_object_or_404(User, pk=id)
 
     if request.method == 'POST':
         form = MedicationForm(request.POST)
@@ -200,9 +200,10 @@ def mar(request, mar_id):
         stringDateFrom = str.replace(stringFrom, '/', '-')
         querystringTo = datetime.strptime(stringDateTo, "%Y-%m-%d").date()
         querystringFrom = datetime.strptime(stringDateFrom, "%Y-%m-%d").date()
-        medication = MedicationCompletion.objects.select_related('completionRx').filter(completionMedication_id=mar_id, completionDate__range=[querystringTo, querystringFrom])
-        resident = request.user
-        paginator = Paginator(medication, 5)
+        med = Medication.objects.filter(user=mar_id)
+        medicationID = Medication.objects.filter(user=mar_id).values('id')
+        medication = MedicationCompletion.objects.select_related('completionRx').filter(completionRx_id__in=medicationID, completionDate__range=[querystringTo, querystringFrom])
+        paginator = Paginator(med, 5)
         page = request.GET.get('page')
         try:
             meds = paginator.page(page)
@@ -210,9 +211,9 @@ def mar(request, mar_id):
             meds = paginator.page(1)
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
-        return render(request, 'medications/mar.html', {'medication': medication, 'resident': resident, 'meds': meds, 'querystringTo': querystringTo, 'querystringFrom': querystringFrom})
+        return render(request, 'medications/mar.html', {'medication': medication, 'meds': meds, 'querystringTo': querystringTo, 'querystringFrom': querystringFrom})
     else: 
-        return redirect('/medications/')
+        return redirect('/medication/')
 
 
 

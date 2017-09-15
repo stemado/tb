@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-                    <form class="navbar-form navbar-left" role="search" action="{% url 'mar' medication.id %}">
+                    <form class="navbar-form navbar-left" role="search" action="{% url 'mar' medication.user.id %}">
                     <h4>Generate MAR</h4>
                         <div class="input-group" style="width:410px">
 
@@ -56,11 +56,11 @@
                                 <td>{{ medication.medicationName }}</td>
                                 <td>{{ m.completionStatus }}</td>
                                 <td>{{ m.completionDate }}</td>
-                                <td>{{ m.completionTime }}</td>
+                                <td>{{ m.completionTime|date:"h:i A" }}</td>
                                 {% if m.completionDue == None %}
                                 <td>PRN</td>
                                 {% else %}
-                                <td>{{ m.completionDue }}</td>
+                                <td>{{ m.completionDue|date:"h:i A" }}</td>
                                 {% endif %}
                                 <td>{{ m.completionMissed }}</td>
                                 <td>{{ m.completionNote }}</td>
