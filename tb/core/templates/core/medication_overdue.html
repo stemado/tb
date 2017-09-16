@@ -32,17 +32,17 @@
             <ul class="stream">
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
-                        <a href="{% url 'medication_overdue' %}" class="btn btn-danger" role="button">
+                        <a href="{% url 'medication_overdue' page_user.id %}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
                 <span class="badge">{{ overdue_medications.count }}</span>
             </a>
-                        <a href="{% url 'medication_active' %}" class="btn btn-success" role="button">
+                        <a href="{% url 'medication_active' page_user.id %}" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
                 <span class="badge">{{ active_medications.count }}</span>
             </a>
-                        <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
+                        <a href="{% url 'createMedication' page_user.id %}" class="btn btn-info" role="button">
                 <strong>Add</strong>
                 <br>
                 <span class="glyphicon glyphicon-plus"></span>
@@ -76,7 +76,7 @@
                     <p>TimeRecord ID: {{ overdue.id }} </p>
                     <p>Medication ID: {{ overdue.timeMedication_id }} </p> -->
                     <p>
-                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id %}" type=POST>
+                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id med.timeDue %}" type=POST>
                         <button type="submit" class="btn btn-success">Give</button>
                     </form>
                     <!-- Start partial history mar if needed -->
@@ -85,7 +85,7 @@
             </div>
         </div>
         {% empty %}
-        <h4 class="no-data">{% trans 'There are no medications due at this time' %}. <a href="{% url 'medication' %}">{% trans 'View All Medications' %}</a></h4> 
+        <h4 class="no-data">{% trans 'There are no overdue medications due at this time' %}. <a href="{% url 'medication' %}">{% trans 'View All Medications' %}</a></h4> 
         {% endfor %}
 
                 </div>

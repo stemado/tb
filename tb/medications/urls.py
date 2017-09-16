@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^testcsv/$', views.csv_view, name='csvView'),
     url(r'^mar/(?P<mar_id>[0-9]+)/$', views.mar, name='mar'),
     url(r'^edit_medication/(?P<id>[0-9]+)/$', views.editMedication, name='editMedication'),
-    url(r'^status/(?P<medication>[0-9]+)/(?P<rx>[0-9]+)/$', views.acceptRefuse, name='acceptRefuse'),
+    url(r'^status/(?P<medication>[0-9]+)/(?P<rx>[0-9]+)/(?P<med_time>[0-9]+)/$', views.acceptRefuse, name='acceptRefuse'),
     url(r'^delete/(?P<id>\d+)/$', views.deleteMedication, name='deleteMedication'),
     # url(r'^sms/$', views.sms, name='sms'),
 

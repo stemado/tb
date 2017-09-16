@@ -33,12 +33,12 @@
 
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
-                        <a href="{% url 'medication_overdue' %}" class="btn btn-danger" role="button">
+                        <a href="{% url 'medication_overdue' page_user.id %}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
                 <span class="badge">{{ overdue_count.count }}</span>
             </a>
-                        <a href="{% url 'medication_active' %}" class="btn btn-success" role="button">
+                        <a href="{% url 'medication_active' page_user.id %}" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
                 <span class="badge">{{ active_count.count }}</span>
@@ -57,18 +57,6 @@
             {% endif %}
                     </div>
                 </div>
-<!--                                                 <form class="navbar-form navbar-left" role="search" action="{% url 'mar' page_user.id %}">
-                    <h4>Generate MAR</h4>
-                        <div class="input-group" style="width:410px">
-
-                            <input type="date" class="form-control" name="to" placeholder="START (YYYY/MM/DD)">
-                            <span class="input-group-addon">-</span>
-                            <input type="date" class="form-control" name="from" placeholder="END (YYYY/MM/DD)">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                            </span>
-                        </div>
-                    </form> -->
                 <hr>
                 <div class="row">
                     <table class="table">

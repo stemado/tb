@@ -32,17 +32,17 @@
             <ul class="stream">
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group btn-group-lg btn-group-justified btn-group-fill-height">
-                        <a href="{% url 'medication_overdue' %}" class="btn btn-danger" role="button">
+                        <a href="{% url 'medication_overdue' page_user.id%}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
-                <span class="badge">{{ active_medications.count }}</span>
+                <span class="badge">{{ overdue_count.count }}</span>
             </a>
-                        <a href="{% url 'medication_active' %}" class="btn btn-success" role="button">
+                        <a href="{% url 'medication_active' page_user.id%}" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
-                <span class="badge">{{ overdue_medications.count }}</span>
+                <span class="badge">{{ active_count.count }}</span>
             </a>
-                        <a href="{% url 'createMedication' %}" class="btn btn-info" role="button">
+                        <a href="{% url 'createMedication' page_user.id %}" class="btn btn-info" role="button">
                 <strong>Add</strong>
                 <br>
                 <span class="glyphicon glyphicon-plus"></span>
@@ -57,42 +57,35 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <table class="table">
-                        <tr>
-                            <th><strong><div style="width: 100px">Patient</div></strong></th>
-                            <th><strong><div id="two">Medication</div></strong></th>
-                            <th><strong><div id="three">Time Due</div></strong></th>
-                            <th><strong><div id="four">Date Due</div></strong></th>
-                            <th><strong><div id="five">Phone #</div></strong></th>
-                            <th><strong><div id="five">Pill Count</div></strong></th>
-                        </tr>
-                    </table>
-                    <table class="table table-striped">
-                        {% for med in meds %}
-                        <tr>
-                            <td>
-                                <div style="width: 100px">{{ med.user.first_name }} {{ med.user.last_name }}</div>
-                            </td>
-                            <td>
-                                <div id="one">{{ med.medicationName }}</div>
-                            </td>
-                            <td>
-                                <div id="two">(TimeDue)</div>
-                            </td>
-                            <td>
-                                <div id="three">(DateDue)</div>
-                            </td>
-                            <td>
-                                <div id="five">{{med.user.profile.mobilenumber }}</div>
-                            </td>
-                            <td>
-                                <div id="six">{{ med.medicationQuantity }}</div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+                {% for med in meds %}
+                 <div class="col-md-4">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <img src="http://trybootcamp.vitorfs.com/static/img/user.png" style="width:20px">
+                    <a href="/residents/{{ med.medication.medicationResident_id }}">{{ med.timeMedication.user.first_name }} {{ med.timeMedication.user.last_name }}</a>
                 </div>
+                <div class="panel-body">
+                    <a href="/medications/{{ med.timeMedication_id }}"><strong>Medication:</strong> {{ med.timeMedication.medicationName }}</a>
+                    <p><a href="/medications/{{ med.timeMedication_id }}" class="center-text"><strong>History</strong></a></p>
+                    
+                    <p><strong>Due:</strong> {{ med.timeDue }}</p>
+                    <p><strong>PO:</strong> {{ med.timeMedication.medicationComment }}
+                    <p><strong>Count:</strong> {{ med.timeMedication.medicationQuantity }}</p>
+<!--                     <p><strong>Given Today:</strong> {{ overdue.timeGivenStatus }}</p>
+                    <p>TimeRecord ID: {{ overdue.id }} </p>
+                    <p>Medication ID: {{ overdue.timeMedication_id }} </p> -->
+                    <p>
+                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id med.timeDue %}" type=POST>
+                        <button type="submit" class="btn btn-success">Give</button>
+                    </form>
+                    <!-- Start partial history mar if needed -->
+                    <!-- End partial mar -->
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h4 class="no-data">{% trans 'There are no active medications due at this time' %}. <a href="{% url 'medication' %}">{% trans 'View All Medications' %}</a></h4> 
+        {% endfor %}
             </ul>
             <div class="load">
                 <img src="{% static 'img/loading.gif' %}">
