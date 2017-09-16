@@ -149,7 +149,10 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 ##########################
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    #Allows for SearchFilter (/?search=YourFieldAllowedInSettings...)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    #Paginate API Results to 10 presults per page
+    'PAGE_SIZE': 10
 }
 
 

@@ -53,10 +53,11 @@ class StatusForm(forms.ModelForm):
         super(StatusForm, self).__init__(*args, **kwargs)
         self.fields['completionRx'].widget.attrs['hidden'] = True
         self.fields['completionMedication'].widget.attrs['hidden'] = True
+        self.fields['completionMedication'].widget.attrs['hidden'] = True
 
     class Meta:
         model = MedicationCompletion
-        fields = ['completionStatus', 'completionRx', 'completionNote', 'completionMedication', 'completionDate']
+        fields = ['completionStatus', 'completionRx', 'completionNote', 'completionMedication', 'completionDate', 'completionDue']
 
 class MedicationStatusForm(forms.ModelForm):
 

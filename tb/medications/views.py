@@ -164,10 +164,12 @@ def editMedication(request, id):
     return render(request, 'medications/edit.html', {'form': form})
 
 @login_required
-def acceptRefuse(request, medication, rx, med_time):
+def acceptRefuse(request, medication, rx):
     user = request.user
-    r = Medication.objects.filter(id=rx).values('user_id')
-    resident = get_object_or_404(User, pk=r)
+    r = Medication.objects.filter(id=rx).values_list('user')
+    getMedTime = MedicationTime.objects.get(id=medication)
+    medtime = getMedTime.timeDue
+    resident = get_object_or_404(User, pk=1)
     date = datetime.now().today()
     if request.method == 'POST':
         form = StatusForm(request.POST)
@@ -177,7 +179,7 @@ def acceptRefuse(request, medication, rx, med_time):
 
             return redirect('medication')
     else:
-        form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDate': date, 'completionDue': med_time })
+        form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx,  })
     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
 
 
