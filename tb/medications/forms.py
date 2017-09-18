@@ -51,9 +51,31 @@ class MedicationForm(forms.ModelForm):
 class StatusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(StatusForm, self).__init__(*args, **kwargs)
-        self.fields['completionRx'].widget.attrs['hidden'] = True
-        self.fields['completionMedication'].widget.attrs['hidden'] = True
-        self.fields['completionMedication'].widget.attrs['hidden'] = True
+        self.fields['completionRx'].is_hidden = True
+        self.fields['completionMedication'].is_hidden = True
+
+
+    completionNote = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=75,
+        required=False)
+    completionRx = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control hidden'}),
+        max_length=30,
+        required=False)
+    completionMedication = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
+    completionDate = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
+    completionDue = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=9,
+        required=False)
+
 
     class Meta:
         model = MedicationCompletion

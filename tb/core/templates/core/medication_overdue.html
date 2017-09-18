@@ -35,12 +35,12 @@
                         <a href="{% url 'medication_overdue' page_user.id %}" class="btn btn-danger" role="button">
                 <strong>Overdue</strong>
                 <br>
-                <span class="badge">{{ overdue_medications.count }}</span>
+                <span class="badge">{{ overdue_count.count }}</span>
             </a>
-                        <a href="{% url 'medication_active' page_user.id %}" class="btn btn-success" role="button">
+                        <a href="{% url 'medication_active' page_user.id%}" class="btn btn-success" role="button">
                 <strong>Active</strong>
                 <br>
-                <span class="badge">{{ active_medications.count }}</span>
+                <span class="badge">{{ active_count.count }}</span>
             </a>
                         <a href="{% url 'createMedication' page_user.id %}" class="btn btn-info" role="button">
                 <strong>Add</strong>
@@ -76,7 +76,7 @@
                     <p>TimeRecord ID: {{ overdue.id }} </p>
                     <p>Medication ID: {{ overdue.timeMedication_id }} </p> -->
                     <p>
-                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id med.timeDue %}" type=POST>
+                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id  %}" type=POST>
                         <button type="submit" class="btn btn-success">Give</button>
                     </form>
                     <!-- Start partial history mar if needed -->

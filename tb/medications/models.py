@@ -179,8 +179,8 @@ class MedicationTime(models.Model):
     timeCreated = models.DateTimeField(verbose_name="Created")
     timeMedication = models.ForeignKey(Medication, on_delete=models.CASCADE)
  
-    def __str__(self):
-        return (self.timeGivenStatus)
+    # def __str__(self):
+    #     return (self.timeGivenStatus)
 
     def get_status(self):
         return MedicationCompletion.objects.filter(completionMedication=self)
@@ -218,7 +218,7 @@ class MedicationCompletion(models.Model):
     TIME_CHOICES = (('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'))
 
     completionStatus = models.NullBooleanField(verbose_name="Current Status", choices=BOOL_CHOICES, default=None, null=True, blank=True)
-    completionStatus2 = models.CharField(verbose_name="Current Status 2", choices=STATUS_CHOICES, max_length=12, null=True, blank=True)
+    completionStatus2 = models.CharField(verbose_name="Current Status 2", choices=STATUS_CHOICES, default='Null', max_length=12, null=True, blank=True)
     completionMissed = models.CharField(verbose_name="Medicaton Missed", choices=MISSED_CHOICES, default='False', max_length=12, null=True, blank=True)
     completionTime = models.TimeField(verbose_name="Time Given", auto_now_add=True)
     completionDue = models.TimeField(verbose_name="Time Due", null=True, blank=True)
