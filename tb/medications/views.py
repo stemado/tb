@@ -341,7 +341,7 @@ def acceptRefuse(request, medication, rx):
     getMedTime = MedicationTime.objects.get(id=medication)
     medtime = getMedTime.timeDue
     resident = User.objects.get(id=r)
-    date = datetime.now().today()
+    date = datetime.now().date()
     if request.method == 'POST':
         form = StatusForm(request.POST)
         if form.is_valid():

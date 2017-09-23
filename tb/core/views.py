@@ -379,7 +379,7 @@ def patient_medication(request, id):
 @login_required
 def medication_overdue(request, id):
     user = request.user
-    page_user = get_object_or_404(User, id=id)
+    page_user = get_object_or_404(User, pk=id)
     user_type = page_user.profile.user_type
     if user_type == 0:
         medications = Medication.get_medications()
@@ -397,6 +397,7 @@ def medication_overdue(request, id):
 
     else:
         medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
+        print(medications)
         medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
         active_count = MedicationTime.get_active_medications().filter(timeMedication_id__in=medcount)
         overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication_id__in=medcount)
@@ -436,10 +437,10 @@ def medication_active(request, id):
     else:
         medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
         medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
-        active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
-        overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)
-        active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
-        overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
+        active_count = MedicationTime.get_active_medications().filter(timeMedication__id__in=medcount)
+        overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id__in=medcount)
+        active_medications = MedicationTime.get_active_medications().filter(timeMedication__id__in=medications)
+        overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id__in=medications)
         paginator = Paginator(active_medications, 10)
         page = request.GET.get('page')
         try:

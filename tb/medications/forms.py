@@ -59,14 +59,14 @@ class StatusForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
         required=False)
-    completionRx = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control hidden'}),
-        max_length=30,
-        required=False)
-    completionMedication = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
-        required=False)
+    # completionRx = forms.CharField(
+    #     widget=forms.NumberInput(attrs={'class': 'form-control hidden'}),
+    #     max_length=30,
+    #     required=False)
+    # completionMedication = forms.CharField(
+    #     widget=forms.NumberInput(attrs={'class': 'form-control user-type'}),
+    #     max_length=50,
+    #     required=False)
     completionDate = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,

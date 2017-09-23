@@ -72,11 +72,13 @@
                     <p><strong>Due:</strong> {{ med.timeDue }}</p>
                     <p><strong>PO:</strong> {{ med.timeMedication.medicationComment }}
                     <p><strong>Count:</strong> {{ med.timeMedication.medicationQuantity }}</p>
+                    <p>TIME ID: {{med.id}}</p>
+                    <p>MedicationID: {{med.timeMedication.id }}
 <!--                     <p><strong>Given Today:</strong> {{ overdue.timeGivenStatus }}</p>
                     <p>TimeRecord ID: {{ overdue.id }} </p>
                     <p>Medication ID: {{ overdue.timeMedication_id }} </p> -->
                     <p>
-                    <form action="{% url 'acceptRefuse' med.id med.timeMedication_id  %}" type=POST>
+                    <form action="{% url 'acceptRefuse' med.id med.timeMedication.id  %}" type=POST>
                         <button type="submit" class="btn btn-success">Give</button>
                     </form>
                     <!-- Start partial history mar if needed -->
