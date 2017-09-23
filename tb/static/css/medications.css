@@ -15,6 +15,38 @@ label[for="id_user"] {
   display: none;
 }
 
+#id_completionRx {
+  display: none;
+}
+
+label[for="id_completionRx"] {
+  display: none;
+}
+
+#id_completionMedication {
+  display: none;
+}
+
+label[for="id_completionMedication"] {
+  display: none;
+}
+
+#id_completionDate {
+  display: none;
+}
+
+label[for="id_completionDate"] {
+  display: none;
+}
+
+#id_completionDue {
+  display: none;
+}
+
+label[for="id_completionDue"] {
+  display: none;
+}
+
 .medications medication {
   padding-bottom: 1.4em;
   border-bottom: 1px solid #eeeeee;
