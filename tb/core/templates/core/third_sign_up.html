@@ -1,0 +1,146 @@
+
+
+{% extends 'base.html' %}
+{% load i18n %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language as CURRENT_LANGUAGE %}
+
+
+
+{% block main %}
+<style>
+.breadcrumb {
+    padding: 0px;
+    background: transparent;
+    list-style: none;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.breadcrumb>li {
+    display: table-cell;
+    vertical-align: top;
+    width: 1%;
+}
+
+.breadcrumb>li+li:before {
+    padding: 0;
+}
+
+.breadcrumb li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 0 10px 45px;
+    position: relative;
+    display: inline-block;
+    width: calc( 100% - 10px );
+    background-color: hsla(0, 0%, 83%, 1);
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.breadcrumb li.completed a {
+    background: brown;
+    background: hsla(153, 57%, 51%, 1);
+}
+
+.breadcrumb li.completed a:after {
+    border-left: 30px solid hsla(153, 57%, 51%, 1);
+}
+
+.breadcrumb li.active a {
+    background: #ffc107;
+}
+
+.breadcrumb li.active a:after {
+    border-left: 30px solid #ffc107;
+}
+
+.breadcrumb li:first-child a {
+    padding-left: 15px;
+}
+
+.breadcrumb li:last-of-type a {
+    width: calc( 100% - 38px );
+}
+
+.breadcrumb li a:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1;
+}
+
+.breadcrumb li a:after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid hsla(0, 0%, 83%, 1);
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+
+
+</style>
+  <div class="page-header">
+    <h1>{% trans 'Notifications' %}</h1>
+  {% include 'core/partial_registration_breadcrumb.html' with active='registration_three' %}
+  </div>
+  <div class="row" style="margin-top: 2em">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-9">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      <h3 style="margin-top: 0">{% trans 'Let\'s pick how you want to be notified about your medications!' %}</h3>
+      <form role="form" class="form-horizontal" method="post" action="{% url 'registration_notification' %}">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+          <div class="form-group{% if field.errors %} has-error{% endif %}">
+            <label for="{{ field.label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+            <div class="col-sm-10">
+              {{ field }}
+              {% if field.help_text %}
+                <span class="help-block">{{ field.help_text }}</span>
+              {% endif %}
+              {% for error in field.errors %}
+                <label class="control-label">{{ error }}</label>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+        {% comment %}
+        {% endcomment %}
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">{% trans 'Next' %}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock main %}

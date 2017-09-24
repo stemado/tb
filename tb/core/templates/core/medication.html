@@ -75,7 +75,7 @@
                         {% for med in meds %}
                         <tr>
                             <td>
-                                <div style="width: 100px"><a href="{% url 'patient_medication' med.user.id %}">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
+                                <div style="width: 100px"><a href="{% url 'patient_medication' page_user.id %}">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
                             </td>
                             <td>
                                 <div id="one"><a href="/medications/{{med.id}}/">{{ med.medicationName }}</a></div>

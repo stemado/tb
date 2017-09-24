@@ -101,17 +101,9 @@
 </style>
   <div class="page-header">
     <h1>{% trans 'Registration' %}</h1>
-    <div class="container">
-  <div class="row">
-    <ul class="breadcrumb">
-      <li class="active"><a href="javascript:void(0);">Registration</a></li>
-<!--  <li class="completed"><a href="javascript:void(0);">Register</a></li> -->
-      <li><a href="javascript:void(0);">T's & C's</a></li>
-      <li><a href="javascript:void(0);">Choose Dates</a></li>
-      <li><a href="javascript:void(0);">Choose Notifications</a></li>
-    </ul>
-  </div>
-</div>
+
+  {% include 'core/partial_registration_breadcrumb.html' with active='registration' %}
+
   </div>
   <div class="row" style="margin-top: 2em">
     <div class="col-md-3">

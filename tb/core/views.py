@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1
+from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1, SignUpStep2, SignUpStep3
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -489,39 +489,59 @@ def registration(request):
             user.profile.address2 = form.cleaned_data.get('address2')
             user.profile.phonenumber = form.cleaned_data.get('phonenumber')
             user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
+            user.profile.user_type = form.cleaned_data.get('user_type')
             user.profile.pinnumber = form.cleaned_data.get('pinnumber')
-
             user.save()
-            return redirect('/')
+            return redirect('registration_pharmacy')
     else:
-        form = SignUpStep1(instance=user)
+        form = SignUpStep1(instance=user, initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'city': user.profile.city,
+            'providence': user.profile.providence,
+            'zipcode': user.profile.zipcode,
+            'address1': user.profile.address1,
+            'address2:': user.profile.address2,
+            'phonenumber': user.profile.phonenumber,
+            'mobilenumber': user.profile.mobilenumber,
+            'pinnumber': user.profile.pinnumber,
+            'user_type': user.profile.user_type,
+            })
     return render(request, 'core/first_sign_up.html', {'form': form})
+
+@login_required
+def registration_page_2(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SignUpStep2(request.POST, instance = user)
+        if form.is_valid():
+
+            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
+            user.save()
+            return redirect('registration_notification')
+    else:
+        form = SignUpStep2(instance=user, initial={
+            'pharmacy': user.profile.pharmacy,
+            })
+    return render(request, 'core/second_sign_up.html', {'form': form})
 
 @login_required
 def registration_page_3(request):
     user = request.user
     if request.method == 'POST':
-        form = SignUpStep3(request.POST)
+        form = SignUpStep3(request.POST, instance = user)
         if form.is_valid():
-            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
-            user.save()
-            return redirect('/')
-    else:
-        form = SignUpStep3(instance=user)
-    return render(request, 'core/first_sign_up.html', {'form': form})
 
-@login_required
-def registration_page_4(request):
-    user = request.user
-    if request.method == 'POST':
-        form = SignUpStep4(request.POST)
-        if form.is_valid():
             user.profile.smsnotify = form.cleaned_data.get('smsnotify')
             user.profile.emailnotify = form.cleaned_data.get('emailnotify')
             user.save()
             return redirect('/')
     else:
-        form = SignUpStep4(instance=user)
-    return render(request, 'core/first_sign_up.html', {'form': form})
+        form = SignUpStep3(instance=user, initial={
+            'smsnotify': user.profile.smsnotify,
+            'emailnotify': user.profile.emailnotify,
+            })
+    return render(request, 'core/third_sign_up.html', {'form': form})
 
 
