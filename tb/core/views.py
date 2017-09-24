@@ -359,7 +359,7 @@ def patient_medication(request, id):
     page_user = get_object_or_404(User, id=id)
     user_type = page_user.profile.user_type
     medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
-    medcount = Medication.select_related('medicationtime_set').filter(user=page_user, medicationDiscontinuedStatus='Active')
+    medcount = Medication.objects.select_related('medicationtime_set').filter(user=page_user, medicationDiscontinuedStatus='Active')
     active_count = MedicationTime.get_active_medications().filter(timeMedication_id__in=medications)
     overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication_id__in=medications)
     active_medications = MedicationTime.get_active_medications().filter(timeMedication_id__in=medications)
