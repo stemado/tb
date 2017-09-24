@@ -47,7 +47,7 @@
                         {% for patient in filter.qs %}
                         <tr>
                             <td>
-                                <div style="width: 100px"><strong>{{ patient.first_name }} {{ patient.user.last_name }}</strong></div>
+                                <div style="width: 100px"><strong>{{ patient.user.first_name }} {{ patient.user.last_name }}</strong></div>
                             </td>
                             <td>
                                 <div id="five">{{ patient.mobilenumber }}</div>
