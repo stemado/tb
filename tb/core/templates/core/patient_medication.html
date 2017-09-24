@@ -64,7 +64,6 @@
                             <th><strong><div style="width: 100px">Patient</div></strong></th>
                             <th><strong><div id="two">Medication</div></strong></th>
                             <th><strong><div id="three">Time Due</div></strong></th>
-                            <th><strong><div id="four">Date Due</div></strong></th>
                             <th><strong><div id="five">Phone #</div></strong></th>
                             <th><strong><div id="five">Pill Count</div></strong></th>
                         </tr>
@@ -73,16 +72,29 @@
                         {% for med in meds %}
                         <tr>
                             <td>
-                                <div style="width: 100px"><a href="#">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
+                                <div style="width: 100px"><a href="{% url 'patient_medication' page_user.id %}">{{ med.user.first_name }} {{ med.user.last_name }}</a></div>
                             </td>
                             <td>
                                 <div id="one"><a href="/medications/{{med.id}}/">{{ med.medicationName }}</a></div>
                             </td>
-                            <td>
-                                <div id="two">(TimeDue)</div>
-                            </td>
-                            <td>
-                                <div id="three">(DateDue)</div>
+                                                        <td>
+                                <div id="two"><small>
+                                {% if med.medicationTimeSchedule != None %}
+                                    {{ med.medicationTimeSchedule }}</br>
+                                {% endif %}
+                                {% if med.medicationTimeSchedule2 != None %}
+                                    {{ med.medicationTimeSchedule2 }}</br>
+                                {% endif %}
+                                {% if med.medicationTimeSchedule3 != None %}
+                                    {{ med.medicationTimeSchedule3 }}</br>
+                                {% endif %}
+                                {% if med.medicationTimeSchedule4 != None %}
+                                    {{ med.medicationTimeSchedule4 }}</br>
+                                {% endif %}
+                                {% if med.medicationTimeSchedule5 != None %}
+                                    {{ med.medicationTimeSchedule5 }}</br>
+                                {% endif %}
+                                </small></div>
                             </td>
                             <td>
                                 <div id="five">{{med.user.profile.mobilenumber }}</div>
