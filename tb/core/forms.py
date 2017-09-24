@@ -168,7 +168,6 @@ class EditProfileForm(forms.ModelForm):
 
 
 
-
 class SignUpStep1(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
@@ -179,18 +178,6 @@ class SignUpStep1(forms.ModelForm):
         super(SignUpStep1, self).__init__(*args, **kwargs)
         self.fields['user_type'].widget.attrs['disabled'] = True
 
-    first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        max_length=30,
-        required=False)
-    last_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        max_length=30,
-        required=False)
-    email = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        max_length=75,
-        required=False)
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
@@ -220,15 +207,39 @@ class SignUpStep1(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
-    pharmacy = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
-        required=False)
     user_type = forms.ChoiceField(choices=USER_CHOICES)
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
         required=False)
+
+
+
+    class Meta:
+        model = User
+        fields = ('city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'user_type', 'pinnumber')
+
+
+class SignUpStep2(forms.ModelForm):
+    #Do some form of the below to make the form uneditable.
+    #Then have edit button to change the information and save.
+
+
+    pharmacy = forms.CharField(
+        widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
+        required=False)
+
+
+    class Meta:
+        model = User
+        fields = ('pharmacy',)
+
+
+class SignUpStep3(forms.ModelForm):
+    #Do some form of the below to make the form uneditable.
+    #Then have edit button to change the information and save.
+
+
     smsnotify = forms.CharField(
         widget=forms.NullBooleanSelect(attrs={'class': 'form-control'}),
         required=False)
@@ -240,7 +251,10 @@ class SignUpStep1(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'city', 'zipcode', 'address1', 'address2', 'providence', 'phonenumber', 'mobilenumber', 'pharmacy', 'user_type', 'pinnumber', 'smsnotify', 'emailnotify')
+        fields = ('smsnotify', 'emailnotify')
+
+
+
 
 class IndividualUserForm(forms.ModelForm):
 

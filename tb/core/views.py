@@ -359,7 +359,7 @@ def patient_medication(request, id):
     page_user = get_object_or_404(User, id=id)
     user_type = page_user.profile.user_type
     medications = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active').values('id')
-    medcount = Medication.get_medications().filter(user=page_user, medicationDiscontinuedStatus='Active')
+    medcount = Medication.select_related('medicationtime_set').filter(user=page_user, medicationDiscontinuedStatus='Active')
     active_count = MedicationTime.get_active_medications().filter(timeMedication_id__in=medications)
     overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication_id__in=medications)
     active_medications = MedicationTime.get_active_medications().filter(timeMedication_id__in=medications)
@@ -475,15 +475,13 @@ def create_medication(request):
         form = MedicationForm(initial={'patient': user})
     return render(request, 'settings/create.html', {'form': form})
 
+
 @login_required
 def registration(request):
     user = request.user
     if request.method == 'POST':
         form = SignUpStep1(request.POST)
         if form.is_valid():
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
-            user.email = form.cleaned_data.get('email')
             user.profile.city = form.cleaned_data.get('city')
             user.profile.providence = form.cleaned_data.get('providence')
             user.profile.zipcode = form.cleaned_data.get('zipcode')
@@ -491,13 +489,39 @@ def registration(request):
             user.profile.address2 = form.cleaned_data.get('address2')
             user.profile.phonenumber = form.cleaned_data.get('phonenumber')
             user.profile.mobilenumber = form.cleaned_data.get('mobilenumber')
-            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
-            user.profile.smsnotify = form.cleaned_data.get('pinnumber')
-            user.profile.smsnotify = form.cleaned_data.get('smsnotify')
-            user.profile.smsnotify = form.cleaned_data.get('emailnotify')
+            user.profile.pinnumber = form.cleaned_data.get('pinnumber')
+
             user.save()
             return redirect('/')
     else:
         form = SignUpStep1(instance=user)
     return render(request, 'core/first_sign_up.html', {'form': form})
+
+@login_required
+def registration_page_3(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SignUpStep3(request.POST)
+        if form.is_valid():
+            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
+            user.save()
+            return redirect('/')
+    else:
+        form = SignUpStep3(instance=user)
+    return render(request, 'core/first_sign_up.html', {'form': form})
+
+@login_required
+def registration_page_4(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SignUpStep4(request.POST)
+        if form.is_valid():
+            user.profile.smsnotify = form.cleaned_data.get('smsnotify')
+            user.profile.emailnotify = form.cleaned_data.get('emailnotify')
+            user.save()
+            return redirect('/')
+    else:
+        form = SignUpStep4(instance=user)
+    return render(request, 'core/first_sign_up.html', {'form': form})
+
 
