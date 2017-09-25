@@ -74,7 +74,7 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-    user_type = forms.ChoiceField(widget = forms.Select(), 
+    user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
         choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
@@ -152,7 +152,7 @@ class EditProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
         required=False)
-    user_type = forms.ChoiceField(widget = forms.Select(), 
+    user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
         choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
@@ -215,8 +215,7 @@ class SignUpStep1(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
-    # user_type = forms.ChoiceField(choices=USER_CHOICES)
-    user_type = forms.ChoiceField(widget = forms.Select(), 
+    user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
         choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
