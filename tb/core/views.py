@@ -380,7 +380,7 @@ def patient_medication(request, id):
 def medication_overdue(request, id):
     user = request.user
     page_user = get_object_or_404(User, pk=id)
-    user_type = page_user.profile.user_type
+    user_type = int(page_user.profile.user_type)
     if user_type == 0:
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()
@@ -419,7 +419,7 @@ def medication_overdue(request, id):
 def medication_active(request, id):
     user = request.user
     page_user = get_object_or_404(User, id=id)
-    user_type = page_user.profile.user_type
+    user_type = int(page_user.profile.user_type)
     if user_type == 0:
         medications = Medication.get_medications()
         active_medications = MedicationTime.get_active_medications()
