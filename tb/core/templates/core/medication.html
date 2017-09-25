@@ -83,19 +83,19 @@
                             <td>
                                 <div id="two"><small>
                                 {% if med.medicationTimeSchedule != None %}
-                                    {{ med.medicationTimeSchedule }}
+                                    {{ med.medicationTimeSchedule|date:"h:i A" }}
                                 {% endif %}
                                 {% if med.medicationTimeSchedule2 != None %}
-                                    {{ med.medicationTimeSchedule2 }}
+                                    {{ med.medicationTimeSchedule2|date:"h:i A" }}
                                 {% endif %}
                                 {% if med.medicationTimeSchedule3 != None %}
-                                    {{ med.medicationTimeSchedule3 }}
+                                    {{ med.medicationTimeSchedule3|date:"h:i A" }}
                                 {% endif %}
                                 {% if med.medicationTimeSchedule4 != None %}
-                                    {{ med.medicationTimeSchedule4 }}
+                                    {{ med.medicationTimeSchedule4|date:"h:i A" }}
                                 {% endif %}
                                 {% if med.medicationTimeSchedule5 != None %}
-                                    {{ med.medicationTimeSchedule5 }}
+                                    {{ med.medicationTimeSchedule5|date:"h:i A" }}
                                 {% endif %}
                                 </small></div>
                             </td>

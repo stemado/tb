@@ -68,7 +68,7 @@
                     <a href="/medications/{{ med.timeMedication_id }}"><strong>Medication:</strong> {{ med.timeMedication.medicationName }}</a>
                     <p><a href="/medications/{{ med.timeMedication_id }}" class="center-text"><strong>History</strong></a></p>
                     
-                    <p><strong>Due:</strong> {{ med.timeDue }}</p>
+                    <p><strong>Due:</strong> {{ med.timeDue|date:"h:i A" }}</p>
                     <p><strong>PO:</strong> {{ med.timeMedication.medicationComment }}
                     <p><strong>Count:</strong> {{ med.timeMedication.medicationQuantity }}</p>
 <!--                     <p><strong>Given Today:</strong> {{ overdue.timeGivenStatus }}</p>
