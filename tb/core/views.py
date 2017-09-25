@@ -436,7 +436,7 @@ def medication_active(request, id):
             meds = paginator.page(1)
         except EmptyPage:
             meds = paginator.page(paginator.num_pages)
-        return render(request, 'core/medication_active.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
+        return render(request, 'core/medication_active.html', {'meds': meds, 'active_count': active_count, 'overdue_count': overdue_count, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
 
     else:
         medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
