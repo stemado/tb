@@ -142,16 +142,17 @@ def request_medication_refill(sender, instance, created, **kwargs):
 			###########################
 			## SEND SMS NOTIFICATION ##
 			###########################
-			account_sid = config('TWILIO_ACCOUNT_SID')
-			auth_token  = config('TWILIO_AUTH_TOKEN')
+			if user.profile.mobilenumber == True:
+				account_sid = config('TWILIO_ACCOUNT_SID')
+				auth_token  = config('TWILIO_AUTH_TOKEN')
 
-			client = Client(account_sid, auth_token)
+				client = Client(account_sid, auth_token)
 
-			message = client.messages.create(
-    			to=str(user.profile.mobilenumber), 
-    			from_="+14172834893",
-    			body=str(med.user) + "medication count: " + str(med.medicationQuantity) + " Please pick up from: (Insert UserPharmacyVariableHere) " )
-			print(message.sid)
+				message = client.messages.create(
+    				to=str(user.profile.mobilenumber), 
+    				from_="+14172834893",
+    				body=str(med.user) + "medication count: " + str(med.medicationQuantity) + " Please pick up from: (Insert UserPharmacyVariableHere) " )
+				print(message.sid)
 			###########################
 			## END SMS NOTIFICATION ##
 			###########################

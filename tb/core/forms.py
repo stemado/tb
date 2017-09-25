@@ -104,7 +104,7 @@ class EditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        # self.fields['user_type'].widget.attrs['disabled'] = True
+        self.fields['user_type'].widget.attrs['disabled'] = True
         # self.fields['pinnumber'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
@@ -182,9 +182,9 @@ class SignUpStep1(forms.ModelForm):
 
     USER_CHOICES=(('0', 'Administrator'),('1', 'Patient'))
 
-    # def __init__(self, *args, **kwargs):
-    #     super(SignUpStep1, self).__init__(*args, **kwargs)
-    #     self.fields['user_type'].widget.attrs['disabled'] = True
+    def __init__(self, *args, **kwargs):
+        super(SignUpStep1, self).__init__(*args, **kwargs)
+        self.fields['user_type'].widget.attrs['disabled'] = True
 
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
