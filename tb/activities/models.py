@@ -42,6 +42,7 @@ class Notification(models.Model):
     ACCEPTED_ANSWER = 'W'
     EDITED_ARTICLE = 'E'
     ALSO_COMMENTED = 'S'
+    MED_OVERDUE = 'OD'
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED, 'Commented'),
@@ -50,6 +51,7 @@ class Notification(models.Model):
         (ACCEPTED_ANSWER, 'Accepted Answer'),
         (EDITED_ARTICLE, 'Edited Article'),
         (ALSO_COMMENTED, 'Also Commented'),
+        (MED_OVERDUE, 'Overdue Medication'),
         )
 
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
@@ -59,11 +61,13 @@ class Notification(models.Model):
     _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
+    _MED_OVERDUE_TEMPLATE = '<a href="/{0}/">{1}</a> OVERDUE MEDICATION: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
 
     from_user = models.ForeignKey(User, related_name='+')
     to_user = models.ForeignKey(User, related_name='+')
     date = models.DateTimeField(auto_now_add=True)
     feed = models.ForeignKey('feeds.Feed', null=True, blank=True)
+    medication = models.ForeignKey('medications.MedicationTime', null=True, blank=True)
     # question = models.ForeignKey('questions.Question', null=True, blank=True)
     # answer = models.ForeignKey('questions.Answer', null=True, blank=True)
     # article = models.ForeignKey('articles.Article', null=True, blank=True)
@@ -90,6 +94,13 @@ class Notification(models.Model):
                 escape(self.from_user.profile.get_screen_name()),
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
+                )
+        elif self.notification_type == self.MED_OVERDUE:
+            return self._MED_OVERDUE_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.medicationtime.pk,
+                escape(self.get_summary(self.medicationtime.timeMedication.medicationName))
                 )
         # elif self.notification_type == self.FAVORITED:
         #     return self._FAVORITED_TEMPLATE.format(

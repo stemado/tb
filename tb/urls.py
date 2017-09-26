@@ -44,6 +44,8 @@ urlpatterns = [
         name='last_notifications'),
     url(r'^notifications/check/$', activities_views.check_notifications,
         name='check_notifications'),
+    url(r'^notifications/check/medications/$', activities_views.check_notifications_medication,
+        name='check_notifications_medication'),
 	url(r'^search/$', search_views.search, name='search'),
     url(r'^profile/$', core_views.profile, name='profile'),
     url(r'^profile/patient/$', core_views.patients, name='patients'),

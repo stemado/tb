@@ -41,42 +41,6 @@ $(function() {
 
             });
 
-        $(function() {
 
-            function check_active_medications() {
-                $.ajax({
-                    url: '/medications/',
-                    cache: false,
-                    success: function(data) {
-                        if (data != "0") {
-                            $("#notifications").addClass("new-notifications");
-                        } else {
-                            $("#notifications").removeClass("new-notifications");
-                        }
-                    },
-                    complete: function() {
-                        window.setTimeout(check_active_medications, 30000);
-                    }
-                });
-            };
-
-            check_active_medications();
-
-            function check_overdue_medications() {
-                $.ajax({
-                    url: 'medications/overdue_medications/',
-                    cache: false,
-                    success: function(data) {
-                        if (data != "0") {
-                            $("#notifications").addClass("new-notifications");
-                        } else {
-                            $("#notifications").removeClass("new-notifications");
-                        }
-                    },
-                    complete: function() {
-                        window.setTimeout(check_overdue_medications, 30000);
-                    }
-                });
-            };
-            check_overdue_medications();
+            check_notifications_medication();
         });

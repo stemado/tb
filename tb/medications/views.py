@@ -40,7 +40,6 @@ from django.utils.dateparse import parse_date
 
 
 
-
 def _medications(request, medications):
 	return render(request, 'medications/all_medications.html', {
 		'medications': medications

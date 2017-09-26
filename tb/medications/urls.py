@@ -15,6 +15,4 @@ urlpatterns = [
     url(r'^edit_medication/(?P<id>[0-9]+)/$', views.editMedication, name='editMedication'),
     url(r'^status/(?P<medication>[0-9]+)/(?P<rx>[0-9]+)/$', views.acceptRefuse, name='acceptRefuse'),
     url(r'^delete/(?P<id>\d+)/$', views.deleteMedication, name='deleteMedication'),
-    # url(r'^sms/$', views.sms, name='sms'),
-
 ]

@@ -39,5 +39,25 @@ $(function () {
       }
     });
   };
+
+  function check_notifications_medication() {
+    $.ajax({
+      url: '/notifications/check/medications/',
+      cache: false,
+      success: function (data) {
+        if (data != "0") {
+          $("#notifications").addClass("new-notifications");
+        }
+        else {
+          $("#notifications").removeClass("new-notifications");
+        }
+      },
+      complete: function () {
+        window.setTimeout(check_notifications_medication, 15000);
+      }
+    });
+  };
+
+  check_notifications_medication();
   check_notifications();
 });
