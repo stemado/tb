@@ -28,6 +28,7 @@ class Profile(models.Model):
     pinnumber = models.CharField(max_length=4, unique=True, null=True)
     emailnotify = models.BooleanField(default=True, blank=True)
     smsnotify = models.BooleanField(default=True, blank=True)
+    tandc = models.BooleanField(verbose_name="I Agree with the terms and conditions.", default=False, blank=True)
     user_type = models.CharField(max_length=20, default='1', choices=AUTH_CHOICES)
 
 

@@ -54,8 +54,10 @@ urlpatterns = [
     # url(r'^clinic/$', core_views.clinicReport, name='clinic'),
     url(r'^clinic/$', core_views.clinicReport, name='clinic'),
     url(r'^registration/$', core_views.registration, name='registration'),
-    url(r'^registration_pharmacy/$', core_views.registration_page_2, name='registration_pharmacy'),
-    url(r'^registration_notification/$', core_views.registration_page_3, name='registration_notification'),
+    url(r'^registration_tc/$', core_views.registration_page_2, name='registration_tc'),
+    url(r'^registration_pharmacy/$', core_views.registration_page_3, name='registration_pharmacy'),
+    url(r'^registration_notification/$', core_views.registration_page_4, name='registration_notification'),
+
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ]
 

@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1, SignUpStep2, SignUpStep3
+from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1, SignUpStep2, SignUpStep3, SignUpStep4
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -496,7 +496,7 @@ def registration(request):
             user.profile.user_type = form.cleaned_data.get('user_type')
             user.profile.pinnumber = form.cleaned_data.get('pinnumber')
             user.save()
-            return redirect('registration_pharmacy')
+            return redirect('registration_tandc')
     else:
         form = SignUpStep1(instance=user, initial={
             'first_name': user.first_name,
@@ -512,7 +512,7 @@ def registration(request):
             'pinnumber': user.profile.pinnumber,
             'user_type': user.profile.user_type,
             })
-    return render(request, 'core/first_sign_up.html', {'form': form})
+    return render(request, 'core/sign_up_one.html', {'form': form})
 
 @login_required
 def registration_page_2(request):
@@ -521,14 +521,14 @@ def registration_page_2(request):
         form = SignUpStep2(request.POST, instance = user)
         if form.is_valid():
 
-            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
+            user.profile.tandc = form.cleaned_data.get('tandc')
             user.save()
-            return redirect('registration_notification')
+            return redirect('registration_pharmacy')
     else:
         form = SignUpStep2(instance=user, initial={
-            'pharmacy': user.profile.pharmacy,
+            'tandc': user.profile.tandc,
             })
-    return render(request, 'core/second_sign_up.html', {'form': form})
+    return render(request, 'core/sign_up_two.html', {'form': form})
 
 @login_required
 def registration_page_3(request):
@@ -537,15 +537,39 @@ def registration_page_3(request):
         form = SignUpStep3(request.POST, instance = user)
         if form.is_valid():
 
+            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
+            user.save()
+            return redirect('registration_notification')
+    else:
+        form = SignUpStep3(instance=user, initial={
+            'pharmacy': user.profile.pharmacy,
+            })
+    return render(request, 'core/sign_up_three.html', {'form': form})
+
+
+
+@login_required
+def registration_page_4(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SignUpStep4(request.POST, instance = user)
+        if form.is_valid():
+
             user.profile.smsnotify = form.cleaned_data.get('smsnotify')
             user.profile.emailnotify = form.cleaned_data.get('emailnotify')
             user.save()
+
+            welcome_post = 'Congratulations! Your registration is complete!'.format(user.username,
+                                                                user.username)
+            feed = Feed(user=user, post=welcome_post)
+            feed.save()
+
             return redirect('/')
     else:
-        form = SignUpStep3(instance=user, initial={
+        form = SignUpStep4(instance=user, initial={
             'smsnotify': user.profile.smsnotify,
             'emailnotify': user.profile.emailnotify,
             })
-    return render(request, 'core/third_sign_up.html', {'form': form})
+    return render(request, 'core/sign_up_four.html', {'form': form})
 
 

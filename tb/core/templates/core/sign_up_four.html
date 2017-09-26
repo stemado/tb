@@ -101,7 +101,7 @@
 </style>
   <div class="page-header">
     <h1>{% trans 'Notifications' %}</h1>
-  {% include 'core/partial_registration_breadcrumb.html' with active='registration_three' %}
+  {% include 'core/partial_registration_breadcrumb.html' with active='registration_four' %}
   </div>
   <div class="row" style="margin-top: 2em">
     <div class="col-md-3">
@@ -137,7 +137,7 @@
         {% endcomment %}
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-          <input type="button" class="btn btn-danger"><a href="{% url 'registration_notification' %}">{% trans 'Back' %}</a></button>
+          <a href="{% url 'registration_notification' %}" class="btn btn-danger" role="button">{% trans 'Back' %}</a></button>
             <button type="submit" class="btn btn-primary">{% trans 'Next' %}</button>
           </div>
         </div>

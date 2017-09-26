@@ -2,10 +2,11 @@
   <div class="row">
     <ul class="breadcrumb">
       <li class="{% if active == 'registration' %} active {% else %} completed {% endif %}"><a href="{% url 'registration' %}" >Profile</a></li>
+      <li class="{% if active == 'registration_two' %} active {% elif active == 'registration_three' or active == 'registration_four' %} completed {% endif %}"><a href="{% url 'registration' %}" >Ts & Cs</a></li>
 <!--  <li class="completed"><a href="javascript:void(0);">Register</a></li> -->
 <!--       <li><a href="javascript:void(0);" class="{% if active == 'registration_two' %} active {% else %} completed {% endif %}">T's & C's</a></li> -->
-      <li class="{% if active == 'registration_two' %} active {% elif active == 'registration_three' %} completed {% else %} {% endif %}"><a href="{% if active == 'registration_two' %} javascript:void(0); {% elif active == 'registration_three' %} {% url 'registration_pharmacy' %} {% endif %} ">Choose Pharmacy</a></li>
-      <li class="{% if active == 'registration_three' %} active {% endif %}"><a href="avascript:void(0);">Choose Notifications</a></li>
+      <li class="{% if active == 'registration_three' %} active {% elif active == 'registration_four' %} completed {% else %} {% endif %}"><a href="{% if active == 'registration_three' %} javascript:void(0); {% elif active == 'registration_three' %} {% url 'registration_pharmacy' %} {% endif %} ">Choose Pharmacy</a></li>
+      <li class="{% if active == 'registration_four' %} active {% endif %}"><a href="javascript:void(0);">Choose Notifications</a></li>
     </ul>
   </div>
 </div>

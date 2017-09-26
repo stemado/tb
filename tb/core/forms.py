@@ -234,6 +234,19 @@ class SignUpStep2(forms.ModelForm):
     #Then have edit button to change the information and save.
 
 
+    tandc = forms.CharField(
+        widget=forms.CheckboxInput(attrs={'class': 'form-control'}),
+        required=True)
+
+    class Meta:
+        model = User
+        fields = ('tandc', )
+
+class SignUpStep3(forms.ModelForm):
+    #Do some form of the below to make the form uneditable.
+    #Then have edit button to change the information and save.
+
+
     pharmacy = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False)
@@ -243,7 +256,7 @@ class SignUpStep2(forms.ModelForm):
         fields = ('pharmacy', )
 
 
-class SignUpStep3(forms.ModelForm):
+class SignUpStep4(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
 
