@@ -13,6 +13,8 @@ from tb.search import views as search_views
 
 urlpatterns = [
 	url(r'^$', core_views.home, name='home'),
+    url(r'^jet/', include('jet.urls', 'jet')),
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/', include('tb.api.urls')),
     url(r'^login', auth_views.login, {'template_name': 'core/cover.html'},
