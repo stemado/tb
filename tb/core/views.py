@@ -86,6 +86,15 @@ def profile(request, username):
         'page': 1
         })
 
+@login_required
+def dashboard(request):
+    user = request.user
+    page_user = get_object_or_404(User, id=user.id)
+    overdue = MedicationTime.get_overdue_medications().count()
+    print(overdue)
+    return render(request, 'core/dashboard.html', {'overdue': overdue})
+
+
 # @login_required
 # def clinicReport(request):
 #     user = request.user

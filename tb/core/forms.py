@@ -27,68 +27,85 @@ class ProfileForm(forms.ModelForm):
         self.fields['pinnumber'].widget.attrs['disabled'] = True
         self.fields['smsnotify'].widget.attrs['disabled'] = True
         self.fields['emailnotify'].widget.attrs['disabled'] = True
+        self.fields['user_type'].is_hidden = True
 
     USER_CHOICES=(('0', 'Administrator'),('1', 'Patient'))
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
-        required=False)
+        required=False,
+        label="First Name")
     last_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
-        required=False)
+        required=False,
+        label="Surname")
     email = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
-        required=False)
+        required=False,
+        label="Email")
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
-
+        required=False,
+        label="City")
     providence = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Province")
     zipcode = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="ZIP Code")
     address1 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 1")
     address2 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 2")
     phonenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Phone Number")
     mobilenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Mobile Number")
     pharmacy = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
-        required=False)
-    user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
-        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
+        required=False,
+        label="Pharmacy")
+    user_type = forms.ChoiceField(
+        widget = forms.Select(attrs={'class': 'form-control user-type'}), 
+        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), 
+        initial='1',
+        label="User Type")
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
-        required=False)
+        required=False,
+        label="PIN Number")
     smsnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]),
-        initial=1)
+        initial=True,
+        label="SMS Notification?")
     emailnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]), 
-        initial=1)
+        initial=True,
+        label="Email Notification?")
 
 
 
@@ -105,68 +122,85 @@ class EditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].widget.attrs['disabled'] = True
+        # self.fields['user_type'].widget.attrs['disabled'] = True
+        # self.fields['user_type'].is_hidden = True
         # self.fields['pinnumber'].widget.attrs['disabled'] = True
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
-        required=False)
+        required=False,
+        label="First Name")
     last_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
-        required=False)
+        required=False,
+        label="Surname")
     email = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
-        required=False)
+        required=False,
+        label="Email")
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
-
+        required=False,
+        label="City")
     providence = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Province")
     zipcode = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="ZIP Code")
     address1 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 1")
     address2 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 2")
     phonenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Phone Number")
     mobilenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Mobile Number")
     pharmacy = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,
-        required=False)
-    user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
-        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
+        required=False,
+        label="Pharmacy")
+    user_type = forms.ChoiceField(
+        widget = forms.Select(attrs={'class': 'form-control user-type'}), 
+        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), 
+        initial='1',
+        label="User Type")
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
-        required=False)
+        required=False,
+        label="PIN Number")
     smsnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]),
-        initial=1)
+        initial=True,
+        label="SMS Notification?")
     emailnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]), 
-        initial=1)
+        initial=True,
+        label="Email Notification?")
 
 
 
@@ -185,42 +219,52 @@ class SignUpStep1(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SignUpStep1, self).__init__(*args, **kwargs)
-        self.fields['user_type'].widget.attrs['disabled'] = True
+        self.fields['user_type'].is_hidden = True
 
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="City")
 
     providence = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Province")
     zipcode = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="ZIP Code")
     address1 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 1")
     address2 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Address 2")
     phonenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=False,
+        label="Phone Number")
     mobilenumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
-        required=False)
+        required=True,
+        label="Mobile Number")
     user_type = forms.ChoiceField(widget = forms.Select(attrs={'class': 'form-control user-type'}), 
-        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), initial='1')
+        choices = ([('0', 'Administrator'), ('1', 'Patient'),]), 
+        initial='1',
+        label="User Type")
     pinnumber = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
+        label="PIN Number",
         required=False)
 
 
@@ -237,7 +281,8 @@ class SignUpStep2(forms.ModelForm):
 
     tandc = forms.CharField(
         widget=forms.CheckboxInput(attrs={'class': 'form-control'}),
-        required=True)
+        required=True,
+        label="Terms & Conditions",)
 
     class Meta:
         model = User
@@ -253,16 +298,20 @@ class SignUpStep3(forms.ModelForm):
 
     province = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=False)
+        required=False,
+        label="Province")
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=False)
+        required=False,
+        label="City")
     street = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=False)
+        required=False,
+        label="Street")
     suburb = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=False)
+        required=False,
+        label="Suburb")
 
     class Meta:
         model = Clinic
@@ -290,11 +339,13 @@ class SignUpStep4(forms.ModelForm):
     smsnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]),
-        initial=1)
+        initial=1,
+        label="SMS Notification?")
     emailnotify = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control'}), 
         choices = ([(0,'No'), (1,'Yes'), ]), 
-        initial=1)
+        initial=1,
+        label="Email Notification?")
 
 
 

@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^profile/$', core_views.profile, name='profile'),
     url(r'^profile/patient/$', core_views.patients, name='patients'),
     url(r'^profile/patient/(?P<id>[0-9]+)/$', core_views.patient_medication, name='patient_medication'),
+    url(r'^dashboard/$', core_views.dashboard, name='dashboard'),
     url(r'^medication/$', core_views.medication, name='medication'),
     url(r'^medication/overdue/(?P<id>[0-9]+)/$', core_views.medication_overdue, name='medication_overdue'),
     url(r'^medication/active/(?P<id>[0-9]+)/$', core_views.medication_active, name='medication_active'),
