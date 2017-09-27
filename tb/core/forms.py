@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 # from tb.activities.models import EmailNotification
 from django.utils.safestring import mark_safe
+from tb.authentication.models import Clinic
 
 
 class ProfileForm(forms.ModelForm):
@@ -246,14 +247,39 @@ class SignUpStep3(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
     #Then have edit button to change the information and save.
 
+    def __init__(self, *args, **kwargs):
+        super(SignUpStep3, self).__init__(*args, **kwargs)
+        self.fields['user'].is_hidden = True
 
-    pharmacy = forms.CharField(
+    province = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False)
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False)
+    street = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False)
+    suburb = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False)
 
     class Meta:
-        model = User
-        fields = ('pharmacy', )
+        model = Clinic
+        fields = ('province', 'city', 'street', 'suburb', 'user')
+
+# class SignUpStep3(forms.ModelForm):
+#     #Do some form of the below to make the form uneditable.
+#     #Then have edit button to change the information and save.
+
+
+#     pharmacy = forms.CharField(
+#         widget=forms.TextInput(attrs={'class': 'form-control'}),
+#         required=False)
+
+#     class Meta:
+#         model = User
+#         fields = ('pharmacy', )
 
 
 class SignUpStep4(forms.ModelForm):

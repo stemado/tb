@@ -183,4 +183,12 @@ class Patient(models.Model):
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
     profile = models.ForeignKey(Profile, null=True)
 
+@python_2_unicode_compatible
+class Clinic(models.Model):
+    province = models.CharField(max_length=50, null=True, blank=True)
+    city = models.CharField(max_length=50, null=True, blank=True)
+    suburb = models.CharField(max_length=50, null=True, blank=True)
+    street = models.CharField(max_length=50, null=True, blank=True)
+    user = models.ForeignKey(User, null=True) 
+
 

@@ -13,7 +13,7 @@ from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, Sign
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
-from tb.authentication.models import Notification, Profile
+from tb.authentication.models import Notification, Profile, Clinic
 from PIL import Image
 from django_filters.views import FilterView
 from tb.medications.filters import MedicationFilter
@@ -530,21 +530,41 @@ def registration_page_2(request):
             })
     return render(request, 'core/sign_up_two.html', {'form': form})
 
+
 @login_required
 def registration_page_3(request):
     user = request.user
     if request.method == 'POST':
-        form = SignUpStep3(request.POST, instance = user)
+        form = SignUpStep3(request.POST)
         if form.is_valid():
 
-            user.profile.pharmacy = form.cleaned_data.get('pharmacy')
-            user.save()
+            form.province = form.cleaned_data.get('province')
+            form.city = form.cleaned_data.get('city')
+            form.street = form.cleaned_data.get('street')
+            form.suburb = form.cleaned_data.get('suburb')
+            form.user = user.id
+            form.save()
             return redirect('registration_notification')
     else:
-        form = SignUpStep3(instance=user, initial={
-            'pharmacy': user.profile.pharmacy,
-            })
+        form = SignUpStep3()
+
     return render(request, 'core/sign_up_three.html', {'form': form})
+
+# @login_required
+# def registration_page_3(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = SignUpStep3(request.POST, instance = user)
+#         if form.is_valid():
+
+#             user.profile.pharmacy = form.cleaned_data.get('pharmacy')
+#             user.save()
+#             return redirect('registration_notification')
+#     else:
+#         form = SignUpStep3(instance=user, initial={
+#             'pharmacy': user.profile.pharmacy,
+#             })
+#     return render(request, 'core/sign_up_three.html', {'form': form})
 
 
 

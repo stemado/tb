@@ -52,7 +52,7 @@ $(function () {
         }
       },
       complete: function () {
-        window.setTimeout(check_notifications_medication, 30000);
+        window.setTimeout(check_notifications_medication, 60000);
       }
     });
   };

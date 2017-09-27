@@ -65,7 +65,4 @@ def check_notifications_medication(request):
         notify = MedicationTime.objects.get(id=od)
         notify.is_notified = True
         notify.save()
-
-
-    print(overdue)
     return HttpResponse(len(overdue))
