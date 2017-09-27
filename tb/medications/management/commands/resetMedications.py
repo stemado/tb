@@ -7,4 +7,4 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 
-		MedicationTime.objects.update(timeGivenStatus='False')
+		MedicationTime.objects.update(timeGivenStatus='False', is_notified=False)

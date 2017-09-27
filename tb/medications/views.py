@@ -341,8 +341,8 @@ def acceptRefuse(request, medication, rx):
     medtime = getMedTime.timeDue
     resident = User.objects.get(id=r)
     date = datetime.now().date()
-    rx = int(rx)
-    medication = int(medication)
+    rx = rx
+    medication = medication
     if request.method == 'POST':
         form = StatusForm(request.POST)
         if form.is_valid():
@@ -351,7 +351,7 @@ def acceptRefuse(request, medication, rx):
 
             return redirect('medication')
     else:
-        form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date  })
+        form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date, 'is_notified': False  })
     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
 
 

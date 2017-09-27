@@ -178,6 +178,7 @@ class MedicationTime(models.Model):
     timePRN = models.NullBooleanField(verbose_name="PRN?", default=None, null=True, blank=True)
     timeCreated = models.DateTimeField(verbose_name="Created")
     timeMedication = models.ForeignKey(Medication, on_delete=models.CASCADE)
+    is_notified = models.BooleanField(default=False)
  
     # def __str__(self):
     #     return (self.timeGivenStatus)

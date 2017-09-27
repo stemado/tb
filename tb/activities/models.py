@@ -11,11 +11,13 @@ class Activity(models.Model):
     LIKE = 'L'
     UP_VOTE = 'U'
     DOWN_VOTE = 'D'
+    MED_OVERDUE = 'O'
     ACTIVITY_TYPES = (
         (FAVORITE, 'Favorite'),
         (LIKE, 'Like'),
         (UP_VOTE, 'Up Vote'),
         (DOWN_VOTE, 'Down Vote'),
+        (MED_OVERDUE, 'Med Overdue'),
         )
 
     user = models.ForeignKey(User)
@@ -24,6 +26,7 @@ class Activity(models.Model):
     feed = models.IntegerField(null=True, blank=True)
     question = models.IntegerField(null=True, blank=True)
     answer = models.IntegerField(null=True, blank=True)
+    medication = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Activity'
@@ -42,7 +45,7 @@ class Notification(models.Model):
     ACCEPTED_ANSWER = 'W'
     EDITED_ARTICLE = 'E'
     ALSO_COMMENTED = 'S'
-    MED_OVERDUE = 'OD'
+    MED_OVERDUE = 'O'
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED, 'Commented'),
@@ -61,7 +64,7 @@ class Notification(models.Model):
     _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
-    _MED_OVERDUE_TEMPLATE = '<a href="/{0}/">{1}</a> OVERDUE MEDICATION: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
+    _MED_OVERDUE_TEMPLATE = '<a href="/{0}/">{1}</a> OVERDUE MEDICATION: <a href="/medication/">{3}</a>'  # noqa: E501
 
     from_user = models.ForeignKey(User, related_name='+')
     to_user = models.ForeignKey(User, related_name='+')
@@ -99,8 +102,8 @@ class Notification(models.Model):
             return self._MED_OVERDUE_TEMPLATE.format(
                 escape(self.from_user.username),
                 escape(self.from_user.profile.get_screen_name()),
-                self.medicationtime.pk,
-                escape(self.get_summary(self.medicationtime.timeMedication.medicationName))
+                self.medication.pk,
+                self.medication.timeMedication
                 )
         # elif self.notification_type == self.FAVORITED:
         #     return self._FAVORITED_TEMPLATE.format(
