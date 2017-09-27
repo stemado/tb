@@ -103,7 +103,7 @@ class Notification(models.Model):
                 escape(self.from_user.username),
                 escape(self.from_user.profile.get_screen_name()),
                 self.medication.pk,
-                self.medication.timeMedication
+                escape(self.medication.timeMedication)
                 )
         # elif self.notification_type == self.FAVORITED:
         #     return self._FAVORITED_TEMPLATE.format(
