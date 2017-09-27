@@ -183,6 +183,7 @@ class Patient(models.Model):
     mobilenumber = models.CharField(max_length=20, null=True, blank=True)
     profile = models.ForeignKey(Profile, null=True)
 
+#Clinic model that is tied to a User which allows us to still reference the user = request.user
 @python_2_unicode_compatible
 class Clinic(models.Model):
     province = models.CharField(max_length=50, null=True, blank=True)

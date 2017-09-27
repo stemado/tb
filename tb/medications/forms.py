@@ -55,17 +55,14 @@ class StatusForm(forms.ModelForm):
         self.fields['completionMedication'].is_hidden = True
 
 
+# Note: completionRx and completionMedication are not customized like the below because
+# they require objects. If you add them to the below, then you will get an error of
+# completionMedication/completionRx needs to be instance of MedicationTime/Medication
+# since they are hidden fields anyway, there is no need to clean them up
+# aesthetically.
     completionNote = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
-        required=False)
-    completionRx = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form-control hidden'}),
-        max_length=30,
-        required=False)
-    completionMedication = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form-control user-type'}),
-        max_length=50,
         required=False)
     completionDate = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),

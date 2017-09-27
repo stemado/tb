@@ -64,7 +64,7 @@ class Notification(models.Model):
     _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
-    _MED_OVERDUE_TEMPLATE = '<a href="/{0}/">{1}</a> OVERDUE MEDICATION: <a href="/medication/">{3}</a>'  # noqa: E501
+    _MED_OVERDUE_TEMPLATE = '<a href="/{0}/">{1}</a> HAS OVERDUE MEDICATION: <a href="/medication/">{3}</a>'  # noqa: E501
 
     from_user = models.ForeignKey(User, related_name='+')
     to_user = models.ForeignKey(User, related_name='+')
