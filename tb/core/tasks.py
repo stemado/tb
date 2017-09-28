@@ -38,14 +38,14 @@ def task_test():
 def check_missed_medications():
 
 	date = datetime.now().date()
-	today = str(date)
+	yesterday = date - timedelta(days=1)
 
 	for e in MedicationTime.objects.filter(timeDue=None):
 		for f in e.completion.filter(completionMedication=e.id):
-			if e.completion.filter(completionDate=date):
+			if e.completion.filter(completionDate=yesterday):
 				logger.info('check_missed_medications - PASS')
 			else:
-				MedicationCompletion.objects.create(completionMissed='True', completionMedication=e, completionRx=e.timeMedication, completionDue=e.timeDue, completionDate=date, completionNote='ERROR: MEDICATION WAS NOT DELIVERED')
+				MedicationCompletion.objects.create(completionMissed='True', completionMedication=e, completionRx=e.timeMedication, completionDue=e.timeDue, completionDate=yesterday, completionNote='ERROR: MEDICATION WAS NOT DELIVERED')
 				logger.info('check_missed_medications - OBJECT CREATED')
 
 #Add for checkMissedMedication.py
