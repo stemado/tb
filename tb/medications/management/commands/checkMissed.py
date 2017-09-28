@@ -21,7 +21,7 @@ class Command(BaseCommand):
 				if e.completion.filter(completionDate=today):
 					print('PASS')
 				else:
-					MedicationCompletion.objects.create(completionMissed='True', completionMedication=e, completionRx=e.timeMedication, completionDue=e.timeDue, completionNote='ERROR: MEDICATION WAS NOT DELIVERED')
+					MedicationCompletion.objects.create(completionMissed='True', completionMedication=e, completionRx=e.timeMedication, completionDue=e.timeDue, completionDate=date ,completionNote='ERROR: MEDICATION WAS NOT DELIVERED')
 					print('OBJECT CREATED')
 
 
