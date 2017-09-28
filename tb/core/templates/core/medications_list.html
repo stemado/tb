@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Medication Times List</h2>
+
+  <ul>
+    {% for med in object_list %}
+      <li>{{ med.timeMedication }} - {{ med.timeDue }} - {{ med.timeCreated }}</li>
+    {% empty %}
+      <li>No users. <a href="{% url 'generate' %}">Generate some random medication times.</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

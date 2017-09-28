@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1, SignUpStep2, SignUpStep3, SignUpStep4
+from tb.core.forms import ChangePasswordForm, ProfileForm, EditProfileForm, SignUpStep1, SignUpStep2, SignUpStep3, SignUpStep4, GenerateRandomUserForm
 from tb.medications.models import Medication, MedicationTime, MedicationCompletion, MedicationTable
 from tb.feeds.models import Feed
 from tb.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -24,6 +24,45 @@ from tb.core.resources import MedicationResource, PatientResource
 from django.http import HttpResponse
 from tablib import Dataset
 from import_export import resources
+from django.contrib import messages
+from django.views.generic.edit import FormView
+from django.shortcuts import redirect
+from django.views.generic.list import ListView
+from django.views.generic import TemplateView
+from tb.core.tasks import create_random_user_accounts
+
+
+###############################################
+################ CELERY TASKS #################
+###############################################
+
+#@@@ THIS IS USED FOR CREATING USERS TESTS @@@#
+#CELERY TEST VIEW 1
+class UsersListView(ListView):
+    template_name = 'core/users_list.html'
+    model = User
+
+
+#CELERY TEST VIEW 2
+class GenerateRandomUserView(FormView):
+    template_name = 'core/generate_random_users.html'
+    form_class = GenerateRandomUserForm
+
+    def form_valid(self, form):
+        total = form.cleaned_data.get('total')
+        create_random_user_accounts.delay(total)
+        messages.success(self.request, 'We are generating your random medication times! Wait a moment and refresh this page.')
+        return redirect('users_list')
+
+#@@@ THIS IS USED FOR CREATING MEDICATION TIME TESTS @@@#
+# class UsersListView(ListView):
+#     template_name = 'core/medications_list.html'
+#     model = MedicationTime
+
+
+#############################################################
+################# END CELERY TASKS ##########################
+#############################################################
 
 
 def home(request):
@@ -600,5 +639,43 @@ def registration_page_4(request):
             'emailnotify': user.profile.emailnotify,
             })
     return render(request, 'core/sign_up_four.html', {'form': form})
+
+
+########################################################
+################ RABBITMQ TASKS ########################
+########################################################
+
+#@@@ THIS IS USED FOR CREATING USERS TESTS @@@#
+# Will be preface for Medication Time Creations
+# And for Medication AcceptRefuse Creations
+# For scaling purposes
+
+
+#CELERY TEST VIEW 1
+class UsersListView(ListView):
+    template_name = 'core/users_list.html'
+    model = User
+
+
+#CELERY TEST VIEW 2
+class GenerateRandomUserView(FormView):
+    template_name = 'core/generate_random_users.html'
+    form_class = GenerateRandomUserForm
+
+    def form_valid(self, form):
+        total = form.cleaned_data.get('total')
+        create_random_user_accounts.delay(total)
+        messages.success(self.request, 'We are generating your random medication times! Wait a moment and refresh this page.')
+        return redirect('users_list')
+
+#@@@ THIS IS USED FOR CREATING MEDICATION TIME TESTS @@@#
+# class UsersListView(ListView):
+#     template_name = 'core/medications_list.html'
+#     model = MedicationTime
+
+
+#############################################################
+################# END RABBITMQ TASKS ########################
+#############################################################
 
 

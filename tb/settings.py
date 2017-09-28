@@ -146,6 +146,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
+
+#Celery Broker URL
+CELERY_BROKER_URL = 'amqp://localhost'
+
 ##########################
 ####API REST Framework####
 ##########################

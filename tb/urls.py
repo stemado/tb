@@ -60,7 +60,8 @@ urlpatterns = [
     url(r'^registration_tc/$', core_views.registration_page_2, name='registration_tc'),
     url(r'^registration_pharmacy/$', core_views.registration_page_3, name='registration_pharmacy'),
     url(r'^registration_notification/$', core_views.registration_page_4, name='registration_notification'),
-
+    url(r'^users_list/$', core_views.UsersListView.as_view(), name='users_list'),
+    url(r'^generate/$', core_views.GenerateRandomUserView.as_view(), name='generate'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ]
 

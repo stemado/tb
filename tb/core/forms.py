@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # from tb.activities.models import EmailNotification
 from django.utils.safestring import mark_safe
 from tb.authentication.models import Clinic
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class ProfileForm(forms.ModelForm):
     #Do some form of the below to make the form uneditable.
@@ -404,6 +404,16 @@ class ChangePasswordForm(forms.ModelForm):
             self._errors['new_password'] = self.error_class([
                 'Passwords don\'t match'])
         return self.cleaned_data
+
+
+#CELERY FORM TEST
+class GenerateRandomUserForm(forms.Form):
+    total = forms.IntegerField(
+        validators=[
+            MinValueValidator(50),
+            MaxValueValidator(500)
+        ]
+    )
 
 # class HorizontalRadioRenderer(forms.RadioSelect.renderer):
 #   def render(self):

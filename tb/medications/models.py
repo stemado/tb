@@ -180,8 +180,8 @@ class MedicationTime(models.Model):
     timeMedication = models.ForeignKey(Medication, on_delete=models.CASCADE)
     is_notified = models.BooleanField(default=False)
  
-    # def __str__(self):
-    #     return (self.timeGivenStatus)
+    def __str__(self):
+        return '%s %s' % (self.timeMedication, self.timeDue)
 
     def get_status(self):
         return MedicationCompletion.objects.filter(completionMedication=self)
