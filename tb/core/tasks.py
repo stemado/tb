@@ -48,17 +48,20 @@ def check_missed_medications():
 				MedicationCompletion.objects.create(completionMissed='True', completionMedication=e, completionRx=e.timeMedication, completionDue=e.timeDue, completionDate=yesterday, completionNote='ERROR: MEDICATION WAS NOT DELIVERED')
 				logger.info('check_missed_medications - OBJECT CREATED')
 
-#Add for checkMissedMedication.py
 
-#Add for recordMissed.py
+#Checks if record is overdue by comparing completionTime of record with completionDue
+#Updates completionMissed to True (if true)
+@periodic_task(run_every=(crontab()), name="check_record_overdue", ignore_result=True)
+def check_record_overdue():
+	now = datetime.now()
+	yesterday = now - timedelta(days=1)
+	MedicationCompletion.objects.filter(completionTime__gt=F('completionDue')).update(completionMissed='True')
 
-#Add for recordOverdue.py
-
-#Add for resetMedications.py
-
-
-
-
+#Resets the medication status delivery to False at 12:00:01 AM
+#So filters work correctly for new day
+@periodic_task(run_every=(crontab(minute=1, hour=0)), name="reset_medication_delivery", ignore_result=True)
+def reset_medication_delivery():
+	MedicationTime.objects.update(timeGivenStatus='False', is_notified=False)
 
 
 
