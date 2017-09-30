@@ -13,6 +13,9 @@ from tb.search import views as search_views
 
 urlpatterns = [
 	url(r'^$', core_views.home, name='home'),
+    # The below will replace the current "home" view with "app"
+    # to go to the actual app. Home will go to the marketing page.
+    url(r'^app/$', core_views.app, name='app'),
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 	url(r'^admin/', include(admin.site.urls)),

@@ -64,8 +64,10 @@ class GenerateRandomUserView(FormView):
 ################# END CELERY TASK VIEWS ######################
 #############################################################
 
-
 def home(request):
+    return render(request, 'core/home.html')
+
+def app(request):
     if request.user.is_authenticated():
         user =request.user
         page_user = get_object_or_404(User, username=user.username)
