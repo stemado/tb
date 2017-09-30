@@ -180,5 +180,16 @@ EMAIL_USE_TLS = False
 TWILIO_ACCOUNT_SID=config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN=config('TWILIO_AUTH_TOKEN')
 
+###############################
+## Google Chrome Credentials ##
+############ FOR ##############
+###### Push Notfications ######
+###############################
+
+WEBPUSH_SETTINGS = {
+    "GCM_ID": "86199635270",
+    "GCM_KEY":"AIzaSyDUxkSvt03YgQzILmU6fZUjQO-h9Z9bWEU"
+}
+
 
 

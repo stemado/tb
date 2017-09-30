@@ -35,6 +35,7 @@ from reportlab.lib import colors
 from django.contrib.auth.models import User
 import string
 from django.utils.dateparse import parse_date
+from tb.core.tasks import accept_or_refuse_medication
 
 
 
@@ -347,12 +348,34 @@ def acceptRefuse(request, medication, rx):
         form = StatusForm(request.POST)
         if form.is_valid():
             status = form.save()
-            status.save()
+            accept_or_refuse_medication.delay(status)
 
             return redirect('medication')
     else:
         form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date, 'is_notified': False  })
     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
+
+
+# @login_required
+# def acceptRefuse(request, medication, rx):
+#     user = request.user
+#     r = Medication.objects.filter(id=rx).values('user_id')
+#     getMedTime = MedicationTime.objects.get(id=medication)
+#     medtime = getMedTime.timeDue
+#     resident = User.objects.get(id=r)
+#     date = datetime.now().date()
+#     rx = rx
+#     medication = medication
+#     if request.method == 'POST':
+#         form = StatusForm(request.POST)
+#         if form.is_valid():
+#             status = form.save()
+#             status.save()
+
+#             return redirect('medication')
+#     else:
+#         form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date, 'is_notified': False  })
+#     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
 
 
 @login_required

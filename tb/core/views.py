@@ -33,7 +33,7 @@ from tb.core.tasks import create_random_user_accounts
 
 
 ###############################################
-################ CELERY TASKS #################
+########### CELERY TASK VIEWS TESTS ###########
 ###############################################
 
 #@@@ THIS IS USED FOR CREATING USERS TESTS @@@#
@@ -61,7 +61,7 @@ class GenerateRandomUserView(FormView):
 
 
 #############################################################
-################# END CELERY TASKS ##########################
+################# END CELERY TASK VIEWS ######################
 #############################################################
 
 
@@ -129,7 +129,7 @@ def profile(request, username):
 def dashboard(request):
     user = request.user
     page_user = get_object_or_404(User, id=user.id)
-    overdue = MedicationTime.get_overdue_medications().count()
+    overdue = MedicationTime.get_overdue_medications()
     print(overdue)
     return render(request, 'core/dashboard.html', {'overdue': overdue})
 

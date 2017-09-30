@@ -22,17 +22,14 @@ def create_random_user_accounts(total):
         User.objects.create_user(username=username, email=email, password=password)
     return '{} random users created with success!'.format(total)
 
-#TEST PERIODIC CHECK BY CELERY
-@periodic_task(run_every=(crontab(minute='*/1')), name="task_test", ignore_result=True)
 
-def task_test():
-	print('This celery task is running!')
-	logger.info('This is from the logger - the celery task is runnin!')
+@shared_task
+def accept_or_refuse_medication(status):
+	status.save()
+	return 'Saved successfully!'
 
-# CHECK FOR MISSED MEDICATIONS THAT WERE NOT DELIVERED THAT DAY
-# PURPOSE: Prevents a medication from being missed, records that it was missed that day
-# TODO: UPDATE DATE TO today = date - timedelta(days=1) This allows us to check yesterday's records
-# (CONTINUED) AT 12:01 AT AND SEE IF ANY WERE MISSED
+
+# Prevents a medication from being missed, and instead records that it was missed for that day.
 # NOTE: WILL NEED TO REVIST THIS ONCE WE DETERMINE HOW TO HANDLE MEDICATIONS DUE AT 24:00 AND < OR > 1 HOUR TO DELIVER
 @periodic_task(run_every=(crontab(minute=0, hour=1)), name="check_missed_medications", ignore_result=True)
 def check_missed_medications():
