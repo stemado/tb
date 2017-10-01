@@ -53,6 +53,7 @@ class StatusForm(forms.ModelForm):
         super(StatusForm, self).__init__(*args, **kwargs)
         self.fields['completionRx'].is_hidden = True
         self.fields['completionMedication'].is_hidden = True
+        self.fields['completionDue'].is_hidden = True
 
 
 # Note: completionRx and completionMedication are not customized like the below because
@@ -63,7 +64,8 @@ class StatusForm(forms.ModelForm):
     completionNote = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
-        required=False)
+        required=False,
+        label="Note:")
     completionDate = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
         max_length=50,

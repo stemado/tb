@@ -237,6 +237,11 @@ class MedicationCompletion(models.Model):
         missed = MedicationCompletion.objects.filter(completionDate__contains=today.month, completionMissed=True)
         print(str(today.month))
         return missed
+    
+    def get_monthly_delivered():
+        today = datetime.now()
+        delivered = MedicationCompletion.objects.filter(completionDate__contains=today.month)
+        return delivered
 
 
 class SendSMS(models.Model):

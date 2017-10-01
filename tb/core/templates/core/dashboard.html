@@ -11,32 +11,44 @@ window.onload = function () {
     var medication = "{{ medication.count }}";
     var patients = "{{ patients.count }}";
     var missed = "{{ missed.count }}";
+    var delivered = "{{ delivered.count }}"
     var chart = new CanvasJS.Chart("chartContainer", {
-        title:{
-            text: "My First Chart in CanvasJS"              
+        theme: "dark2", //"light1", "Light2", "dark1", "dark2"
+        exportEnabled: true,
+        // title:{
+        //     text: "Sample Column Chart"              
+        // },
+        data: [              
+        {
+            // Change type to "doughnut", "line", "splineArea", etc.
+            type: "pie",
+            dataPoints: [
+                { label: "Missed", y: eval(missed) },
+                { label: "Delivered", y: eval(delivered) },
+            ]
         },
+        ]
+    });
+    var newchart = new CanvasJS.Chart("chartContainer2", {
+        theme: "dark2",
+        exportEnabled: true,
+        // title:{
+        //     text: "Sample Doughnut Chart"              
+        // },
         data: [              
         {
             // Change type to "doughnut", "line", "splineArea", etc.
             type: "column",
             dataPoints: [
-                { label: "Missed", y: eval(missed) },
                 { label: "Overdue",  y: eval(overdue) },
                 { label: "Active",  y: eval(active) },
                 { label: "Medication", y: eval(medication)  },
                 { label: "Patients", y: eval(patients)  }
             ]
         },
-        ]
-    });
-    var newchart = new CanvasJS.Chart("chartContainer2", {
-        title:{
-            text: "Doughnut Test"              
-        },
-        data: [              
-        {
+                {
             // Change type to "doughnut", "line", "splineArea", etc.
-            type: "doughnut",
+            type: "line",
             dataPoints: [
                 { label: "Overdue",  y: eval(overdue) },
                 { label: "Active",  y: eval(active) },
@@ -71,10 +83,15 @@ window.onload = function () {
 
         </div>
         <div class="col-md-9">
-            <h4>{% trans 'Medication for' %} {{ page_user.profile.get_screen_name }}</h4>
+            <h4>{% trans 'Dashboard for' %} {{ page_user.profile.get_screen_name }}</h4>
+            <div class="stream-update">
+
+            <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+            </div>
+                        <h4>{% trans 'Missed Medications for' %} {% now 'F o' %} </h4>
             <div class="stream-update">
                 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+                
             </div>
             <ul class="stream">
 

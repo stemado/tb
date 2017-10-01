@@ -136,8 +136,9 @@ def dashboard(request):
     patients = Profile.objects.filter(user_type='1')
     medication = Medication.objects.all()
     missed = MedicationCompletion.get_monthly_missed()
+    delivered = MedicationCompletion.get_monthly_delivered()
     print(overdue)
-    return render(request, 'core/dashboard.html', {'missed': missed, 'overdue': overdue, 'active': active, 'medication': medication, 'patients': patients, 'page_user': page_user })
+    return render(request, 'core/dashboard.html', {'missed': missed, 'delivered': delivered, 'overdue': overdue, 'active': active, 'medication': medication, 'patients': patients, 'page_user': page_user })
 
 
 # @login_required

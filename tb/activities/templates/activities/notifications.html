@@ -20,7 +20,7 @@
         <a href="{% url 'profile' %}"><img src="{{ notification.from_user.profile.get_picture }}" class="user-picture"></a>
         <div>
           <small>{{ notification.date|naturaltime }}</small>
-          <p>{{ notification }}</p>
+          <p>{{ notification| safe }}</p>
         </div>
       </li>
     {% empty %}
