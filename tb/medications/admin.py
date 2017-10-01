@@ -2,7 +2,7 @@ from tb.medications.models import Medication, MedicationTime, MedicationCompleti
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
-@admin.register(Medication, MedicationTime)
+@admin.register(Medication, MedicationTime, MedicationCompletion)
 
 class MedicationAdmin(ImportExportModelAdmin):
     pass

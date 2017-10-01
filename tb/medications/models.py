@@ -229,7 +229,14 @@ class MedicationCompletion(models.Model):
     completionRx = models.ForeignKey(Medication, related_name="mymedication", on_delete=models.CASCADE)
 
     def __str__(self):
-        return (self.completionStatus)
+        return '%s %s' % (self.completionRx, self.completionMissed)
+
+
+    def get_monthly_missed():
+        today = datetime.now()
+        missed = MedicationCompletion.objects.filter(completionDate__contains=today.month, completionMissed=True)
+        return missed
+
 
 class SendSMS(models.Model):
     to_number = models.CharField(max_length=30)

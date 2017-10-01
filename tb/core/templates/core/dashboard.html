@@ -1,0 +1,90 @@
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %}{{ page_user.profile.get_screen_name }}{% endblock %} {% block head %}
+ {% load django_tables2 %}
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+
+
+
+window.onload = function () {
+    var overdue = "{{ overdue.count}}";
+    var active = "{{ active.count }}";
+    var medication = "{{ medication.count }}";
+    var patients = "{{ patients.count }}";
+    var missed = "{{ missed.count }}";
+    var chart = new CanvasJS.Chart("chartContainer", {
+        title:{
+            text: "My First Chart in CanvasJS"              
+        },
+        data: [              
+        {
+            // Change type to "doughnut", "line", "splineArea", etc.
+            type: "column",
+            dataPoints: [
+                { label: "Missed", y: eval(missed) },
+                { label: "Overdue",  y: eval(overdue) },
+                { label: "Active",  y: eval(active) },
+                { label: "Medication", y: eval(medication)  },
+                { label: "Patients", y: eval(patients)  }
+            ]
+        },
+        ]
+    });
+    var newchart = new CanvasJS.Chart("chartContainer2", {
+        title:{
+            text: "Doughnut Test"              
+        },
+        data: [              
+        {
+            // Change type to "doughnut", "line", "splineArea", etc.
+            type: "doughnut",
+            dataPoints: [
+                { label: "Overdue",  y: eval(overdue) },
+                { label: "Active",  y: eval(active) },
+                { label: "Medication", y: eval(medication)  },
+                { label: "Patients", y: eval(patients)  }
+            ]
+        },
+        ]
+    });
+    chart.render();
+    newchart.render();
+}
+</script>
+{% endblock head %} {% block main %}
+<div class="page-header">
+    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}({{ page_user.username }}){% endif %}</h1>
+</div>
+<div class="profile">
+    <div class="row">
+        <div class="col-md-3 user-profile">
+            <img src="{{ page_user.profile.get_picture }}" class="picture">
+            <ul>
+                {% if page_user.profile.job_title %}
+                <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
+                {% endif %} {% if page_user.profile.location %}
+                <li><span class="glyphicon glyphicon-map-marker"></span> {{ page_user.profile.location }}</li>
+                {% endif %} {% if page_user.profile.url %}
+                <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
+                {% endif %}
+            </ul>
+            {% include 'core/partial_settings_menu_2.html' with active='dashboard' %}
+
+        </div>
+        <div class="col-md-9">
+            <h4>{% trans 'Medication for' %} {{ page_user.profile.get_screen_name }}</h4>
+            <div class="stream-update">
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+            </div>
+            <ul class="stream">
+
+
+
+                <hr>
+                </ul>
+                </div>
+                </div>
+                </div>
+
+
+{% endblock %}
