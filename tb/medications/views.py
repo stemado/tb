@@ -348,7 +348,7 @@ def acceptRefuse(request, medication, rx):
         form = StatusForm(request.POST)
         if form.is_valid():
             status = form.save()
-            accept_or_refuse_medication.delay(status)
+            status.saves()
 
             return redirect('medication')
     else:

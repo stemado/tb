@@ -170,6 +170,16 @@ REST_FRAMEWORK = {
     )
 }
 
+##########################
+##### Auth Token Test ####
+##########################
+
+# CURL RETRIVE AUTH TOKEN
+# curl -H "Content-Type: application/json" -X POST -d '{"username":"stemado","password":"Fr33d0m!"}' http://127.0.0.1:8000/api-token-auth/
+
+# CURL TEST AUTH TOKEN
+# curl -X GET http://127.0.0.1:8000/api/v1/Medication/?id=1  -H 'Authorization: Token 924fb9aac518014fbb42b57b0bf4c3fc472729af'
+
 
 
 ##########################
