@@ -9,7 +9,7 @@ from tb.activities import views as activities_views
 from tb.authentication import views as tb_auth_views
 from tb.core import views as core_views
 from tb.search import views as search_views
-
+from rest_framework.authtoken import views
 
 urlpatterns = [
 	url(r'^$', core_views.home, name='home'),
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/', include('tb.api.urls')),
+    url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^login', auth_views.login, {'template_name': 'core/cover.html'},
         name='login'),
     url(r'^logout', auth_views.logout, {'next_page': '/'}, name='logout'),

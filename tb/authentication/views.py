@@ -2,6 +2,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from rest_framework.authtoken.models import Token
 
 from tb.authentication.forms import SignUpForm
 from tb.feeds.models import Feed
@@ -25,6 +26,7 @@ def signup(request):
                                                                 user.username)
             feed = Feed(user=user, post=welcome_post)
             feed.save()
+            
             return redirect('registration')
 
     else:

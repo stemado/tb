@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'tablib',
     'sendgrid',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_celery_beat',
 
     
@@ -159,8 +160,16 @@ REST_FRAMEWORK = {
     #Allows for SearchFilter (/?search=YourFieldAllowedInSettings...)
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     #Paginate API Results to 10 presults per page
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
+
 
 
 ##########################

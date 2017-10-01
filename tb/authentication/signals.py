@@ -15,3 +15,8 @@ def create_patient(sender, instance, created, **kwargs):
 	if created:
 		user = Profile.objects.get(id=instance.id)
 		Patient.objects.create(patient_id=, first_name=instance.first_name, last_name=instance.last_name, email=instance.email, city=instance.city, providence=instance.providence, zipcode=instance.zipcode, address1=instance.address1, address2=instance.address2, phonenumber=instance.phonenumber, mobilenumber=instance.mobilenumber, profile=instance.id)
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
