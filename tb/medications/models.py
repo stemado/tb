@@ -221,6 +221,10 @@ class MedicationCompletion(models.Model):
     completionStatus = models.NullBooleanField(verbose_name="Current Status", choices=BOOL_CHOICES, default=None, null=True, blank=True)
     completionStatus2 = models.CharField(verbose_name="Current Status 2", choices=STATUS_CHOICES, default='Null', max_length=12, null=True, blank=True)
     completionMissed = models.CharField(verbose_name="Medicaton Missed", choices=MISSED_CHOICES, default='False', max_length=12, null=True, blank=True)
+    completionMissed = models.CharField(verbose_name="Medicaton Missed", choices=MISSED_CHOICES, default='False', max_length=12, null=True, blank=True)
+    completionEdited = models.CharField(verbose_name="Medicaton Edited", max_length=50, null=True, blank=True)    
+    completionEditedUser = models.CharField(verbose_name="Edited by:", max_length=50, null=True, blank=True)
+    completionEditedDate = models.CharField(verbose_name="Date by:", max_length=50, null=True, blank=True)
     completionTime = models.TimeField(verbose_name="Time Given", auto_now_add=True)
     completionDue = models.TimeField(verbose_name="Time Due", null=True, blank=True)
     completionDate = models.DateField(verbose_name="Date Given")
@@ -242,6 +246,19 @@ class MedicationCompletion(models.Model):
         today = datetime.now()
         delivered = MedicationCompletion.objects.filter(completionDate__contains=today.month)
         return delivered
+
+@python_2_unicode_compatible
+class MedicationCompletionChangeHistory(models.Model):
+
+    user = models.ForeignKey(User)
+    medicationRx = models.ForeignKey(Medication)
+    medicationTime = models.ForeignKey(MedicationTime)
+    dateEdited = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s' % (self.medicationRx, self.medicationTime)
+
+
 
 
 class SendSMS(models.Model):

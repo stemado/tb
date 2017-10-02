@@ -10,7 +10,7 @@ import hashlib
 
 import markdown
 from tb.medications.forms import MedicationForm, StatusForm, EditStatusForm, MedicationStatusForm, StatusFormSet
-from tb.medications.models import Medication, MedicationCompletion, MedicationTime
+from tb.medications.models import Medication, MedicationCompletion, MedicationTime, MedicationCompletionChangeHistory
 from tb.authentication.models import Profile
 from tb.decorators import ajax_required
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetView
@@ -306,6 +306,8 @@ def acceptRefuse(request, medication, rx):
 
 @login_required
 def editAcceptRefuse(request, id):
+    user = request.user
+    time = datetime.now()
     if id:
         completion = get_object_or_404(MedicationCompletion, id=id)
         print(completion)
@@ -316,10 +318,14 @@ def editAcceptRefuse(request, id):
         form = EditStatusForm(request.POST, instance=completion)
         if form.is_valid():
             completion.completionMissed = 'False'
+            completion.completionEdited = True
+            completion.completionEditedUser = user.id
+            completion.completionEditedDate = time
             form.save()
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 'Your medication status was successfully updated.')            
+
+            #Record update in MedicationCompletionChangesHistory
+            MedicationCompletionChangeHistory.objects.create(user=user, medicationRx=completion.completionRx, medicationTime=completion.completionMedication) 
+
 
             return redirect('monthlyMissed')
     else: 
