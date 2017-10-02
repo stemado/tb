@@ -8,4 +8,4 @@ Three shells needed:
 2. celery -A tb beat -l info
   a. (OR if using databse scheduler): $ celery -A proj beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler 
 2. rabbitmq-server (starts server at local host)
-3. Normal virtual server start-up
+3. Normal virtual server start-up.
