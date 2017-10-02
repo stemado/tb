@@ -1,0 +1,58 @@
+
+ {% extends 'base.html' %} {% load staticfiles %} {% load i18n %} {% block title %} {% trans 'MARS' %} {% endblock %} {% block head %}
+<link href="{% static 'css/medications.css' %}" rel="stylesheet">
+<link href="{% static 'js/medications.js' %}" rel="stylesheet"> {% endblock head %} {% block main %}
+<div class="container">
+    <div class="page-header">
+        <a href="{% url 'overdueMedications' %}" class="btn btn-danger pull-right">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> {% trans 'Overdue' %}
+        </a>
+        <a href="{% url 'activeMedications' %}" class="btn btn-success pull-right">
+            <span class="glyphicon glyphicon-check"></span> {% trans 'Active' %}
+        </a>
+        <h1>{% trans 'Monthly Missed Medication' %}</h1>
+    </div>
+</div>
+<div class="container">
+            <div class="row">
+            <div class="col-md-10">
+
+                <div class="container">
+                    <h2>Medication History</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Accepted</th>
+                                <th>Date</th>
+                                <th>Missed</th>
+                                <th>Note</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for m in missed %}
+                            <tr>
+                                <td>{{ m.completionRx }}</td>
+                                <td>{{ m.completionStatus }}</td>
+                                <td>{{ m.completionDate }}</td>
+                                <td>{{ m.completionMissed }}</td>
+                                <td>{{ m.completionNote }}</td>
+                                <td><a href="{% url 'editAcceptRefuse' m.id %}" class="btn btn-info" role="button">Edit</a></td>
+                            </tr>
+                            {% empty %}
+                            <h4>Yay! No overdue medications so far this month!</h4>
+                            {% endfor %}
+
+                        </tbody>
+ 
+                    </table>
+
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock main %}

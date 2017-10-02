@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 import hashlib
 
 import markdown
-from tb.medications.forms import MedicationForm, StatusForm, MedicationStatusForm, StatusFormSet
+from tb.medications.forms import MedicationForm, StatusForm, EditStatusForm, MedicationStatusForm, StatusFormSet
 from tb.medications.models import Medication, MedicationCompletion, MedicationTime
 from tb.authentication.models import Profile
 from tb.decorators import ajax_required
@@ -36,6 +36,7 @@ from django.contrib.auth.models import User
 import string
 from django.utils.dateparse import parse_date
 from tb.core.tasks import accept_or_refuse_medication
+from django.contrib import messages
 
 
 
@@ -133,42 +134,12 @@ def active_medications(request):
     return render(request, 'medications/active_medications.html', {'medications': medications,
         'active': active, 'overdue_medications': overdue_medications})
 
-# @login_required
-# def medication_active(request, id):
-#     user = request.user
-#     page_user = get_object_or_404(User, id=id)
-#     user_type = page_user.profile.user_type
-#     if user_type == 0:
-#         medications = Medication.get_medications()
-#         active_medications = MedicationTime.get_active_medications()
-#         overdue_medications = MedicationTime.get_overdue_medications()
-#         paginator = Paginator(active_medications, 10)
-#         page = request.GET.get('page')
-#         try:
-#             meds = paginator.page(page)
-#         except PageNotAnInteger:
-#             meds = paginator.page(1)
-#         except EmptyPage:
-#             meds = paginator.page(paginator.num_pages)
-#         return render(request, 'core/medication_active.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications})
-
-#     else:
-#         medications = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active').values('id')
-#         medcount = Medication.get_medications().filter(user=user, medicationDiscontinuedStatus='Active')
-#         active_count = MedicationTime.get_active_medications().filter(timeMedication__id=medcount)
-#         overdue_count = MedicationTime.get_overdue_medications().filter(timeMedication__id=medcount)
-#         active_medications = MedicationTime.get_active_medications().filter(timeMedication__id=medications)
-#         overdue_medications = MedicationTime.get_overdue_medications().filter(timeMedication__id=medications)
-#         paginator = Paginator(active_medications, 10)
-#         page = request.GET.get('page')
-#         try:
-#             meds = paginator.page(page)
-#         except PageNotAnInteger:
-#             meds = paginator.page(1)
-#         except EmptyPage:
-#             meds = paginator.page(paginator.num_pages)
-
-#         return render(request, 'core/medication_active.html', {'meds': meds, 'page_user': page_user, 'medications': medications, 'active_medications': active_medications, 'overdue_medications': overdue_medications, 'active_count': active_count, 'overdue_count': overdue_count})
+@login_required
+def monthly_missed_medications(request):
+    user = request.user
+    page_user = get_object_or_404(User, id=user.id)
+    missed = MedicationCompletion.get_monthly_missed()
+    return render(request, 'medications/missed_by_current_month.html', {'missed': missed, 'page_user': page_user })
 
 
 
@@ -293,28 +264,6 @@ def createMedication(request, id):
             form = MedicationForm(instance=user, initial={'user': user, 'patient': user.id})
     return render(request, 'medications/create.html', {'form': form})
 
-# @login_required
-# def create_medication(request):
-#     user = request.user
-#     if request.method == 'POST':
-#         form = MedicationForm(request.POST)
-#         if form.is_valid():
-#             medication = form.save()
-#             medication.medicationName = form.cleaned_data.get('medicationName')
-#             medication.medicationDosage = form.cleaned_data.get('medicationDosage')
-#             medication.medicationFrequency = form.cleaned_data.get('medicationFrequency')
-#             medication.medicationDistribution = form.cleaned_data.get('medicationDistribution')
-#             medication.medicationQuantity = form.cleaned_data.get('medicationQuantity')
-#             medication.medicationType = form.cleaned_data.get('medicationType')
-#             medication.medicationStatus = form.cleaned_data.get('medicationStatus')
-#             medication.medicationComment = form.cleaned_data.get('medicationComment')
-#             medication.medicationSlug = form.cleaned_data.get('medicationSlug')
-#             medication.medicationTimeSchedule = form.cleaned_data.get('medicationTimeSchedule')
-#             medication.save()
-#             return redirect('medication')
-#     else:
-#         form = MedicationForm(initial={'patient': user})
-#     return render(request, 'settings/create.html', {'form': form})
 
 
 #This model allows us to edit the Medication.
@@ -355,28 +304,28 @@ def acceptRefuse(request, medication, rx):
         form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date, 'is_notified': False  })
     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
 
+@login_required
+def editAcceptRefuse(request, id):
+    if id:
+        completion = get_object_or_404(MedicationCompletion, id=id)
+        print(completion)
+    else:
+        completion = None
 
-# @login_required
-# def acceptRefuse(request, medication, rx):
-#     user = request.user
-#     r = Medication.objects.filter(id=rx).values('user_id')
-#     getMedTime = MedicationTime.objects.get(id=medication)
-#     medtime = getMedTime.timeDue
-#     resident = User.objects.get(id=r)
-#     date = datetime.now().date()
-#     rx = rx
-#     medication = medication
-#     if request.method == 'POST':
-#         form = StatusForm(request.POST)
-#         if form.is_valid():
-#             status = form.save()
-#             status.save()
+    if request.method == 'POST':
+        form = EditStatusForm(request.POST, instance=completion)
+        if form.is_valid():
+            completion.completionMissed = 'False'
+            form.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your medication status was successfully updated.')            
 
-#             return redirect('medication')
-#     else:
-#         form = StatusForm(initial={'completionMedication': medication, 'completionRx': rx, 'completionDue': medtime, 'completionDate': date, 'is_notified': False  })
-#     return render(request, 'medications/medication_status.html/', {'form': form, 'user': user, 'rx': rx, 'medication': medication})
-
+            return redirect('monthlyMissed')
+    else: 
+        form = EditStatusForm(instance=completion, initial={'completion': completion})
+    return render(request, 'medications/edit_missed.html/', {'form': form, 'id': id})
+    
 
 @login_required
 def deleteMedication(request, id):

@@ -80,6 +80,42 @@ class StatusForm(forms.ModelForm):
         model = MedicationCompletion
         fields = ['completionStatus', 'completionRx', 'completionNote', 'completionMedication', 'completionDate', 'completionDue']
 
+class EditStatusForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(EditStatusForm, self).__init__(*args, **kwargs)
+        self.fields['completionRx'].is_hidden = True
+        self.fields['completionMedication'].is_hidden = True
+        self.fields['completionDue'].is_hidden = True
+        self.fields['completionDate'].is_hidden = False
+        self.fields['completionMissed'].widget.attrs['disabled'] = True
+
+
+# Note: completionRx and completionMedication are not customized like the below because
+# they require objects. If you add them to the below, then you will get an error of
+# completionMedication/completionRx needs to be instance of MedicationTime/Medication
+# since they are hidden fields anyway, there is no need to clean them up
+# aesthetically.
+    completionNote = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=75,
+        required=True,
+        label="Edit Note:")
+
+    completionMissed = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=9,
+        required=False)
+
+    completionDate = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        max_length=50,
+        required=False)
+
+
+    class Meta:
+        model = MedicationCompletion
+        fields = ['completionStatus', 'completionRx', 'completionNote', 'completionMedication', 'completionDate', 'completionDue']
+
 class MedicationStatusForm(forms.ModelForm):
 
     medicationName = forms.CharField(

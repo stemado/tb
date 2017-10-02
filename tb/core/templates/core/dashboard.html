@@ -12,6 +12,7 @@ window.onload = function () {
     var patients = "{{ patients.count }}";
     var missed = "{{ missed.count }}";
     var delivered = "{{ delivered.count }}"
+    var gotooverdue = "{% url 'medications' %}"
     var chart = new CanvasJS.Chart("chartContainer", {
         theme: "dark2", //"light1", "Light2", "dark1", "dark2"
         exportEnabled: true,
@@ -22,6 +23,7 @@ window.onload = function () {
         {
             // Change type to "doughnut", "line", "splineArea", etc.
             type: "pie",
+            cursor: "pointer",
             dataPoints: [
                 { label: "Missed", y: eval(missed) },
                 { label: "Delivered", y: eval(delivered) },
@@ -39,10 +41,11 @@ window.onload = function () {
         {
             // Change type to "doughnut", "line", "splineArea", etc.
             type: "column",
+            cursor: "pointer",
             dataPoints: [
-                { label: "Overdue",  y: eval(overdue) },
+                { label: "Overdue",  y: eval(overdue),  },
                 { label: "Active",  y: eval(active) },
-                { label: "Medication", y: eval(medication)  },
+                { label: "Medication", y: eval(medication) },
                 { label: "Patients", y: eval(patients)  }
             ]
         },
@@ -88,7 +91,7 @@ window.onload = function () {
 
             <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
             </div>
-                        <h4>{% trans 'Missed Medications for' %} {% now 'F o' %} </h4>
+            <h4><a href="{% url 'monthlyMissed' %}" >{% trans 'Missed Medications for' %} {% now 'F o' %}</a></h4>
             <div class="stream-update">
                 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
                 

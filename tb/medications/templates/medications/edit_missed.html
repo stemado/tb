@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %} 
+{% load staticfiles %} 
+{% load i18n %} 
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %} 
+{% trans 'MAR' %} 
+{% endblock %} 
+{% block head %}
+<script src="{% static 'js/medications.js' %}"></script>
+<script src="{% static 'js/custom_medications.js' %}"></script>
+<link href="{% static 'css/medications.css' %}" rel="stylesheet"> 
+{% endblock head %} 
+{% block main %}
+<div class="col-md-9">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      </div>
+<div class="post-comment clearfix">
+    <form action="{% url 'editAcceptRefuse' id %}" method="POST" class="form">
+        {% csrf_token %} 
+        {% bootstrap_form form %}
+ 
+        <div class="form-group">
+            <button type="submit" id="medicationAccepted" class="btn btn-primary publish">{% trans 'Record' %}</button>
+            <a href="{% url 'medication' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
