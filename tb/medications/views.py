@@ -11,6 +11,7 @@ import hashlib
 import markdown
 from tb.medications.forms import MedicationForm, StatusForm, EditStatusForm, MedicationStatusForm, StatusFormSet
 from tb.medications.models import Medication, MedicationCompletion, MedicationTime, MedicationCompletionChangeHistory
+from tb.feeds.models import Feed
 from tb.authentication.models import Profile
 from tb.decorators import ajax_required
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView, InlineFormSetView
@@ -139,6 +140,11 @@ def monthly_missed_medications(request):
     user = request.user
     page_user = get_object_or_404(User, id=user.id)
     missed = MedicationCompletion.get_monthly_missed()
+
+    # Add Alerts to Feed
+    for m in missed:
+        Feed.objects.create(user=user, date=time, post=m.completionRx + 'Medication for ' + m.completionRx_id.user +' is overdue!')
+
     return render(request, 'medications/missed_by_current_month.html', {'missed': missed, 'page_user': page_user })
 
 
@@ -325,7 +331,7 @@ def editAcceptRefuse(request, id):
 
             #Record update in MedicationCompletionChangesHistory
             MedicationCompletionChangeHistory.objects.create(user=user, medicationRx=completion.completionRx, medicationTime=completion.completionMedication) 
-
+            
 
             return redirect('monthlyMissed')
     else: 

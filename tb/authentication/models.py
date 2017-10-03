@@ -29,6 +29,7 @@ class Profile(models.Model):
     emailnotify = models.BooleanField(default=True, blank=True)
     smsnotify = models.BooleanField(default=True, blank=True)
     tandc = models.BooleanField(verbose_name="I Agree with the terms and conditions.", default=False, blank=True)
+    registration_complete = models.BooleanField(verbose_name="Registration Complete", default=False, blank=True)
     user_type = models.CharField(max_length=20, default='1', choices=AUTH_CHOICES)
 
 
@@ -186,6 +187,7 @@ class Patient(models.Model):
 #Clinic model that is tied to a User which allows us to still reference the user = request.user
 @python_2_unicode_compatible
 class Clinic(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
     province = models.CharField(max_length=50, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     suburb = models.CharField(max_length=50, null=True, blank=True)

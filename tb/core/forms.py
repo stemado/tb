@@ -137,7 +137,7 @@ class EditProfileForm(forms.ModelForm):
         required=False,
         label="Surname")
     email = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
         max_length=75,
         required=False,
         label="Email")
@@ -152,7 +152,7 @@ class EditProfileForm(forms.ModelForm):
         required=False,
         label="Province")
     zipcode = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False,
         label="ZIP Code")
@@ -167,12 +167,12 @@ class EditProfileForm(forms.ModelForm):
         required=False,
         label="Address 2")
     phonenumber = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False,
         label="Phone Number")
     mobilenumber = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False,
         label="Mobile Number")
@@ -187,7 +187,7 @@ class EditProfileForm(forms.ModelForm):
         initial='1',
         label="User Type")
     pinnumber = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control user-type'}),
+        widget=forms.NumberInput(attrs={'class': 'form-control user-type'}),
         max_length=9,
         required=False,
         label="PIN Number")
@@ -294,8 +294,12 @@ class SignUpStep3(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SignUpStep3, self).__init__(*args, **kwargs)
-        self.fields['user'].is_hidden = True
+        # self.fields['user'].widget.attrs['disabled'] = True
 
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=False,
+        label="Clinic Name")
     province = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False,
@@ -312,10 +316,13 @@ class SignUpStep3(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=False,
         label="Suburb")
+    user = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.HiddenInput())
 
     class Meta:
         model = Clinic
-        fields = ('province', 'city', 'street', 'suburb', 'user')
+        fields = ('name', 'province', 'city', 'street', 'suburb', 'user')
 
 # class SignUpStep3(forms.ModelForm):
 #     #Do some form of the below to make the form uneditable.

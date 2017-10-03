@@ -69,20 +69,25 @@ def home(request):
 
 def app(request):
     if request.user.is_authenticated():
-        user =request.user
-        page_user = get_object_or_404(User, username=user.username)
-        all_feeds = Feed.get_feeds().filter(user=page_user)
-        paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
-        feeds = paginator.page(1)
-        from_feed = -1
-        if feeds:
-            from_feed = feeds[0].id
-        return render(request, 'core/profile.html', {
+        user = request.user
+        if user.profile.registration_complete == True:
+            user = request.user
+            page_user = get_object_or_404(User, username=user.username)
+            all_feeds = Feed.get_feeds().filter(user=page_user)
+            paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
+            feeds = paginator.page(1)
+            from_feed = -1
+            if feeds:
+                from_feed = feeds[0].id
+            return render(request, 'core/profile.html', {
             'page_user': page_user,
             'feeds': feeds,
             'from_feed': from_feed,
             'page': 1
             })
+        else:
+            return redirect('registration')
+
     else:
         return render(request, 'core/cover.html')
 
@@ -232,6 +237,43 @@ def settings(request):
 
             })
     return render(request, 'core/settings.html', {'form': form})
+
+####### TO DO ##################################
+# Clinic View Form View and Edit Coming Soon to a theatre near you!
+# 1. Need to create view ONLY for viewing clinics (since could be more than one)
+# 2. Need to create URL for viewing clinics
+# 3. Need to create URL for viewing specific clinic
+################################################
+# @login_required
+# def clinic(request, id):
+#     user = request.user
+#     clinic = get_object_or_404(Clinic, id=id)
+#     if request.method == 'POST':
+#         form = SignUpStep3(request.POST, instance=clinic)
+#         if form.is_valid():
+#             clinic = form.save()
+#             clinic.province = form.cleaned_data.get('province')
+#             clinic.city = form.cleaned_data.get('city')
+#             clinic.street = form.cleaned_data.get('street')
+#             clinic.suburb = form.cleaned_data.get('suburb')
+#             clinic.user = form.cleaned_data.get('user')
+#             clinic.save()
+#             messages.add_message(request,
+#                                  messages.SUCCESS,
+#                                  'Your clinic was successfully updated.')
+#             return redirect('clinic')
+
+
+#     else:
+#         form = SignUpStep3(instance=clinic, initial={
+#             'name': clinic.name,
+#             'province': clinic.province,
+#             'city': province.city,
+#             'street': province.street,
+#             'suburb': province.suburb,
+
+#             })
+#     return render(request, 'core/settings.html', {'form': form})
 
 def edit_profile(request):
     user = request.user
@@ -551,7 +593,7 @@ def registration(request):
             user.profile.user_type = form.cleaned_data.get('user_type')
             user.profile.pinnumber = form.cleaned_data.get('pinnumber')
             user.save()
-            return redirect('registration_tandc')
+            return redirect('registration_tc')
     else:
         form = SignUpStep1(instance=user, initial={
             'first_name': user.first_name,
@@ -592,18 +634,20 @@ def registration_page_3(request):
     if request.method == 'POST':
         form = SignUpStep3(request.POST)
         if form.is_valid():
-
-            form.province = form.cleaned_data.get('province')
-            form.city = form.cleaned_data.get('city')
-            form.street = form.cleaned_data.get('street')
-            form.suburb = form.cleaned_data.get('suburb')
-            form.user = user.id
-            form.save()
+            clinic = form.save()
+            clinic.province = form.cleaned_data.get('province')
+            clinic.city = form.cleaned_data.get('city')
+            clinic.street = form.cleaned_data.get('street')
+            clinic.suburb = form.cleaned_data.get('suburb')
+            clinic.user = form.cleaned_data.get('user')
+            clinic.save()
             return redirect('registration_notification')
     else:
-        form = SignUpStep3()
+        form = SignUpStep3(initial={
+            'user': user,
+            })
 
-    return render(request, 'core/sign_up_three.html', {'form': form})
+    return render(request, 'core/sign_up_three.html', {'form': form, 'user': user})
 
 # @login_required
 # def registration_page_3(request):
@@ -632,6 +676,7 @@ def registration_page_4(request):
 
             user.profile.smsnotify = form.cleaned_data.get('smsnotify')
             user.profile.emailnotify = form.cleaned_data.get('emailnotify')
+            user.profile.registration_complete = True
             user.save()
 
             welcome_post = 'Congratulations! Your registration is complete!'.format(user.username,
@@ -639,7 +684,7 @@ def registration_page_4(request):
             feed = Feed(user=user, post=welcome_post)
             feed.save()
 
-            return redirect('/')
+            return redirect('/app')
     else:
         form = SignUpStep4(instance=user, initial={
             'smsnotify': user.profile.smsnotify,
