@@ -1,4 +1,4 @@
-#!/Users/mac/Desktop/djangoProjects/tb/ptf2/bin/python
+#!/Users/stemado/DjangoProjects/tb/ptf2/bin/python
 
 import sys
 import getopt

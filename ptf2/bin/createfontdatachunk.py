@@ -1,4 +1,4 @@
-#!/Users/mac/Desktop/djangoProjects/tb/ptf2/bin/python3.5
+#!/Users/stemado/DjangoProjects/tb/ptf2/bin/python3
 from __future__ import print_function
 import base64
 import os

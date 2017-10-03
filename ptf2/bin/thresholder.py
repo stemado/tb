@@ -1,4 +1,4 @@
-#!/Users/mac/Desktop/djangoProjects/tb/ptf2/bin/python3.5
+#!/Users/stemado/DjangoProjects/tb/ptf2/bin/python3
 #
 # The Python Imaging Library
 # $Id$
