@@ -150,18 +150,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
 #Celery Broker URL#
-# CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_BROKER_URL = 'amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg'
-CELERY_RESULT_BACKEND= 'amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
-
-#RABBITMQ HEROKU SETUP#
-BROKER_URL = os.environ.get("CLOUDAMQP_URL", "amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg")
-BROKER_POOL_LIMIT = 1
-BROKER_CONNECTION_MAX_RETRIES = None
+CELERY_BROKER_URL = 'amqp://localhost'
 
 ##########################
 ####API REST Framework####
