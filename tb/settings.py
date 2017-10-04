@@ -151,8 +151,8 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 #Celery Broker URL#
 # CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_BROKER_URL = os.environ.get('CLOUDAMPQ_URL')
-CELERY_RESULT_BACKEND=os.environ.get('CLOUDAMPQ_URL')
+CELERY_BROKER_URL = 'amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg'
+CELERY_RESULT_BACKEND= 'amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
