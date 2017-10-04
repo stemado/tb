@@ -149,8 +149,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
-#Celery Broker URL
+#Celery Broker URL#
 CELERY_BROKER_URL = 'amqp://localhost'
+
+#RABBITMQ HEROKU SETUP#
+BROKER_URL = os.environ.get("CLOUDAMQP_URL", "amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg")
+BROKER_POOL_LIMIT = 1
+BROKER_CONNECTION_MAX_RETRIES = None
 
 ##########################
 ####API REST Framework####
