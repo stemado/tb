@@ -150,7 +150,9 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
 #Celery Broker URL#
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://localhost:6379'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 #RABBITMQ HEROKU SETUP#
 BROKER_URL = os.environ.get("CLOUDAMQP_URL", "amqp://tqqftizg:_o-ROhReD3d94k8sELFukW9V1DDC7DOA@mosquito.rmq.cloudamqp.com/tqqftizg")
