@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class MedicationsConfig(AppConfig):
     name = 'tb.medications'
-    verbose_name = _('medications')
+    verbose_name = _('Medication')
 
     def ready(self):
 
