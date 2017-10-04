@@ -16,7 +16,7 @@
 <div class="profile">
     <div class="row">
         <div class="col-md-3 user-profile">
-            <img src="{{ page_user.profile.get_picture }}" class="picture">
+            {% if user.profile.user_type == '1' %}<img src="{{ page_user.profile.get_picture }}" class="picture">{% endif %}
             <ul>
                 {% if page_user.profile.job_title %}
                 <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
