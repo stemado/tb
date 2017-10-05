@@ -149,8 +149,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
-#Celery Broker URL#
-CELERY_BROKER_URL = 'amqp://localhost'
+# #Celery Broker URL#
+# CELERY_BROKER_URL = 'amqp://localhost'
+
+broker_url = os.environ.get('CLOUDAMPQ_URL')
+broker_pool_limit = 1
+broker_heartbeat = None
+broker_connection_timeout = 30
+result_backend = None
+event_queue_expires = 60
 
 ##########################
 ####API REST Framework####
