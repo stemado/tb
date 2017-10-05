@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'tb.messenger',
     'tb.search',
     'tb.feeds',
+    'tb.pharmacy',
     'bootstrap3',
     'twilio',
     'formtools',
