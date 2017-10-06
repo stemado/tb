@@ -137,13 +137,14 @@ def active_medications(request):
 
 @login_required
 def monthly_missed_medications(request):
+    time=date.now()
     user = request.user
     page_user = get_object_or_404(User, id=user.id)
     missed = MedicationCompletion.get_monthly_missed()
 
     # Add Alerts to Feed
     for m in missed:
-        Feed.objects.create(user=user, date=time, post=m.completionRx + 'Medication for ' + m.completionRx_id.user +' is overdue!')
+        Feed.objects.create(user=user, date=time.month, post=m.completionRx + 'Medication for ' + m.completionRx_id.user +' is overdue!')
 
     return render(request, 'medications/missed_by_current_month.html', {'missed': missed, 'page_user': page_user })
 
