@@ -239,7 +239,6 @@ class MedicationCompletion(models.Model):
     def get_monthly_missed():
         today = datetime.now()
         missed = MedicationCompletion.objects.filter(completionDate__contains=today.month, completionMissed=True)
-        print(str(today.month))
         return missed
     
     def get_monthly_delivered():
