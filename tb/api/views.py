@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from tb.medications.models import Medication, MedicationTime
 # Create your views here.
@@ -9,6 +10,9 @@ from rest_framework.response import Response
 from rest_framework import status, filters
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+from tb.decorators import ajax_required
+from django.http import HttpResponse
+import json
 
 @api_view(['GET', 'POST'],)
 def MedicationList(request, format=None):
@@ -25,3 +29,6 @@ def MedicationTimeList(request, format=None):
         medicationTime = MedicationTime.objects.filter(timeMedication_id__user=id)
         serializer = MedicationTimeSerializer(medicationTime, many=True)
         return Response(serializer.data, template_name='api_medications.html')
+
+
+

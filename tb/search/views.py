@@ -4,8 +4,32 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import redirect, render
 
+from tb.medications.models import Medication
 from tb.feeds.models import Feed
 import string
+from django.http import HttpResponse
+import json
+from django.http import JsonResponse
+from tb.decorators import ajax_required
+
+@login_required
+def GetMedicationSearch(request):
+    if request.is_ajax():
+        q = request.GET.get('term').strip()
+        drugs = Medication.objects.filter(medicationName__icontains=q)
+        print(drugs)
+        results=[]
+        for d in drugs:
+            drug = {}
+            drug['id'] = d.id
+            drug['label'] = d.medicationName
+            drug['value'] = d.medicationName
+            results.append(drug)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+        mimetype = 'application/json'
+        return JsonResponse(data, mimetype)
 
 @login_required
 def search(request):
@@ -44,6 +68,9 @@ def search(request):
     else:
         return render(request, 'search/search.html', {'hide_search': True})
 
+@login_required
+def autocomplete(request):
+    return render(request, 'search/autocomplete_search.html')
 
 @login_required
 def marSearch(request, med_id):

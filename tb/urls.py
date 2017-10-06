@@ -51,6 +51,8 @@ urlpatterns = [
     url(r'^notifications/check/medications/$', activities_views.check_notifications_medication,
         name='check_notifications_medication'),
 	url(r'^search/$', search_views.search, name='search'),
+    url(r'^autocomplete$', search_views.autocomplete, name='autocomplete'),
+    url(r'^search/get_drugs/$', search_views.GetMedicationSearch, name='autocomplete'),
     url(r'^profile/$', core_views.profile, name='profile'),
     url(r'^profile/patient/$', core_views.patients, name='patients'),
     url(r'^profile/patient/(?P<id>[0-9]+)/$', core_views.patient_medication, name='patient_medication'),
