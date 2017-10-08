@@ -137,7 +137,7 @@ def active_medications(request):
 
 @login_required
 def monthly_missed_medications(request):
-    time=date.now()
+    time=datetime.now()
     user = request.user
     page_user = get_object_or_404(User, id=user.id)
     missed = MedicationCompletion.get_monthly_missed()
