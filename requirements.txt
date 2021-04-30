@@ -49,7 +49,7 @@ python-http-client==3.0.0
 pytz==2017.2
 reportlab==3.4.0
 requests==2.18.4
-rsa==3.4.2
+rsa==4.7
 sendgrid==5.0.0
 six==1.10.0
 sqlparse==0.2.3
